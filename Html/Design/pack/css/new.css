@@ -1,0 +1,444 @@
+ul.cololist {
+	list-style:none;
+	width: 125px;
+	margin:0 25px 5px 5px;
+	padding: 0 0 5px 0;
+	border-bottom: 1px solid #333;
+}
+
+ul.cololist li {
+	text-align:left;
+	height:16px;
+	line-height:16px;
+	width: 130px;
+	overflow: hidden;
+	display: block;
+	white-space: nowrap;
+}
+
+/*ul.cololist li.even {
+	padding-left: 17px;
+	width: 113px;
+}*/
+
+ul.cololist li a.false:hover {
+	color: white;
+}
+
+ul.cololist li a.true {
+	color: white;
+	font-style: italic;
+}
+
+ul.cololist li a.false {
+	color: #aaa;
+	font-weight: normal;
+}
+
+
+ul.cololist li img {
+	float: left;
+	padding-right: 5px;
+	border: none;
+}
+
+div.navi img.naviicon {
+	padding: 12px 2px;
+	width: 26px;
+	height: 26px;
+}
+
+div.navi:hover img.naviicon {
+	padding: 5px 4px;
+	width: 40px;
+	height: 40px;
+}
+
+div.navi {
+	float: left;
+	width: 40px;
+	height: 50px;
+	overflow: visible;
+}
+
+div.navi:hover {
+	width: 47px;
+}
+
+div.navi span {
+	display: none;
+}
+
+div.navi:hover span {
+	display: block;
+	overflow: visible;
+	white-space:nowrap;
+	text-align: center;
+	font-size: 1.2em;
+	margin-top: 2px;
+	margin-left: -76px;
+	width: 200px; /* 300 -48 = 152, /2 = 76 */
+}
+
+
+div.content {
+	margin-top: 30px;
+	z-index: 1;
+}
+
+a.highlight
+{
+	cursor: crosshair;
+	color: red;
+	text-decoration: blink;
+	font-size: 2em;
+	line-height: 0;
+}
+
+fieldset,
+fieldset.stdform div.option label:hover,
+ul.smenu li a, .currentjob, #basecost, table.border
+{
+	background: #0e181d;
+}
+
+#settings button, #alliance-admin button
+{
+	float: right;
+}
+
+.clearr
+{
+	clear: right;
+}
+
+#gp
+{
+	float: right;
+	height: 20px;
+	padding: 5px 0;
+}
+
+.bgconnector-half, .bgconnector-quarter, .bgconnector-seventh, .bgconnector-fifth
+{
+	position: absolute;
+	background: #0e181d;
+	margin: -1px 5px 0px 10px;
+	z-index: 2;
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+	border-top: 1px solid #0e181d;
+	border-bottom: 1px solid #0e181d;
+	height: 10px;
+}
+
+.bgconnector-half    { width: 401px; }
+.bgconnector-quarter { width: 191px; }
+.bgconnector-fifth   { width: 149px; }
+.bgconnector-seventh { width: 101px; }
+.bg-tab
+{
+	position: absolute;
+	width: 150px;
+	height: 24px;
+	margin: 0px 5px 0px 10px;
+	background: #0e181d;
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #0e181d;
+	z-index: 2;
+}
+
+.bg a.tab
+{
+	display: block;
+	width: 100%;
+	padding: 5px 0;
+}
+
+.bg
+{
+	background: #0e181d;
+	padding: 0px 10px 10px 10px;
+	margin: 25px 5px 0px 10px;
+	border: 1px solid #333;
+}
+/* padding/margin from bg */
+.nobg
+{
+	padding: 0px 10px 10px 10px;
+	margin: 25px 0px 0px 10px;
+}
+.compactbg
+{
+	background: #0e181d;
+	padding: 0px 10px 10px 10px;
+	margin: 5px 5px 0px 10px;
+	border: 1px solid #333;
+	z-index: 0;
+}
+.compactbg h2
+{
+	margin: 2px 0;
+	padding: 0;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+/* left and right padding/margin from bg */
+.nobglr
+{
+	padding: 0px 10px 10px 0px;
+	margin: 0px 0px 0px 10px;
+}
+.nobglr h1
+{
+	margin: 10px 0 0 0;
+	padding: 0;
+}
+/* top and bottom padding/margin from bg */
+.nobgtb
+{
+	padding: 0px 0px 10px 0px;
+	margin: 25px 0px 0px 00px;
+}
+
+.mark
+{
+	line-height: 1em;
+	color: red;
+	font-weight: bold;
+	vertical-align: super;
+}
+
+.extension
+{
+	background: #0e181d;
+	margin: 10px 5px 0px 10px;
+	padding: 10px;
+	border: 1px solid #333;
+	z-index: 0;
+}
+
+.searchresults
+{
+	margin-top: 10px;
+}
+
+#help .extension
+{
+	margin: -1px 0 0 0;
+}
+
+
+#help div.icon
+{
+	border: 1px solid transparent;
+}
+
+#help div#active
+{
+	background: #0e181d;
+	border: 1px solid #333;
+	border-bottom: 1px solid #0e181d;
+	z-index: 2;
+}
+
+#help img
+{ padding: 2px 0px; }
+
+#help div.icon
+{
+	float: left;
+	height: 34px;
+	width: 30px;
+}
+
+#help div.tinyicon
+{
+	float: left;
+	height: 30px;
+	width: 26px;
+}
+
+.bg h3, .bg-tab h1
+{
+	font-size: 1.2em;
+	margin: 5px 0px 10px 32px;
+}
+
+.bg h3 a.titlelink
+{
+	color: white;
+}
+
+.small
+{
+	font-size: .8em;
+	font-style: italic;
+}
+
+.extension h3
+{
+	font-size: 1.2em;
+	margin: 5px 0px 5px 0px;
+}
+
+.bg h4, .extension h4
+{
+	font-size: 1.1em;
+	margin: 6px 0px 2px 0px;
+}
+
+.bg h5, .extension h5
+{
+	font-size: 1em;
+	margin: 3px 0px 2px 0px;
+}
+
+#addcommands form button
+{
+	width: 25px;
+}
+
+table.borders td
+{
+	border-bottom: 1px solid gray;
+}
+
+tr.sepborder
+{
+	border-top: 1px solid gray;
+}
+
+td.seprborder, th.seprborder
+{
+	border-right: 1px solid gray;
+}
+
+table.joblist, div.joblist
+{
+	width: 530px;
+	margin: 0;
+	padding: 0;
+}
+
+.currentjob img.icon
+{
+	left: 20px;
+}
+
+.restable
+{
+	border-right: 1px solid gray;
+	padding-left: 15px;
+}
+
+.restable-last
+{
+	padding-left: 15px;
+}
+
+img.cornericon, img.cornericon-big
+{
+	position:absolute;
+	margin-top:-20px;
+	margin-left:-20px;
+}
+
+img.cornericon
+{
+	width: 50px;
+	height: 50px;
+}
+
+img.cornericon-big
+{
+	width: 40px;
+	height: 40px;
+	padding: 5px;
+}
+
+#delete-unit
+{
+  width: 22px;
+  height: 22px;
+}
+
+td.r input
+{ text-align: right; }
+
+.nomargin
+{
+	margin: 0;
+}
+
+.nospacetb, tr.nospacetb
+{
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	vertical-align: bottom;
+}
+
+.nospacet
+{
+	padding-top: 0;
+	margin-top: 0;
+}
+
+.nospaceb
+{
+	padding-bottom: 0;
+	margin-bottom: 0;
+	vertical-align: bottom;
+}
+
+form table.stats td, form table.stats th, .statsform td { line-height: 22px; }
+table.stats tr:hover, table.stats tr.even:hover, table.stats tr.odd:hover,
+table.stats td.even:hover, table.stats td.odd:hover,
+table.fcmds tr:hover, table.fcmds tr.even:hover, table.fcmds tr.odd:hover,
+form.hover:hover
+{ background: #000000; }
+
+table.stats tr.nohover:hover, table.fcmds tr.nohover:hover
+{ background: transparent; } 
+
+table.compact, table.compact tr, table.compact td
+{
+	padding: 0;
+	margin: 0;
+}
+
+ul.smenu .active a
+{
+	background: transparent;
+	color: white;
+	border-bottom-color: black;
+}
+
+table.stats td, table.stats th
+{ padding: 0 5px; }
+
+.even, form.even
+{ background: #091317;}
+
+.odd, .cololist .even
+{ background: transparent; }
+
+table.fcmds td.current { background-color: #035301; }
+table.fcmds td.next    { background-color: #070153; }
+
+.right
+{	float: right; }
+
+form.right legend, form.right input
+{ vertical-align: middle; }
+
+#activate-loop, #deactivate-loop
+{
+	width: 16px;
+	height: 16px;
+}

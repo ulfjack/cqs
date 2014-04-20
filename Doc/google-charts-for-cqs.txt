@@ -1,0 +1,8 @@
+Simple:
+http://chart.apis.google.com/chart?cht=lc&chs=400x300&chxt=x,y&chxr=1,-100,200&chds=-100,200&chxl=0:|-7d|-6d|-5d|-4d|-3d|-2d|-1d|now|1:|-1k|0|1k|2k&chf=bg,s,000000&chxp=1,-100,0,100,200&chxs=0,FFFFFF|1,FFFFFF&chd=t:40,60,60,45,147,75,70,72,40,60,60,45,-47,-75,-70,-72,-40,-60,60,45,47,75,170,172,140,160,60,45,47,175,170
+
+
+With Gridlines:
+http://chart.apis.google.com/chart?cht=lc&chs=400x300&chxt=x,y,y&chxr=1,-100,200&chds=-100,200&chxl=0:|-7d|-6d|-5d|-4d|-3d|-2d|-1d|now|1:|-1k|0|1k|2k|2:||||&chf=bg,s,000000&chxp=1,-100,0,100,200&chxs=0,FFFFFF|1,FFFFFF|2,FFFFFF&chxtc=0,-300|2,-400&chd=t:40,60,60,45,147,75,70,72,40,60,60,45,-47,-75,-70,-72,-40,-60,60,45,47,75,170,172,140,160,60,45,47,175,170
+
+

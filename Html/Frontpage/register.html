@@ -1,0 +1,75 @@
+%embed "include/registration.tmpl";
+
+<h1>%("Registration");</h1>
+
+%if Request.getTodo = "register";
+
+%if Session.isRegistrationValid;
+	<div class="note c">%("Your registration was successful!");<br />
+	%("Within a short time you will receive an email including the registration-id and a activation-link.");</div>
+	<br />
+	%include "include/reg-already.inc";
+%else;
+	<div class="warn c">%("The registration failed!");</div>
+	<div>
+	%("This can be due to different reasons:");
+	<ul class="list">
+		<li>%("You did not accept the terms of use.");</li>
+		<li>%("The submitted email address was of an invalid format, e.g. ulf@abc or ulfjack.conquer-space.net.");</li>
+		<li>%("An internal error occurred.");</li>
+	</ul>
+	%("Please click the back-button and try again. If you are sure you enter all the information correctly and still are not successful, please contact <a href=""mailto:ulfjack@conquer-space.net"">ulfjack@conquer-space.net</a> or visit the IRC and look for UlfJack or any other administrator.");
+	</div>
+%endif;
+
+%else; %if Request.getTodo = "complete";
+
+%if Session.isRegistrationComplete;
+	<div class="note c">%("Your registration was successful!");</div>
+	<div>%("You can log in with the following data now. This data is additionally being sent to the email address you specified.");
+	</div>
+	%set pl Session.getRegistrationPlayer;
+	<table>
+		<tr><th colspan="2" align="center">Login-Daten</th></tr>
+		<tr>
+			<td align="center">%("Id");</td>
+			<td align="center"></td>
+		</tr>
+		<tr>
+			<td align="center">%("Password");</td>
+			<td align="center">%("as specified");</td>
+		</tr>
+		<tr><th colspan="2" align="center">%("other data");</th></tr>
+		<tr>
+			<td align="center">%("nickname");</td>
+			<td align="center">%= pl.getName;</td>
+		</tr>
+	</table>
+%else;
+	<div class="warn c">%("The registration failed!");</div>
+	<div>%("This can be due to different reasons:");
+	<ul class="list">
+		<li>%("The nickname you entered is already taken.");</li>
+		<li>%("The nickname you entered contained blanks, umlauts or other illegal chars (e.g. &lt;, &amp;, &gt;).");</li>
+		<li>%("The password-submissions did not correspond.");</li>
+	</ul>
+	%("Please try again.");</div>
+	%include "include/reg-complete.inc";
+%endif;
+
+%else;
+
+%if Session.getRegistrationId != null;
+	%if Session.isRegistrationIdValid;
+		%include "include/reg-complete.inc";
+	%else;
+		<div class="warn c">%("Unfortunately the id you entered is invalid!");</div>
+		%include "include/reg-already.inc";
+	%endif;
+%else;
+	%include "include/reg-step.inc";
+	%include "include/reg-already.inc";
+%endif;
+
+%endif;
+%endif;

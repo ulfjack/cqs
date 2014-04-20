@@ -1,0 +1,979 @@
+/** Layout: menu left, content right */
+
+body.bgimage, body.nobgimage
+{
+	height: 100%;
+	min-height: 600px;
+	margin: 0px;
+	padding: 0px;
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+body.bgimage
+{
+	background: url(../design/bg-explosion.png) 0px 0px no-repeat;
+	background-color: black;
+}
+
+body.nobgimage
+{
+	background: black;
+}
+
+div.content
+{
+	position: absolute;
+	height: 100%;
+	top: 30px;
+	width: 840px;
+	left: 150px;
+	margin: 0px;
+	padding: 0px;
+	z-index: 0;
+}
+
+#colony-navi {
+	top: 60px;
+	position: absolute;
+	padding: 5px;
+	width: 135px;
+	border: 1px solid #333;
+	border-left: none;
+	background: #0e181d;
+	font-size: .9em;
+	z-index: 2;
+}
+
+#top-navi {
+	width: 973px;
+	padding-left: 10px;
+	height: 50px;
+	border: 1px solid #333;
+	border-top: none;
+	border-left: none;
+	background: #0e181d;
+	text-align: center;
+	color: white;
+	line-height: 16px;
+	z-index: 2;
+}
+
+#top-navi #links-game {
+	position: absolute;
+	left: 200px;
+}
+
+#top-navi #links-settings {
+	float: right;
+}
+
+#top-navi .data {
+	float: left;
+	text-align: left;
+}
+
+#top-navi table {
+	width: auto;
+}
+
+#top-navi table th, #top-navi table td {
+	font-size: 1em;
+}
+
+#top-navi form {
+	margin: 0;
+	padding: 0;
+}
+
+#top-navi form input[type="image"] {
+	width: 26px;
+	height: 26px;
+	padding: 12px 2px;
+}
+
+#top-navi form:hover input[type="image"] {
+	width: 40px;
+	height: 40px;
+	padding: 5px 4px;
+}
+
+/** Style for the content */
+
+html
+{
+	background-color: #000000;
+	color: #EEEEEE;
+}
+
+body
+{
+	font-family: Arial, Helvetica;
+	background-color: #000000;
+	color: #EEEEEE;
+	font-size: 11px;
+}
+
+table
+{
+	border-width: 0px;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.4em; }
+h3 { font-size: 1.2em; }
+
+div
+{
+	width: auto;
+	padding: 0px;
+	margin: 0px;
+}
+
+tr, td
+{
+	vertical-align: top;
+	margin: 0;
+}
+
+th
+{
+	font-size: 1em;
+	font-weight: bold;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	text-align: left;
+}
+
+.l
+{
+	padding: 1px;
+	text-align: left;
+}
+
+.r
+{
+	padding: 1px;
+	text-align: right;
+	padding-right: 5px;
+}
+
+table.diplomacy, .stats table.diplomacy
+{
+	border: 1px solid transparent;
+	width: 400px;
+	margin: 15px 0;
+}
+
+table.diplomacy:hover, .stats table.diplomacy:hover
+{
+	border-color: gray;
+	background: #0e181d;
+}
+
+
+table.diplomacy td, .stats table.diplomacy td
+{ text-align: left; }
+
+table.stats
+{
+	width:100%;
+	background-color: transparent;
+}
+
+table.stats th
+{ font-weight: bold; }
+
+table.stats th.big
+{
+	font-size: 1.4em;
+	font-weight: bold;
+}
+
+table.stats td
+{ padding: 0px 10px 0px 10px; }
+
+table.stats td.control
+{
+	text-align: center;
+	padding: 0px 1px 0px 1px;
+}
+
+table.stats td.table
+{ padding: 1px; }
+
+table.stats td.r
+{
+	text-align: right;
+}
+
+table.stats td.l, table.stats th.l
+{
+	padding-left: 5px;
+	text-align: left;
+}
+
+ul.stats
+{
+	list-style: none;
+}
+
+table.stats tr.hl
+{ background-color: #600; }
+
+table.stats tr.hl:hover
+{ background: #222d35; }
+
+table.stats td.hover
+{ text-align: left; }
+
+table.stats td.hover:hover
+{ background: #222d35; }
+
+table.stats tr.hover:hover
+{ background: #222d35; }
+
+table.stats td.current { background-color: #035301; }
+table.stats td.next    { background-color: #070153; }
+
+table td.image
+{
+	height: 300px;
+	width: 300px;
+	padding: 0px;
+}
+
+table.info
+{
+	width:100%;
+	margin-left: 0;
+	margin-right: 0;
+	background-color: transparent;
+}
+
+table.info th.big
+{
+	font-size: 1.4em;
+	font-weight: bold;
+}
+
+table.info td.r
+{ text-align: right; }
+
+table.info td.l
+{ text-align: left; }
+
+table.info td.hl
+{
+	color: #D00;
+	text-align: left;
+}
+
+table.info td.image
+{
+	height:300px;
+}
+
+/* secondary menu (tabs) */
+.smenu
+{
+	padding: 0 0 0 1em;
+	list-style: none;
+	margin: 5px;
+	height: auto;
+	line-height: normal;
+	border-bottom: 1px solid #333;
+	text-align: center;
+}
+
+.smenu li
+{ display: inline; }
+
+.smenu li a
+{
+	border-color: #333;
+	border-width: 1px;
+	border-style: solid solid none solid;
+	height: auto;
+	margin-right: 0.5em;
+	padding: 0 1em;
+	text-decoration: none;
+}
+
+.smenu li a:hover
+{
+	background-color: #222d35;
+}
+
+.smenu li.active a
+{
+	background-color: black;
+	border-bottom: 1px solid black;
+}
+
+/* maps */
+
+div.map
+{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 600px;
+	height: 500px;
+	border: none;
+	cursor: crosshair;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+div.sys
+{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 450px;
+	height: 450px;
+	border: none;
+	background-repeat: no-repeat;
+}
+
+div.sys div
+{
+	position: absolute;
+	top: 100px;
+	left: 100px;
+}
+
+div.floatingLeft
+{
+	position: absolute;
+	top: 525px;
+	left: 295px;
+	width: 150px;
+}
+
+div.floatingRight
+{
+	position: absolute;
+	top: 525px;
+	left: 450px;
+	width: 150px;
+}
+
+/* Ternaere Fallunterscheidung -> Flottenbefehle und Stats */
+
+td.false
+{
+	color: #880000;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+td.none
+{
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+td.true
+{
+	color: #008800;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.stats td.nopad   { padding: 0px; }
+
+/* Flottenbefehle */
+
+b.fighting { color: #AA0000; }
+b.acting   { color: #00AA00; }
+
+td.current { background-color: #7C7; }
+td.next    { background-color: #99E; }
+
+/* Linkdefinitionen - standart/schwarz/weiß - Auftraglinks(wahr/falsch) */
+
+a
+{
+	color: #6688a0;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.blink
+{
+	color: #d33;
+	font-weight: bold;
+	text-decoration: blink;
+}
+
+a.true   { color: #40AA5b; }
+a.false  { color: #d00; }
+a.active { color: #fff; }
+img.active { border: 1px solid #fff; }
+
+/* alle roten schriftzuege */
+
+i.a, span.red
+{
+	color: #d00;
+}
+
+/* Bild als Inline und Blockelement */
+
+img
+{
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+img.tiny   { width: 16px; height: 16px; }
+img.teaser { width: 50px; height: 50px; }
+
+
+/* New Design */
+/* This css code is pretty complex and should be simplified if possible! */
+div.title { font-size: 1.6em; font-weight: bold; }
+
+/* jobqueues */
+
+div.jobqueue
+{
+	float: left;
+	width: 260px;
+}
+
+div.currentjob
+{
+	height: 80px;
+	border: 1px solid gray;
+	background-color: #222d35;
+}
+
+div.currentjob .icon
+{
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	left: 0px;
+}
+
+div.currentjob div.text
+{
+	padding-top: 10px;
+	margin-left: 80px;
+	overflow: hidden;
+}
+
+div.currentjob div.notext
+{
+	padding-top: 20px;
+	overflow: hidden;
+}
+
+
+div.queuelist
+{
+	margin-top: 4px;
+	border: 0px solid gray;
+}
+
+div.queuelist .text h3, div.currentjob .text h3
+{
+	margin: 0 0 1px 0;
+	font-weight: bold;
+}
+
+
+div.queuelist div.item
+{
+	height: 40px;
+	margin-top: -1px;
+	border: 1px solid gray;
+}
+
+div.queuelist span.modifylinks
+{
+	float: right;
+	margin-right: 2px;
+}
+
+div.queuelist span.movelinks a.false
+{
+	visibility: hidden;
+}
+
+div.queuelist .icon
+{
+	float: left;
+	width: 40px;
+	height: 40px;
+}
+
+div.queuelist div.item:hover
+{
+	border: 1px solid gray;
+	background: #222d35;
+}
+
+div.queuelist .item .text
+{
+	margin-left: 45px;
+	overflow: hidden;
+}
+
+table.joblist
+{
+	float: right;
+	width: 550px;
+	border: none;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	background: black;
+}
+
+table.joblist th
+{
+	text-align: left;
+	color: white;
+	padding: 0px;
+	font-size: 1.2em;
+}
+
+table.joblist td
+{
+	text-align: left;
+	color: white;
+	padding: 0px;
+}
+
+table.joblist td tbody
+{
+	border: 1px solid gray;
+}
+
+table.joblist td.icon
+{
+	width: 40px;
+	height: 42px;
+}
+
+table.joblist td.icon img, img.icon
+{
+	width: 40px;
+	height: 40px;
+}
+
+table.joblist h3
+{
+	font-size: 1.2em;
+	text-decoration: none;
+	font-weight: bold;
+	text-align: left;
+	height: 20px;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 4px;
+}
+
+table.joblist img
+{
+	width: 14px;
+	height: 14px;
+}
+
+table.joblist td.true, table.joblist td.false,
+table.joblist tr.true, table.joblist tr.false
+{
+	float: right;
+	text-align: right;
+	padding-right: 4px;
+}
+
+table.joblist .false a
+{
+	color: red;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+table.joblist .true a
+{
+	color: green;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+table.joblist .true a.possible, table.joblist .false a.possible
+{ color: #eded00; }
+
+table.joblist tbody
+{
+	border: 1px solid gray;
+}
+
+div.joblist { float: right; }
+
+table.joblist tbody:hover
+{
+	border: 1px solid gray;
+	background: #222d35;
+}
+
+.joblist span.true
+{
+	float: right;
+	margin-left: 0px;
+	margin-right: 2px;
+	text-align: right;
+}
+
+.joblist span.false
+{
+	float: right;
+	margin-left: 0px;
+	margin-right: 2px;
+	text-align: right;
+}
+
+div.final
+{
+	clear: both;
+	height: 20px;
+}
+
+div.warn
+{
+	background-color: #600;
+	border: 1px solid #a00;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+}
+
+div.note
+{
+	background-color: #060;
+	border: 1px solid #0a0;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+}
+
+div.note h1
+{
+	font-size: 1.4em;
+	text-align: center;
+	margin: 0px;
+}
+
+div.note h2
+{
+	font-size: 1.2em;
+	text-align: center;
+	margin: 0px;
+	margin-top: 3px;
+}
+
+.center
+{ text-align: center; }
+
+/* input forms */
+fieldset
+{ border: 1px solid gray; }
+
+fieldset.stdform
+{
+	color: #eee;
+	border: 1px solid gray;
+	margin: 5px 0 5px 0;
+}
+
+fieldset.stdform div.warn
+{
+	background-color: #600;
+	border: 1px solid #a00;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+}
+
+fieldset.stdform div.note
+{
+	background-color: #060;
+	border: 1px solid #0a0;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+}
+
+fieldset.stdform div.option
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.option input
+{
+	margin-left: 200px;
+	margin-right: 5px;
+}
+
+fieldset.stdform div.option label
+{
+	padding-left: 4px;
+	padding-right: 4px;
+	border: 1px solid transparent;
+}
+
+fieldset.stdform div.option label:hover
+{
+	background: #222d35;
+	border: 1px solid gray;
+}
+
+
+fieldset.stdform div.select
+{
+	margin-top: 14px;
+	margin-bottom: 14px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.select select
+{
+	position: absolute;
+	margin-left: 200px;
+	width: 240px;
+}
+
+
+fieldset.stdform div.textinput
+{
+	margin-top: 14px;
+	margin-bottom: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+fieldset.stdform div.textinput input
+{
+	position: absolute;
+	margin-left: 200px;
+	width: 240px;
+}
+
+fieldset.stdform div.submit
+{
+	margin-top: 10px;
+	margin-bottom: 2px;
+}
+
+fieldset.stdform div.image
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+	text-align: center;
+}
+
+/* for Ajax preview windows */
+fieldset.stdform textarea
+{
+	width: 100%;
+	height: 300px;
+	border: 0px solid gray;
+/*	background-color: black;*/
+	margin: 0px;
+}
+
+fieldset.stdform div.textarea
+{
+	border: 1px solid gray;
+}
+
+.pvcontrol
+{
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 2px;
+}
+
+.pvcontrol a
+{
+	border: 1px solid gray;
+	padding: 2px 5px 2px 5px;
+	margin: 0px;
+}
+
+.pvcontrol a.normal
+{
+	background-color: white;
+	color: black;
+	border-bottom: 1px solid gray;
+}
+
+.pvcontrol a.normalon
+{
+	background-color: white;
+	color: black;
+	border-bottom: 1px solid white;
+}
+
+.pvcontrol a.preview
+{
+	border-bottom: 1px solid gray;
+}
+
+.pvcontrol a.previewon
+{
+	background: black;
+	border-bottom: 1px solid black;
+}
+
+#profile #wikitext-0, #profile #wikipreview-0
+{
+	height: 300px;
+	width: 480px;
+}
+
+#forum #wikitext-0, #forum #wikipreview-0,
+#application #wikitext-0, #application #wikipreview-0
+{
+	height: 100px;
+	width: 780px;
+}
+
+
+#alliance #wikitext-0, #alliance #wikipreview-0,
+#alliance #wikitext-1, #alliance #wikipreview-1
+{
+	height: 100px;
+	width: 350px;
+}
+
+#player #wikitext-0, #player #wikipreview-0
+{
+	height: 100px;
+	width: 380px;
+}
+
+#wikipreview-0, #wikipreview-1
+{
+	overflow:auto;
+	background: black;
+	border: 1px solid gray;
+}
+
+
+/* diplomatic status */
+.SELF, table.stats tr.SELF:hover       { background-color: #093105;/*#093105*/ }
+.ALLIED, table.stats tr.ALLIED:hover   { background-color: #093105; /*#045200*/ }
+.UNITED, table.stats tr.UNITED:hover   { background-color: #093105; /*#437621*/ }
+.TRADE, table.stats tr.TRADE:hover     { background-color: #151550; /*#96a41c;*/ }
+.NAP, table.stats tr.NAP:hover         { background-color: #151550; /*#555*/ }
+.NEUTRAL, table.stats tr.NEUTRAL:hover { background-color: #333; /*#5a3b37*/ }
+.WAIT, table.stats tr.WAIT:hover       { background-color: #333; /*#5a3b37*/ }
+.HOSTILE, table.stats tr.HOSTILE:hover { background-color: #600; /*#5e0b00;*/ }
+
+table.diplomacyterms
+{
+	width: auto;
+}
+table.diplomacyterms td
+{
+	padding: 5px;
+	width: auto;
+}
+
+/* units */
+/*
+.FIGHTER        { background-color: #2a0022; }
+.CORVETTE       { background-color: #002a25; }
+.DESTROYER      { background-color: #0c002a; }
+.CARRIER, .CIVILIAN
+                { background-color: #0a2a00; }
+.INFANTRY, .SPY { background-color: #2a0007; }
+.TRUCK, .PIONEER, .SETTLER, .VEHICLE 
+                { background-color: #2a2900; }
+.AIRCRAFT       { background-color: #001c2a; }
+*/
+
+table.techtree tr { border-bottom: 1px solid gray; }
+table.techtree td, table.techtree th
+{ padding: 5px; border-right: 1px solid gray; }
+table.techtree { width:100%; background-color: transparent; }
+table.techtree td.table { padding: 0px 3px 3px 0px; }
+table.techtree td.nor { padding-right: 0px; border-right: none; }
+
+table.techtree .ok     { background: url("../design/ok.png") center center no-repeat; }
+table.techtree .locked { background: url("../design/locked.png") center center no-repeat; }
+
+table.techtree ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* ************************************************ */
+/* start of Sara's modifications for the new design */
+/* ************************************************ */
+
+fieldset,
+fieldset.stdform div.option label:hover,
+ul.smenu li a, .currentjob, #basecost, table.border
+{
+	background: url("../design/background-gradient.gif") repeat-x;
+	background-color: black;
+}
+
+fieldset.stdform.clear
+{ background: transparent; }
+
+.border
+{ border: 1px solid gray; }
+
+table.joblist tbody, div.queuelist div.item
+{
+	background: #1a1a1d;
+}
+
+table.joblist td.clear
+{ background: black; }
+
+.smenu li.active a
+{
+	background: black;
+	border-bottom: 1px solid black;
+}
+
+ul.smenu li a:hover { color: white; }
+
+table.stats tr.hl:hover
+{ background: #600; }
+
+
+.padding { padding: 2px; }
+
+form.inline
+{
+	display: inline;
+	margin: 0px 5px 5px 5px;
+}
+
+.half
+{
+	width: 50%;
+	margin: auto;
+}
+
+.nowrap
+{
+	white-space: nowrap;
+}

@@ -1,0 +1,40 @@
+%embed "templates/alliance.tmpl";
+
+%set player Session.getPlayer;
+%set alliance Session.getAlliance;
+
+%set mailbox Session.getAllianceMailboxCopy;
+%set box Tools.safeParseInt(Request.getParameter("box"), -1);
+%set id Request.getParameter("msg");
+%set folder mailbox.getFolder(box);
+%set message folder.get(id);
+
+<div class="bg" id="application">
+	<h3>%("reject application");</h3>
+	<table class="stats">
+	<colgroup><col width="33%%" /><col width="67%%" /></colgroup>
+		<tr class="even">
+			<td>
+				%set sender message.getSender(Galaxy);
+				%("by"); %= sender.getName; %if sender.getAlliance != null;[%= sender.getAlliance.getShortName;]%endif;<br />
+				%("on {0}", Tools.asDate(Session.getLocale, message.getRealtime));<br />
+			</td>
+			<td>%= message.getText;</td>
+		</tr>
+	</table><br />
+	<form action="alliance-applications" method="post">
+	<div>
+		<input type="hidden" name="do" value="Alliance.Application.deny" />
+		<input type="hidden" name="box" value="%= box;" />
+		<input type="hidden" name="id" value="%= message.getId;" />
+	
+		<div class="pvcontrol" id="pvcontrol-0">%("message");</div>
+		<textarea id="wikitext-0" name="body" cols="65" rows="5"></textarea>
+		<div id="wikipreview-0"></div>
+	
+		<button type="submit">%("send");</button>
+	</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="js/common-preview.js"></script>

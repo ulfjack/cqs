@@ -1,0 +1,144 @@
+%embed "templates/alliance.tmpl";
+
+%set player Session.getPlayer;
+%set alliance Session.getAlliance;
+%set galaxyView Session.getGalaxyView;
+
+<table>
+	<colgroup><col width="60%%" /><col width="40%%" /></colgroup>
+	<tr>
+		<td>
+			<!-- members -->
+			<div class="bg">
+				<h3>%("members ({0,number,integer})", alliance.size);</h3>
+				<table id="sortable0" class="stats">
+					<tr id="head0" class="nohover">
+						<th id="key0-string">%("name");</th>
+						<th id="key1-string">%("rank");</th>
+						<th id="key2-string">%("online");</th>
+						<th id="key3-number" class="r">%("colonies");</th>
+						<th id="key4-number" class="r">%("points");</th>
+					</tr>
+					%loop z,p foreach alliance;%set id p.getPid;
+					<tr id="sort%= z;" class="%= z%2=0 ? "even" : "odd";">
+						<td id="a%= z;"><a href="player|%= id;">%= p.getName;</a></td>
+						<td id="b%= z;">%set r p.getRank;%= r.getName;</td>
+						<td id="c%= z;">%if Tools.isOnline(p);%("yes");%else;%("no");%endif;</td>
+						<td id="d%= z;" class="r">%("{0,number,integer}", p.getColonies.size);</td>
+						<td id="e%= z;" class="r">%("{0,number,integer}", p.getScore.getPoints);</td>
+					</tr>
+					%endloop;
+				</table>
+			</div>
+
+			<!-- survey -->
+			%set survey alliance.getSurvey;
+			%if survey != null;
+			<div class="bg">
+				<h3>%("alliance survey");</h3>
+				%if not Tools.hasAllianceVoted(player) and player.getRank.hasRight(Right.MAY_SURVEY);
+				<form action="alliance" method="post">
+					<input type="hidden" name="do" value="Alliance.Survey.vote" />
+					<input type="hidden" name="id" value="%= survey.getId;" />
+					<table class="stats">
+						<colgroup><col width="10%%" /><col width="90%%" /></colgroup>
+						<tr><th colspan="2">%= survey.getTitle;</th></tr>
+						%loop x from 0 to survey.length-1;
+						<tr class="%= x % 2 = 0 ? "even" : "odd";">
+							<td class="r"><input type="radio" name="vote" value="%= x;" /></td>
+							<td>%= survey.getText(x);</td>
+						</tr>
+						%endloop;
+					</table>
+					<button type="submit">%("vote");</button>
+				</form>
+				%else;
+				<table class="stats">
+					<tr><th colspan="2">%= survey.getTitle;</th></tr>
+					%loop x from 0 to survey.length-1;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td class="r">%= survey.getVote(x);</td>
+						<td>%= survey.getText(x);</td>
+					</tr>
+					%endloop;
+				</table>
+				%endif;
+			</div>
+			%endif;
+		</td>
+		<td>
+			<!-- diplomacy -->
+			%set contracts alliance.getContracts;
+			%if contracts.size > 0;
+			<div class="bg">
+				<h3>%("diplomatic contracts"); %if player.getRank.hasRight(Right.MAKE_CONTRACTS);(<a href="diplomacy-draft">%("add contracts");</a>)%endif;</h3>
+				%("If a party is marked with a {0}, then the contract is being overruled by a different one for this party.", "<span class=""mark"">&lowast;</span>");
+				<table class="stats">
+				<colgroup width="50%%" span="2" />
+				%loop diplomaticStatus foreach DiplomaticStatus.values;
+				%loop i,contract foreach contracts where contract.getStatus = diplomaticStatus;
+					<tr class="%= diplomaticStatus.name;">
+						<th class="l">%= diplomaticStatus.getName(Session.getLocale);</th>
+						<td class="r">
+							%if contract.partyMayLeave(alliance) and player.getRank.hasRight(Right.MAKE_CONTRACTS);
+							<form action="alliance" method="post">
+								<input type="hidden" name="do" value="Contract.allianceLeaves" />
+								<input type="hidden" name="index" value="%= i;" />
+								<button type="submit">%("cancel");</button>
+							</form>
+							%else;<!--may not leave contract-->
+							%endif;
+						</td>
+					</tr>
+					<tr class="nohover">
+						%loop i,member foreach contract.getParties;
+							%if (i > 0) and (i % 2 = 0);</tr><tr>%endif;
+							<td class="%= (i%2=0) xor ((i%4)/2=0) ? "even" : "odd";" %if i%2=1;colspan="2"%endif;>%if member.isPlayer;<i>%("player");</i>%else;<i>%("alliance");</i>%endif; %= member.getName;%if Galaxy.getDiplomacyEntry(alliance, member).getStatus.isBetter(contract.getStatus);<span class="mark">&lowast;</span>%endif;</td>
+						%endloop;
+					</tr>	
+					<tr class="nohover clear"><td colspan="2" class="clear">&#160;</td></tr>
+				%endloop;
+				%endloop;
+				</table>
+			</div>
+			%endif;
+
+			<!-- transmitter search -->
+			<div class="bg">
+				<h3>%("transmitter stations");</h3>
+		%if Request.getTodo = "Search.allianceTransmitter";
+			%set Search Session.getSearchResult;
+			%if Search.size = 0;
+				<div class="note">%("No transmitter stations were found!");</div>
+			%else;
+				<table class="stats" id="sortable1">
+					<tr class="nohover" id="head1">
+						<th id="keya-coords">%("position");</th>
+						<th id="keyb-string">%("player");</th>
+						<th>%("fleet");</th>
+					</tr>
+					%set x 0;
+					%loop item foreach Search where item.getType = SearchItemType.COLONY;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td id="keya%= x;"><a href="%= Session.getMapUrl(item.getPosition);">%= item.getPosition;</a></td>
+						<td id="keyb%= x;">%= item.getPosition.findColony(Galaxy).getOwner.getName;</td>
+						<td id="keyc%= x;"><a href="send-fleet?to=%= item.getPosition;">%("send off");</a></td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+				%endif;
+				%else;
+				<form action="?" method="post">
+				<div class="submit">
+					<input type="hidden" name="do" value="Search.allianceTransmitter" />
+					<button type="submit">%("search for transmitter stations");</button>
+				</div>
+				</form>
+				%endif;
+			</div>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript" src="js/common-tablesort.js"></script>
+

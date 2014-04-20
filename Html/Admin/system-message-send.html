@@ -1,0 +1,14 @@
+%embed "include/design.tmpl";
+
+<h1>Send Message Ingame</h1>
+<form action="" method="post">
+<input type="hidden" name="do" value="System.sendMessage" />
+<table width="500">
+  <tr><td>An alle Spieler <input type="checkbox" name="igm-all" /></td></tr>
+  <tr><td> An Einzelspieler<input type="text" name="name" /></td></tr>
+  <tr><td><input type="text" name="subject" value="System-Nachricht" /></td></tr>
+  <tr><td><textarea name="body" cols="65" rows="24"></textarea></td></tr>
+  <tr><td><button type="submit">Abschicken</button></td></tr>
+</table>
+</form>
+

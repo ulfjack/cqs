@@ -1,0 +1,74 @@
+%embed "templates/stats.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set locale Session.getLocale;
+
+<h3>%("resources overview");</h3>
+<table class="stats">
+<colgroup width="20%%" span="5" />
+	<tr>
+		<td>%("{0,number,integer} spent", player.getResourcePoints);</td>
+		<td>%("{0,number,integer} wasted", player.getResourcesWasted);</td>
+		<td>%("{0,number,integer} lost", player.getResourcesLost);</td>
+		<td>%("{0,number,integer} donated", player.getResourcesDonated);</td>
+		<td>%("{0,number,integer} received", player.getResourcesGotten);</td>
+	</tr>
+</table>
+
+<h3>%("colony resources");</h3>
+<table class="stats">
+	<colgroup>
+		<col width="10%%" />
+		<col width="2%%" /><col width="16%%" />
+		<col width="2%%" /><col width="16%%" />
+		<col width="2%%" /><col width="16%%" />
+		<col width="2%%" /><col width="16%%" />
+		<col width="2%%" /><col width="16%%" />
+	</colgroup>
+	<tr class="nohover">
+		<th>%("position");</th>
+		<th colspan="2">%("steel");</th>
+		<th colspan="2">%("oil");</th>
+		<th colspan="2">%("silicon");</th>
+		<th colspan="2">%("deuterium");</th>
+		<th colspan="2">%("population");</th>
+	</tr>
+	%loop x,colony foreach player.getColonies;
+	<tr class="%= x%2=0 ? "even" : "odd";">
+		<td><a href="colony|%= colony.getPosition;">%= colony.getPosition;</a></td>
+		%loop y from 0 to 3;
+		<td><img src="%= Session.getFillLevelUrl(colony.getDisplayResource(y), colony.getStorage(y));" width="5" height="30" alt="" /></td>
+		<td>
+			<b>%("{0,number,integer}", colony.getDisplayResource(y));</b><br />
+			%if colony.getDisplayResource(y) = colony.getStorage(y);<span class="red">%("depot full!");</span>%else;%("max {0}", Tools.getAbbreviatedLong(Session.getLocale, colony.getStorage(y)));%endif;<br />
+			<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, colony.getRate(y)));</i> <a class="false" title="%("bonus");">%= colony.getModifier(y);%%</a>
+		</td>
+		%endloop;
+		<td><img src="%= Session.getLivingSpaceUrl(colony.getDisplayPopulation, colony.getPopulationLimit);" width="5" height="30" alt="" /></td>
+		<td>
+			<b>%("{0,number,integer}", colony.getDisplayPopulation);</b><br />
+			%("max {0}", Tools.getAbbreviatedLong(Session.getLocale, colony.getPopulationLimit));<br />
+			<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, colony.getPopulationGrowth));</i> <a class="false" title="%("bonus");">%= colony.getPopulationGrowthModifierPercent;%%</a>
+		</td>
+	</tr>
+	%endloop;
+	<tr>
+		<th>%("total");</th>
+		%loop y from 0 to 3;
+			%set amount 0L;%set rate 0L;%set storage 0L;%loop colony foreach player.getColonies;%set amount amount+colony.getDisplayResource(y);%set rate rate+colony.getRate(y);%set storage storage+colony.getStorage(y);%endloop;
+		<th colspan="2" title="%= Resource.getName(locale,y); [%("available: {0,number,integer}", amount);] [%("growth: +{0,number,integer}/h", rate);] [%("depot: {0,number,integer}", storage);]">
+			%("{0,number,integer}", amount);<br />
+			%("max {0}", Tools.getAbbreviatedLong(Session.getLocale, storage));<br />
+			<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, rate));</i>
+		</th>
+		%endloop;
+		%set amount 0L;%set rate 0L;%set storage 0L;%loop colony foreach player.getColonies;%set amount amount+colony.getDisplayPopulation;%set rate rate+colony.getPopulationGrowth;%set storage storage+colony.getPopulationLimit;%endloop;
+		<th colspan="2" title="%("population"); [%("available: {0,number,integer}", amount);] [%("growth: +{0,number,integer}/h", rate);] [%("depot: {0,number,integer}", storage);]">
+			<b>%("{0,number,integer}", amount);</b><br />
+			%("max {0}", Tools.getAbbreviatedLong(Session.getLocale, storage));<br />
+			<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, rate));</i>
+		</th>
+	</tr>
+</table>
+

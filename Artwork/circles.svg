@@ -1,0 +1,66 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="600" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+	<style type="text/css"><![CDATA[
+		rect { fill:black; stroke: none; }
+		circle {
+			fill: none;
+			stroke: #222;
+			stroke-width: 2px;
+		}
+		line
+		{
+			stroke: #222;
+			stroke-width: 2px;
+		}
+	]]></style>
+</defs>
+
+<rect x="0" y="0" width="600" height="600" />
+
+<g transform="translate(0.5,0.5)">
+
+<line x1="5" y1="300" x2="30" y2="300" />
+<g transform="translate(300,300),rotate( 22.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate( 45.0),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate( 67.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate( 90.0),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(112.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(135.0),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(157.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(180.0),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(202.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(225.0),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(247.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(270.0),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(292.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(315.0),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+<g transform="translate(300,300),rotate(337.5),translate(-300,-300)"><line x1="5" y1="300" x2="30" y2="300" /></g>
+
+<g transform="translate(300,300),scale(0.95),translate(-300,-300)">
+
+<circle cx="300" cy="300" r="34" />
+<circle cx="300" cy="300" r="47" />
+<circle cx="300" cy="300" r="60" />
+<circle cx="300" cy="300" r="73" />
+<circle cx="300" cy="300" r="86" />
+<circle cx="300" cy="300" r="99" />
+<circle cx="300" cy="300" r="112" />
+<circle cx="300" cy="300" r="125" />
+<circle cx="300" cy="300" r="138" />
+<circle cx="300" cy="300" r="168" />
+<circle cx="300" cy="300" r="189" />
+<circle cx="300" cy="300" r="211" />
+<circle cx="300" cy="300" r="233" />
+<circle cx="300" cy="300" r="255" />
+<circle cx="300" cy="300" r="277" />
+
+</g>
+
+</g>
+
+</svg>
+

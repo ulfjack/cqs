@@ -1,0 +1,117 @@
+%embed "templates/alliance-admin.tmpl";
+
+%set player Session.getPlayer;
+%set alliance Session.getAlliance;
+%set rank player.getRank;
+
+<div class="nobg nospaceb"><a href="alliance-admin">%("back to main administration page");</a></div>
+
+%set rank Session.getPlayer.getRank;
+%if rank.hasRight(Right.EDIT_RANKS) or rank.hasRight(Right.CHANGE_RANKS);
+<table id="alliance-admin">
+	<colgroup width="50%%" span="2" />
+	<tr>
+		<!-- 1st col -->
+		<td>
+			<!-- modify ranks -->
+			<div class="bg">
+				<h3>%("change rights for ranks");</h3>
+				%if rank.hasRight(Right.EDIT_RANKS);
+				<form action="alliance-admin-editranks" method="post">
+					<input type="hidden" name="do" value="Alliance.Ranks.edit" />
+					<table class="stats">
+				%loop x,tmprank foreach alliance.getRanks;
+						<tr class="%= x%2=0 ? "even" : "odd";"><td colspan="2"><input type="text" size="30" name="name%= x;" value="%= tmprank.getName;" /> %if x = 0;%("(rights not editable)");%endif;</td></tr>
+						<tr class="%= x%2=0 ? "even" : "odd";">
+					%loop y,right foreach Right.values;
+						%if (y>0) and (y%2=0);</tr><tr class="%= x%2=0 ? "even" : "odd";">%endif;
+							<td><input type="checkbox" %if tmprank.hasRight(right); checked="checked" %endif; id="ar%= x;-%= right;" name="ar%= x;-%= right;" />	<label for="ar%= x;-%= right;">%= right.getName(Session.getLocale);</label></td>
+					%endloop;
+						</tr>
+						<tr><td colspan="2">&#160;</td></tr>
+				%endloop;
+					</table>
+					<button type="submit">%("apply changes");</button>
+					<div class="clearr"></div>
+				</form>
+			%else;
+				<div class="warn">%("You do not have sufficient rights to modify the rights of ranks.");</div>
+			%endif;
+			</div>
+		</td>
+
+		<!-- 2nd col -->
+		<td>
+			<!-- assign ranks -->
+			<div class="bg">
+				<h3>%("assign ranks to members");</h3>
+				%if rank.hasRight(Right.CHANGE_RANKS);
+				<form action="alliance-admin-editranks" method="post">
+					<input type="hidden" name="do" value="Alliance.Ranks.change" />
+					<table class="stats">
+						<tr><th colspan="2">%("members ({0,number,integer})", alliance.size);</th></tr>
+						%loop x,p foreach alliance;
+						<tr class="%= x%2=0 ? "even" : "odd";">
+							<td>%= p.getName;</td>
+							<td>
+								<select size="1" name="r%= p.getName;">
+								%loop y,ry foreach alliance.getRanks;
+								<option %if p.getRank = ry; selected="selected" %endif;>
+									%= y+1;. %= ry.getName;
+								</option>
+								%endloop;
+								</select>
+							</td>
+						</tr>
+						%endloop;
+						<tr class="%= x%2=1 ? "even" : "odd";">
+							<td>%("default rank for new members:");</td>
+							<td>
+								<button type="submit">%("ok");</button>
+								<select size="1" name="defaultRank">
+								%loop y,ry foreach alliance.getRanks;
+								<option %if alliance.getStartRank = ry; selected="selected" %endif;>
+									%= y+1;. %= ry.getName;
+								</option>
+								%endloop;
+								</select>
+							</td>
+						</tr>
+					</table>
+				</form>
+				%else;
+				<div class="warn">%("You do not have sufficient rights to assign ranks to members.");</div>
+				%endif;
+			</div>
+
+			<!-- add rank -->
+			<div class="bg">
+				<h3>%("add rank");</h3>
+				%if rank.hasRight(Right.EDIT_RANKS);
+				%("Note: ranks cannot be deleted!");
+				<form action="alliance-admin-editranks" method="post">
+					<input type="hidden" name="do" value="Alliance.Ranks.add" />
+					<input type="text" size="30" name="name" /><br />
+					<table>
+						<tr>
+					%loop y,right foreach Right.values;
+						%if (y>0) and (y%2=0);</tr><tr>%endif;
+							<td><input type="checkbox" id="ar%= right;" name="ar%= right;" />
+						<label for="ar%= right;">%= right.getName(Session.getLocale);</label></td>
+					%endloop;
+						</tr>
+					</table>
+					<button type="submit">%("add rank");</button>
+				</form>
+				<div class="clearr"></div>
+				%else;
+				<div class="warn">%("You do not have sufficient rights to add new ranks.");</div>
+				%endif;
+			</div>
+		</td>
+	</tr>
+</table>
+%else;
+<div class="warn">%("You do not have sufficient rights to modify ranks.");</div>
+%endif;
+

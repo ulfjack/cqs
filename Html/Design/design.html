@@ -1,0 +1,58 @@
+%embed "templates/design.tmpl";
+
+%set pdata Session.getPlayerDataCopy;
+%define Unit unit;%set unit null;
+%if Request.getUrlParameter(0) != null;%set unit Galaxy.getUnitSystem.parseUnit(Request.getUrlParameter(0));%endif;
+<div class="bg">
+	<h3>%("finished units");</h3>
+	<table>
+	<colgroup><col width="32%%" /><col width="1%%" /><col width="32%%" /><col width="1%%" /><col width="34%%" /></colgroup>
+		<tr>
+			%loop q from 0 to 2;
+			<td class="table">
+				<table class="stats">
+					<tr class="nohover"><th>%if (q = 0);%("standard planetary units");%else;%if (q = 1);%("standard interplanetary units");%else;%("standard interstellar units");%endif;%endif;</th></tr>
+					%set z 0;
+					%loop tmpunit foreach Galaxy.getUnitSystem.getUniqueUnits;
+					%if ((q = 0) and tmpunit.isPlanetary) or ((q = 1) and tmpunit.isInterplanetary) or ((q = 2) and tmpunit.isInterstellar);
+					<tr class="%= z%2=0 ? "even" : "odd";">
+						<td><a href="design|%= tmpunit;" %if tmpunit=unit;class="active"%endif;>%= tmpunit.getName(Session.getLocale);</a></td>
+					</tr>
+					%set z z+1;
+					%endif;
+					%endloop;
+					%if z = 0;<tr><td>%("none");</td></tr>%endif;
+					<tr class="nohover"><th>%if (q = 0);%("designed planetary units");%else;%if (q = 1);%("designed interplanetary units");%else;%("designed interstellar units");%endif;%endif;</th></tr>
+					%set z 0;
+					%loop tmpunit foreach pdata.getUnitDesigns where tmpunit != null;
+					%if ((q = 0) and tmpunit.isPlanetary) or ((q = 1) and tmpunit.isInterplanetary) or ((q = 2) and tmpunit.isInterstellar);
+					<tr class="%= (z%2=0)? "even" : "odd";"><td><a href="design|%= tmpunit;" %if tmpunit=unit;class="active"%endif;>%= tmpunit.getName(Session.getLocale);</a></td></tr>
+					%set z z+1;
+					%endif;
+					%endloop;
+					%if z = 0;<tr><td>%("no units designed");</td></tr>%endif;
+				</table>
+			</td>
+			%if (q < 2);<td></td>%endif;
+			%endloop;
+		</tr>
+	</table>
+</div>
+
+%if (unit != null);
+<div class="bg">
+	%loop url foreach Session.getUrls(unit, true);
+	<img class="cornericon" src="%= url;" alt="" />
+	%endloop;
+	%if unit.isDesign;
+	<form action="design" method="post" class="right">
+		<input type="hidden" name="do" value="Design.delete" />
+		<input type="hidden" name="id" value="%= unit;" />
+		<input type="image" src="%= Session.getUrl(ImageEnum.DELETE);" id="delete-unit" /><label for="delete-unit">%("delete design");</label>
+	</form>
+	%endif;
+	<h3>%("unit details for {0}", unit.getName(Session.getLocale));</h3>
+	%include "include/unit-details.inc";
+</div>
+%endif;
+

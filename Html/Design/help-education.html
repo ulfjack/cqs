@@ -1,0 +1,62 @@
+%embed "templates/help.tmpl";
+
+%set locale Session.getLocale;
+%set topic Education.CONSTRUCTION;
+%if Request.getUrlParameter(0) != null;
+  %set topic Education.valueOf(Request.getUrlParameter(0));
+%endif;
+
+<div class="nobg">
+<table id="help">
+	<tr class="nospacetb">
+		<td class="nospacetb">
+		%loop tmptopic foreach Education.values;
+		<div class="icon" %if (topic != null) and (topic = tmptopic); id="active"%endif;><a href="help-education|%= tmptopic;" title="%= tmptopic.getName(locale);"><img src="%= Session.getUrl(tmptopic, false);" alt="%= tmptopic.getName(locale);" width="30" height="30" /></a></div>
+		%endloop;
+		</td>
+	</tr>
+	%if topic != null;
+	<tr class="nospacetb">
+		<td class="nospacetb">
+			<div class="extension">
+				<br />
+				<h2 class="nospacetb">%("details for education topic {0}", topic.getName(locale));</h2>
+				<table>
+					<colgroup><col width="320px" /><col width="*" /></colgroup>
+					<tr>
+						<td class="image"><img src="%= Session.getUrl(topic, true);" alt="" /></td>
+						<td class="table">
+							<table>
+								<colgroup width="25%%" span="4" />
+								<tr class="nohover"><th colspan="4">%("description");</th></tr>
+								<tr class="nohover"><td colspan="4">%= topic.getDescription(locale);</td></tr>
+								<tr class="nohover"><th colspan="4">%("maximum savings");</th></tr>
+								%if topic != Education.CONSTRUCTION;
+								<tr>
+									%loop y from 0 to 3;
+									<td class="l">
+										<img src="%= Session.getUrl(Resource.get(y));" height="14" width="14" alt="" />
+										%= topic.getModifierPercent(y);%%
+									</td>
+									%endloop;
+								</tr>
+								%else;
+								<tr>
+									<td colspan="4">%("can reduce the time needed for constructing buildings to {0} seconds", Constants.BUILDING_MIN);</td>
+								</tr>
+								%endif;
+								%if topic.getDep != null;
+								<tr class="nohover"><th colspan="4">%("requirements");</th></tr>
+								<tr><td>%= topic.getDepCount; &#160; %= topic.getDep.getName(locale);</td></tr>
+								%endif;
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	%endif;
+</table>
+</div>
+

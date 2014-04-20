@@ -1,0 +1,30 @@
+%embed "templates/colony.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set locale Session.getLocale;
+%set colony Session.getColony(Request.getUrlParameter(0));
+%set position colony.getPosition;
+
+%set title gettext "units";
+%include "include/coltitle.inc";
+
+<div class="bg">
+	<h3>%("available resources");</h3>
+%include "include/resources.inc";
+</div>
+
+<div class="nobg">
+%loop q from 0 to 2; <!-- loop unit building -->
+	<a name="build%= q;"></a>
+	<h2 id="bql%= q;">
+		%if q = 0; %= colony.getName; (%= colony.getPosition;) &ndash; %("planetary units");%endif;
+		%if q = 1; %= colony.getName; (%= colony.getPosition;) &ndash; %("interplanetary units");%endif;
+		%if q = 2; %= colony.getName; (%= colony.getPosition;) &ndash; %( "interstellar units");%endif;
+		<a href="#bql%= (q+1)%3;"><img src="%= Session.getUrl(ImageEnum.MOVE_DOWN);" alt="v" /></a>
+	</h2>
+%include "include/colony-units.inc";
+<br />
+%endloop; <!-- unit building -->
+</div>
+

@@ -1,0 +1,55 @@
+%include "include/stats-head.inc";
+
+%set alliance Galaxy.getAllianceByIndex(Session.Temp.intvalue(0));
+
+%include "include/alliance-banner.inc";
+
+<div class="title info">
+<h1>Allianz %string alliance.name;</h1>
+</div>
+
+<div class="content info">
+
+<table>
+<colgroup width="33%%" span="3" />
+	<tr><td class="u" colspan="3">%gettext "Mitglieder"; (%long alliance.Members.amount;)</td></tr>
+%if alliance.Members.amount > 3;
+	%set loc 0;
+	%set member alliance.Members.amount;
+	%loop y from 0 to member/3 where loc < member-2;
+		<tr>
+		%loop x from loc to loc+2;%set p alliance.Members.data(x);
+			<td class="b"><a href="?">%string p.name;</a></td>
+		%endloop;
+		</tr>
+		%set loc loc+3;
+	%endloop;
+	%if loc != member-1;
+	<tr>
+	%loop x from loc to member-1;%set p alliance.Members.data(x);
+		<td class="b"><a href="?">%string p.name;</a></td>
+	%endloop;
+	</tr>
+	%endif;
+%else;
+	<tr>
+		%loop x from 0 to alliance.Members.amount-1;%set p alliance.Members.data(x);
+		<td class="b"><a href="?">%string p.name;</a></td>
+		%endloop;
+	</tr>
+%endif;
+</table>
+<br />
+<table>
+	<tr><td class="u">%gettext "Öffentlicher Teil";</td></tr>
+	<tr>
+		<td class="b">%string alliance.description;</td>
+	</tr>
+</table>
+
+</div>
+
+<div class="footnote info">
+</div>
+
+%include "include/foot.inc";

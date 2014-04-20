@@ -1,0 +1,10 @@
+%include "include/map-head.inc";
+%set planet Session.viewPlanet;
+
+<h1 class="head">Planet - %string planet.position(galaxyView);</h1>
+<h2 class="head"><a href="map">Galaxie</a> - <a href="map-system">System</a></h2>
+
+<div class="content map map-planet">
+</div>
+
+%include "include/map-foot.inc";

@@ -1,0 +1,10 @@
+dn: ou=People,dc=unet,dc=de
+ou: People
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Group,dc=unet,dc=de
+ou: Group
+objectClass: top
+objectClass: organizationalUnit
+

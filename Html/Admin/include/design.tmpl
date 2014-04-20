@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Conquer-Space.net Administration</title>
+	<link rel="stylesheet" type="text/css" href="black.css" />
+</head>
+<body>
+
+<div id="menu">
+<table>
+	<tr><td><a href="/">Home</a></td></tr>
+	
+	%set menu AdminTools.getMenu;
+	%loop category foreach menu.getCategories;
+		<tr><th>%= category.getName;</th></tr>
+		%loop item foreach category.getItems;
+		<tr><td>
+			<a href="%= item.getLink;">%= item.getName;</a>
+		</td></tr>
+		%endloop;
+	%endloop;
+</table>
+</div>
+
+<div id="content">
+
+%if Session.getActionResult != null;
+<div class="message"><pre>
+	%= Session.getActionResult;
+</pre></div>
+%endif;
+
+%embed;
+
+</div>
+
+</body>
+</html>

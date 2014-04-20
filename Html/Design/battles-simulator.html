@@ -1,0 +1,123 @@
+%embed "templates/battles.tmpl";
+
+%set simulator Session.getSimBattle;
+%define boolean ground;
+%if (simulator != null);
+	%set ground not simulator.isSpace;
+%else;
+	%set status Request.getUrlParameter(0);
+	%set ground (status != "space");
+%endif;
+
+<div class="extension">
+	<h3>%("simulate battles");</h3>
+	<table>
+		<colgroup><col width="37%%" span="2" /><col width="26%%" /></colgroup>
+		<tr>
+	%loop side from 0 to 1;
+			<td class="table">
+				<div class="compactbg">
+					<h3>%if side=0;%("attacker''s units");%else;%("defender''s units");%endif;</h3>
+					%if simulator != null;
+					<table class="stats">
+						%set z 0;
+						%loop entry foreach simulator.getSide(side).getAllUnits;
+						%if entry.type.isPlanetary = ground;
+						<tr class="%= z%2=0 ? "even" : "odd";">
+							<td class="l">%= entry.type.getName(Session.getLocale);</td>
+							<td class="r">%= entry.amount;</td>
+						</tr>
+						%set z z+1;
+						%endif;
+						%endloop;
+					</table>
+					%endif;
+				</div>
+			</td>
+	%endloop;
+			<td rowspan="2">
+				<div class="compactbg">
+				<h3>%("actions");</h3>
+				%if (simulator != null);
+					<form action="battles-simulator|%= simulator.isSpace ? "space" : "ground";" method="post">
+						<input type="hidden" name="do" value="Simulator.exec" />
+						<button type="submit" name="set">%("simulate battle");</button>
+					</form>
+					<br />
+					<form action="battles-simulator|%= simulator.isSpace ? "ground" : "space";" method="post">
+						<input type="hidden" name="do" value="Simulator.setKind" />
+						%if simulator.isSpace;
+						<input type="hidden" name="kind" value="ground" />
+						%else;
+						<input type="hidden" name="kind" value="space" />
+						%endif;
+						<button type="submit">%if simulator.isSpace;%("view planetary units");%else;%("view space units");%endif;</button>
+					</form>
+					%else;
+					<form action="battles-simulator|%= ground ? "space" : "ground";">
+						<button type="submit">%if ground;%("view space units");%else;%("view planetary units");%endif;</button>
+					</form>
+					%endif;
+
+					<form action="battles-simulator|%= ground ? "ground" : "space";" method="post">
+						<input type="hidden" name="do" value="Simulator.reset" />
+						<button type="submit" name="set">%("reset simulator");</button>
+					</form>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			%loop side from 0 to 1;
+			<td class="table">
+				<div class="compactbg">
+					<h3>%if side=0;%("add/remove attacker''s units");%else;%("add/remove defender''s units");%endif;</h3>
+					<form action="battles-simulator" method="post">
+					<input type="hidden" name="do" value="Simulator.join" />
+					<input type="hidden" name="kind" value="%= ground ? "ground" : "space";" />
+					%if side=0;<input type="hidden" name="side" value="attacker" />%else;<input type="hidden" name="side" value="defender" />%endif;
+					<table class="stats">
+						<tr class="nohover"><th colspan="2">%("standard units");</th></tr>
+						%set z 0;
+						%loop x,unit foreach Galaxy.getUnitSystem().getUniqueUnits();
+						%if ground = unit.isPlanetary;
+						<tr class="%= z%2=0 ? "even" : "odd";">
+							<td class="l">%= unit.getName(Session.getLocale);</td>
+							<td class="r"><input type="text" name="default%= x;" size="6" value="" /></td>
+						</tr>
+						%set z z+1;
+						%endif;
+						%endloop;
+						%if ground and (side != 0);
+						<tr class="%= z%2=0 ? "even" : "odd";">
+							<td class="l">%("militia");</td>
+							<td class="r"><input type="text" name="fixed0" size="6" value="" /></td>
+						</tr>
+						%endif;
+						<tr class="nohover"><th colspan="2">%("designed units");</th></tr>
+						%set z 0;
+						%set logindata Session.getPlayerDataCopy;
+						%loop x,unit foreach logindata.getUnitDesigns where unit != null;
+						%if ground = unit.isPlanetary;
+						<tr class="%= z%2=0 ? "even" : "odd";">
+							<td class="l">%= unit.getName(Session.getLocale);</td>
+							<td class="r"><input type="text" name="slot%= x;" size="6" value="" /></td>
+						</tr>
+						%set z z+1;
+						%endif;
+						%endloop;
+						<tr>
+							<td class="l">
+								<input type="radio" checked="checked" id="add-radio-%= side;" name="todo" value="add" /><label for="add-radio-%= side;">%("add");</label>
+								<input type="radio" id="remove-radio-%= side;" name="todo" value="remove" /><label for="remove-radio-%= side;">%("remove");</label>
+							</td>
+							<td class="r"><button type="submit">%("ok");</button></td>
+						</tr>
+
+					</table>
+					</form>
+				</div>
+			</td>
+			%endloop;
+		</tr>
+	</table>
+</div>

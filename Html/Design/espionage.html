@@ -1,0 +1,43 @@
+%embed "templates/top.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+<div class="bg">
+	<img class="cornericon-big" src="pack/design/navi-espionage-active.png" alt="" />
+	<h3>%("planted spies"); %("(<a href=""help-espionage"">help</a>)");</h3>
+	<table id="sortable0" class="stats statsform">
+		<colgroup><col width="10%%" /><col width="20%%" /><col width="10%%" /><col width="5%%" /><col width="5%%" /><col width="20%%" /><col width="20%%" /></colgroup>
+		<tr class="nohover" id="head0">
+			<th id="key0-coords">%("colony");</th>
+			<th id="key1-string">%("owner");</th>
+			<th id="key2-string">%("alliance");</th>
+			<th class="r">%("spies");</th>
+			<th class="r">%("precision");</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr><td  colspan="7"></td></tr>
+	%loop x,agent foreach player.getAgents;
+	%set owner agent.findColony.getOwner;
+	%set a owner.getAlliance;
+		<tr id="sort%= x;" class="%= x % 2 = 0 ? "even" : "odd";">
+			<td id="a%= x;"><a href="send-fleet?to=%= agent.getPosition;" title="%("send fleet to {0}", agent.getPosition);">%= agent.getPosition;</a></td>
+			<td id="b%= x;"><a href="player|%= owner.getPid;">%= owner.getName;</a></td>
+			<td id="c%= x;">%if a != null;<a href="view-alliance|%= a.getId;">[%= a.getShortName;]</a>%else;%("individual");%endif;</td>
+			<td id="d%= x;" class="r">%("{0,number,integer}", agent.getAmount);</td>
+			<td id="e%= x;" class="r"><span class="red">%= agent.getProbabilityPercent;%%</span></td>
+			<td id="f%= x;" class="r"><a href="/AgentObservers/%= agent.getId;">%("view temporary report");</a></td>
+			<td id="g%= x;" class="r">
+				<form action="espionage" method="post">
+					<input type="hidden" name="do" value="Agent.requestReport" />
+					<input type="hidden" name="id" value="%= agent.getId;" />
+					<button type="submit">%("request final report");</button>
+				</form>
+			</td>
+		</tr>
+	%endloop;
+	</table>
+</div>
+
+<script type="text/javascript" src="js/common-tablesort.js"></script>

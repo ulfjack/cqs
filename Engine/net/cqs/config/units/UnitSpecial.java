@@ -1,0 +1,17 @@
+package net.cqs.config.units;
+
+public enum UnitSpecial
+{
+
+EXPLORATION,
+ESPIONAGE,
+SETTLEMENT,
+INVASION,
+WARP,
+MILITIA,
+AUTO_DEFENDER,
+CIVIL;
+
+// GROUND_GEBAEUDE_ZERSTOERUNG
+
+}

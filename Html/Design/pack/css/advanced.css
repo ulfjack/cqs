@@ -1,0 +1,25 @@
+/*
+ * Css file for fixed elements/background images.
+ * Use only if you know your browser can handle it!
+ * 
+ * Does not work in Internet Explorer.
+ */
+
+body.bgimage
+{ background-attachment: fixed; }
+
+div#top-navi, div#colony-navi
+{ position: fixed; }
+
+div#top-navi, div#colony-navi
+{ background: url(../design/bg.png) top repeat; 	background-color: transparent; }
+
+fieldset,
+fieldset.stdform div.option label:hover,
+ul.smenu li a, .currentjob, #basecost, table.border,
+.extension, .bgconnector-half, .bgconnector-quarter, .bgconnector-fifth, .bgconnector-seventh
+{ background: url("../design/bg.png") repeat; 	background-color: transparent; }
+
+.bg, #help div#active, .compactbg, .bg-tab
+{ background: url("../design/bg.png") repeat; 	background-color: transparent; }
+

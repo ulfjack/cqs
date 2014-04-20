@@ -1,0 +1,305 @@
+%embed "templates/fleets-detail.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set fleet player.findFleetById(Tools.safeParseInt(Request.getUrlParameter(0),-1));
+%if fleet = null;
+<div class="warn">%("You did not select a valid fleet!");</div>
+%else;
+<table class="fcmds">
+	<colgroup><col width="25%%" /><col width="40%%" /><col width="35%%" /></colgroup>
+	<tr class="nohover">
+		<!-- 1st column -->
+		<td class="table">
+			<div class="bg">
+				<img class="cornericon" src="pack/design/edit.png" alt="" />
+				<h3>%("Fleet {0}", fleet.getId);</h3>
+				<a href="fleets-split|%= fleet.getId;">%("split fleet");</a><br />
+				<h4>%("rename fleet");</h4>				
+				<form id="rename-fleet" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Name.change" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="text" size="10" maxlength="40" name="name" value="%= fleet.getName;" />
+					<button type="submit" style="display:inline">%("ok");</button>
+				</form>
+				<h4>%("set desktop for fleet");</h4>
+				<form action="" method="post">
+					<input type="hidden" name="do" value="Fleet.setDesktopsAndResume" />
+					<select size="1" name="fleetdesktop%= fleet.getId;">
+						%loop x from 0 to Constants.MAX_DESKTOP;<option %if fleet.getDesktop = x; selected="selected" %endif;value="%= x;">%= x; (%= player.getDesktopName(Session.getLocale, x);)</option>%endloop;
+					</select>
+					<button type="submit">%("ok");</button>
+				</form>
+			</div>
+			<div class="bg">
+				<img class="cornericon" src="%= Session.getUrl(ImageEnum.SYMBOL_MONEY);" alt="" />
+				<h3>%("costs");</h3>
+				<table>
+					<tr><td>%("flight duration:");</td><td><span id="countup-total-%= fleet.getFlightStartTime;">%= Tools.asTime(fleet.getFlightDuration);</span></td></tr>
+					<tr><td>%("current costs:");</td><td>%("{0,number,integer}/h", fleet.calculateUpkeep);</td></tr>
+				</table>
+			</div>
+			<div class="bg">
+				<img class="cornericon" src="pack/design/load.png" alt="" />
+				<h3>%("load");</h3>
+
+				%loop q from 0 to 2;
+				%if (fleet.containsPlanetaryUnits and (q=0)) or (fleet.containsInterplanetaryUnits and (q=1)) or (fleet.containsInterstellarUnits and (q=2));
+				<h4>%if q=0; %("planetary units");%elseif q=1;%("interplanetary units");%else;%("interstellar units");%endif;</h4>
+				<table>
+					<colgroup><col width="15%%" /><col width="85%%" /></colgroup>
+					%set x 0;
+					%loop unit foreach fleet.getUnits where ((unit.type.isPlanetary and (q=0)) or (unit.type.isInterplanetary and (q=1)) or (unit.type.isInterstellar and (q=2)));
+					<tr class="%= (x%2=1)? "even" : "odd";">
+						<td class="r">%("{0,number,integer}", unit.amount);</td>
+						<td>%= unit.type.getName(Session.getLocale);</td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+				%endif;
+				%endloop;
+
+				%if fleet.getStorageSpace > 0;
+				<h4>%("resources");</h4>
+				<table>
+					<colgroup><col width="15%%" /><col width="85%%" /></colgroup>
+					<tr><td colspan="2">%("{0,number,integer} of {1,number,integer} used", fleet.getCargoAmount, fleet.getStorageSpace);</td></tr>
+					%loop y,res foreach Resource.values;
+					%if (y < 4) and (fleet.getCargo(res) > 0);
+					<tr>
+						<td><img src="%= Session.getUrl(Resource.get(y));" width="22" height="22" title="%= res.getName(Session.getLocale);" alt="%= res.getName(Session.getLocale); [%("available: {0,number,integer}", fleet.getCargo(res));]" /></td>
+						<td>%("{0,number,integer} loaded", fleet.getCargo(res));</td>
+					</tr>
+					%endif;
+					%endloop;
+				</table>
+				%endif;
+			</div>
+		</td>
+
+		<!-- 2nd column -->
+		<td class="table" id="orders">
+%include "include/fleet-orders.inc";
+		</td>
+		
+		<!-- 3rd column -->
+		<td class="table">
+
+			<div class="bg" id="addcommands">
+				<img class="cornericon" src="pack/design/add.png" alt="" />
+				<h3>%("add fleet command");</h3>
+
+				<h4>%("Commands for colony positions (x:y:z)");</h4>
+
+				<form id="addcmd-defendColony" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="defendColony" value="defendColony"/>
+					<button type="submit">%=("+");</button>
+					%("defend colony");
+				</form>
+
+				<form id="addcmd-attackColony" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="attackColony" value="attackColony"/>
+					<button type="submit">%=("+");</button>
+					%("attack colony");
+				</form>
+
+				<form id="addcmd-invadeColony" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="invadeColony" value="invadeColony"/>
+					<button type="submit">%=("+");</button>
+					%("invade colony");
+				</form>
+
+				<form id="addcmd-spyColony" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="spyColony" value="spyColony"/>
+					<button type="submit">%=("+");</button>
+					%("plant {0} spies", "<input type='text' id='spyamount' name='spyamount' size='1' value='1' />");
+				</form>
+
+				<form id="addcmd-settle" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="settle" value="settle"/>
+					<button type="submit">%=("+");</button>
+					%("add {0} settlers", "<input type='text' id='settleramount' name='settleramount' size='1' value='1' />");
+				</form>
+
+				<form id="addcmd-resources" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<button type="submit">%=("+");</button>
+					<select size="1" name="action">
+						<option value="loadMulti" selected="selected">%("load resources");</option>
+						<option value="unloadMulti">%("unload resources");</option>
+						<option value="unloadAllMulti">%("unload all resources");</option>
+						<option value="robColonyMulti">%("plunder resources");</option>
+					</select><br />						
+					%loop x,res foreach Resource.values where (x<4);
+					<img src="%= Session.getUrl(Resource.get(x));" width="16" height="16" alt="%= res.getName(Session.getLocale);" title="%= res.getName(Session.getLocale);" /> <input type="text" name="resource-%= x;-cmd" size="7" />
+					%if (x=1);<br />%endif;
+					%endloop;
+				</form>
+
+				<form id="addcmd-gate" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="gate" value="gate" />
+					<button type="submit">%=("+");</button>
+					%("transmit to"); <input type="text" id="gate-targetposition" name="targetposition" size="5" value="" />
+					<select size="1" id="gate-reset" onchange="transferValue('gate-targetposition', 'gate-reset', this.value)">
+						<option>[%("pick");]</option>
+						%loop colony foreach player.getColonies where colony.hasTransmitter;
+						<option value="%= colony.getPosition;">%= colony.getPosition;</option>
+						%endloop;
+					</select>
+				</form>
+
+				<form id="addcmd-land" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="land" value="land"/>
+					<button type="submit">%=("+");</button>
+					%("land (get ground status)");
+				</form>
+
+				<form id="addcmd-takeoff" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="takeoff" value="takeoff"/>
+					<button type="submit">%=("+");</button>
+					%("take off (get space status)");
+				</form>
+
+				<form id="addcmd-stationHome" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="stationHome" value="stationHome"/>
+					<button type="submit">%=("+");</button>
+					%("station fleet");
+				</form>
+
+				<form id="addcmd-stationAlly" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="stationAlly" value="stationAlly"/>
+					<button type="submit">%=("+");</button>
+					%("donate fleet to allied colony owner");
+				</form>
+
+				<form id="addcmd-stationAny" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="stationAny" value="stationAny"/>
+					<button type="submit">%=("+");</button>
+					%("donate fleet to colony owner");
+				</form>
+
+				<h4>%("Commands for planet positions (x:y)");</h4>
+
+				<form id="addcmd-explore" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="explore" value="explore"/>
+					<button type="submit">%=("+");</button>
+					%("explore planet");
+				</form>
+
+				<form id="addcmd-colonize" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="colonize" value="colonize"/>
+					<button type="submit">%=("+");</button>
+					%("found colony on planet");
+				</form>
+
+				<form id="addcmd-blockPlanet" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="blockPlanet" value="blockPlanet"/>
+					<button type="submit">%=("+");</button>
+					%("block planet");
+				</form>
+
+				<form id="addcmd-attackBlockade" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="attackBlockade" value="attackBlockade"/>
+					<button type="submit">%=("+");</button>
+					%("attack planet blockade");
+				</form>
+
+				<h4>%("Commands for any position");</h4>
+
+				<form id="addcmd-move" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="move" value="move" />
+					<button type="submit">%=("+");</button>
+					%("fly to"); <input type="text" id="move-targetposition" name="targetposition" size="5" value="" />
+					<select size="1" id="move-reset" onchange="transferValue('move-targetposition', 'move-reset', this.value)">
+						<option>[%("pick");]</option>
+						%loop colony foreach player.getColonies;
+						<option value="%= colony.getPosition;">%= colony.getPosition;</option>
+						%endloop;
+					</select>
+				</form>
+
+				<form id="addcmd-stop" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="stop" value="stop"/>
+					<button type="submit">%=("+");</button>
+					%("stop fleet");
+				</form>
+
+				<form id="addcmd-waitfor" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="waitfor" value="waitfor"/>
+					<button type="submit">%=("+");</button>
+					%("wait for {0} secs", "<input type='text' id='waitforparam' name='waitparam' size='3' value='' />");
+					<select size="1" id="waitforreset" onchange="transferValue('waitforparam', 'waitforreset', this.value)">
+						<option>[%("pick");]</option>
+						<option value="60"  >%("{0} min", 1);</option>
+						<option value="600" >%("{0} mins", 10);</option>
+						<option value="3600">%("{0} hour", 1);</option>
+					</select>
+				</form>
+
+				<form id="addcmd-waituntil" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="waituntil" value="waituntil"/>
+					<button type="submit">%=("+");</button>
+					%("wait until full {0} secs", "<input type='text' id='waituntilparam' name='waitparam' size='3' value='' />");
+					<select size="1" id="waituntilreset" onchange="transferValue('waituntilparam', 'waituntilreset', this.value)">
+						<option>[%("pick");]</option>
+						<option value="60"  >%("{0} min", 1);</option>
+						<option value="600" >%("{0} mins", 10);</option>
+						<option value="3600">%("{0} hour", 1);</option>
+					</select>
+				</form>
+
+				<form id="addcmd-disband" class="hover" action="fleets-commands|%= fleet.getId;" method="post">
+					<input type="hidden" name="do" value="Fleet.Command.add" />
+					<input type="hidden" name="id" value="%= fleet.getId;" />
+					<input type="hidden" name="action" id="disband" value="disband"/>
+					<button type="submit">%=("+");</button>
+					%("disband fleet (destroy units and resources)");
+				</form>
+
+			</div>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript" src="js/fleet-commands.js"></script>
+%endif;

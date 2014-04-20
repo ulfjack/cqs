@@ -1,0 +1,54 @@
+%include "include/map-head.inc";
+%set system Session.viewSystem;
+
+<h1 class="head">%gettext "System"; %string system.position(galaxyView);</h1>
+<h2 class="head"><a href="map">Galaxie</a></h2>
+
+<div class="content map map-system">
+
+<div class="sun">
+	<div class="short">
+	<img class="intext" src="%string Session.GP.planets;sun.gif" width="40" height="40" alt="" />
+	<span class="planet-details">
+	Sonne
+	</span>
+	</div>
+</div>
+
+%loop planet foreach system.planets;
+<div class="planet">
+	<img src="%string Session.GP.planets;l%string planet.typeid;.gif" alt="" />
+	<div class="planet-details">
+		<h3><a href="map-planet?View.Planet.set=%string planet.position(galaxyView);">%string planet.type(lang);</a> (%long planet.size;)</h3>
+		<ul>
+			<li><a class="menu" href="">Besiedeln</a></li>
+			<li><a class="menu" href="">Erkundung</a></li>
+			<li><a class="menu" href="">Flotte ausschicken</a></li>
+		</ul>
+	</div>
+	%loop colony foreach planet.colonies where colony.valid;
+	%set style "neutral";%if colony.owner = player;%set style "own";%endif;
+	<div class="colony-%string style;">
+	%if colony.owner = player;
+		<h3>%string colony.name;</h3>
+		<ul>
+			<li>%long colony.size; Gebäude</li>
+			<li><a class="menu" href="map-colony?Colony.set=%string colony.position(galaxyView);">Kolonie verwalten</a></li>
+		</ul>
+		%else;
+		%set owner colony.owner;
+		<h3>%string owner.name;</h3>
+		<ul>
+			<li>%string colony.name;</li>
+			<li>%long colony.size; Gebäude</li>
+			<li><a class="menu" href="">Flotte ausschicken</a></li>
+		</ul>
+	%endif;
+	</div>
+	%endloop;
+</div>
+%endloop;
+
+</div>
+
+%include "include/map-foot.inc";

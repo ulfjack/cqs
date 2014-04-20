@@ -1,0 +1,45 @@
+%embed "templates/settings.tmpl";
+
+%set player Session.getPlayer;
+
+<div class="bg">
+	<img class="cornericon" src="%= Session.getUrl(ImageEnum.SYMBOL_MONEY);" alt="" />
+	<h3>%("register quota");</h3>
+
+	%if Request.getParameter("quota") = "m4g1c";
+	<div class="note">%("Your request was submitted.");</div>
+	%endif;
+
+	%if player.isRestricted;
+	<div class="warn">%("This account is restricted, and cannot use this functionality.");</div>
+	%endif;
+
+	%("You can find the accounting connection on the Conquer-Space.net homepage at <a href=""http://www.conquer-space.net/en/en/donations"">http://www.conquer-space.net/en/en/donations</a>. The quota usually gets registered on the day the donation reaches our account. Please keep in mind that a bank transfer may take up to 5 days, online bank transfers usually need 2 days. These values hold for bank transfers within Germany. When transfering money from a foreign account, handling times differ.");
+	<div class="note">%("With this form you can register quota from remitted donations for any player.");</div>
+	<br />
+
+	<form action="settings-quota?quota=m4g1c" method="post">
+		<input type="hidden" name="do" value="Support.send" />
+		<input type="hidden" name="subject" value="Quota-Anfrage" />
+		<input type="hidden" name="body0" value="Nick: " />
+		<input type="hidden" name="body1" value="%= player.getName;" />
+		<input type="hidden" name="body4" value="<br><br>Höhe: " />
+		<table>
+			<tr>
+				<td>
+					<input type="text" size="20" name="body9" id="name" value="%= player.getName;" /> <label for="name">%("Remittee player");</label><br />
+					<input type="text" size="1" name="body5" id="quota" value="1" /> <label for="quota">%("MegaBytes per month extra quota");</label>
+					<input type="hidden" name="body6" value=" MB <br>Dauer: " /><br />
+					<input type="text" size="1" name="body7" id="duration" value="1" /> <label for="duration">%("months retention");</label>
+					<input type="hidden" name="body8" value=" Monate<br>Spieler: " />
+				</td>
+				<td>
+					%("Miscellaneous (for extra wishes):");<br />
+					<input type="hidden" name="bodyA" value="<br>sonstiges:<br>" />
+					<textarea cols="45" rows="4" name="bodyB"></textarea>
+				</td>
+			</tr>
+			<tr><td><button type="submit">%("send");</button></td></tr>
+		</table>
+	</form>
+</div>

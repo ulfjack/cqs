@@ -1,0 +1,27 @@
+Version 18
+
+Attribution:
+------------
+The man and woman images are from
+http://www.amgmedia.com/
+
+Apache Configuration:
+---------------------
+active modules:
+proxy.conf  proxy.load
+
+VirtualHost configuration:
+<VirtualHost *:80>
+        ServerName gamma.conquer-space.net
+        DocumentRoot /www/cqs-update/
+        ProxyPass / http://localhost:9292/
+        ProxyPassReverse / http://localhost:9292/
+</VirtualHost>
+
+Of course, the ServerName must be the name of the local virtual host, and the port in the proxy directives must match the port of the running cqs instance.
+
+In some cases, you need to allow Proxy access for localhost:
+<Proxy http://localhost:9292/*>
+	Order allow,deny
+	Allow from all
+</Proxy>

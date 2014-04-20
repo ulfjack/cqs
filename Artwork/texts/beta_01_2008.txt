@@ -1,0 +1,58 @@
+<html>
+<body style="width:700px;text-align:justify">
+<h1>Neue Beta Anfang Februar</h1>
+
+<p>Mit dem neuen Jahr kommt bei Conquer-Space.net auch eine neue Beta! Zur Version 16 von Conquer-Space.net hat sich viel getan, und deshalb benötigen wir euch hartnäckige Tester, um uns über alle auftretenden Ungereimtheiten aufzuklären. Eure ersten Eindrücke von der neuen Version werden uns bedeutend dabei helfen, den neuen Quellcode baldmöglichst in einer Gamma einzusetzen. Ihr seid also gefragt!</p>
+
+<p>Doch was hat sich getan? Im Folgenden wollen wir euch einen kurzen Einblick geben, woran wir besonders gearbeitet haben, und was dies für euch bedeutet. Die Änderungen betreffen vor allem drei Bereiche:</p>
+
+<ol>
+<li>Unsere Datenbank</li>
+<li>Unsere Html-Template-Engine</li>
+<li>Struktur und Aufbau von CqS</li>
+</ol>
+
+<p>Wie vielleicht schon hier erkennbar ist, haben wir uns darauf konzentriert Conquer-Space.net stabiler, schneller und leichter verwaltbar zu machen. Das Spielkonzept selbst wurde nicht verändert.</p>
+
+<dl>
+<dt><h2>Unsere Datenbank</h2></dt>
+<dd>
+<p>Dies ist der wahrscheinlich größte Eingriff in Conquer-Space.net. Bisher sah das Datenbank-System vereinfacht wie folgt aus: es gab keines! Es wurden nur alle Daten serialisiert, und in einzelnen Dateien gespeichert.<br/>
+Nachdem wir das <a href="https://games-darkstar.dev.java.net/">Project DarkStar</a> entdeckten, beschlossen wir deren Konzept zu implementieren und bei Conquer-Space.net einzusetzen. Ohne auf die technischen Details einzugehen, wollen wir nur kurz die Vorteile, die dies mit sich bringt, vorstellen.</p>
+
+<p>Bei der neuen Datenbank gibt es Transaktionen. Jede Veränderung der Datenbank wird über eine dieser Transaktionen gesteuert. Der Clou hier ist, dass eine Transaktion, falls sie an irgend einem Punkt scheitert, komplett zurückgenommen werden kann. Sprich, die Datenbank kann in den Zustand zurückgeführt werden, den sie hatte, bevor die fehlgeschlagene Transaktion gestartet wurde.<br/>
+Transaktionen können aus verschiedenen Gründen fehlschlagen. Natürlich können Fehler auftreten, die das Scheitern verursachen. Es kann aber auch sein, dass man absichtlich eine Transaktion abbricht. Dies wird vor allem gemacht, wenn mehrere Transaktionen die gleichen Daten verändern wollen, und dadurch ein Konflikt entsteht. Dass eine solche Situation eintritt ist auch realistisch. Denn die Datenbank hat Multi-Threading-Support.<br/>
+Bisher gab es in Conquer-Space.net nur einen Thread, das heißt keine Aktionen wurden parallel ausgeführt. Mit der neuen Datenbank hingegen ist es möglich mehrere Threads gleichzeitig auszuführen - und dementsprechend mehrere Aktionen. Dies hat nicht nur den Vorteil, dass das Spiel schneller läuft. Es birgt auch das Potential in der Zukunft eine Runde von Conquer-Space.net durch mehrere Server zu unterstützen.<br/>
+Zudem werden sich manche von euch daran erinnern, dass - falls doch einmal ein Absturz eintritt - Backups eingespielt werden mussten. Da wir bisher alle Stunde die Daten speicherten, konnte eine Stunde Spielzeit verloren gehen. Jeder, der erfolgreich einen Krieg geschlagen hat, oder mühsam Flottenschleifen eingerichtet hat, weiß, dass selbst eine verlorene Stunde großen Frust verursachen kann. Mit der neuen Datenbank streben wir hingegen danach stets aktuelle Daten reproduzieren zu können. Sprich, selbst bei einem Absturz kann der Spielstand direkt vor Abbruch wiederhergestellt werden.</p>
+
+<p>Zusammenfassend kann man zur neuen Datenbank sagen:<br/>
+Durch ihren Multi-Threading-Support bewirkt sie, dass Conquer-Space.net schneller ist. Dies stellt auch den Anfang eines Multi-Server-Supports dar.<br/>
+Durch das Zurückrollen von abgebrochenen Transaktionen bleibt die Datenbank stets konsistent, und ermöglicht so jederzeit einen Neustart ohne Datenverlust.<br/>
+Insgesamt also: schneller und stabiler als zuvor!</p>
+</dd>
+
+<dt><h2>Unsere Html-Template-Engine</h2></dt>
+<dd>
+<p>Der Quellcode, der die Seiten im Spiel automatisch generiert, wurde stark überarbeitet. Die Scripting-Sprache, die wir benutzen, um Spieldaten einzusetzen, ist nun deutlich mächtiger. Dies bedeutet zweierlei.<br/>
+Erstens wurde der Quellcode der Html-Dateien vereinfacht und verkürzt werden. Es können nun Templates entworfen werden, die für verschiedenste Seiten eingesetzt werden können. So kann unter anderem das grundlegende Aussehen der Seiten einfacher verändert werden. Die Seiten sind einfacher zu verwalten und zu verändern. Aussagekräftigere Fehlermeldungen helfen nicht nur den Spielern zu verstehen, was manchmal schief läuft, sondern gibt auch den Entwicklern einen Anhaltspunkt wie Probleme schnell behoben werden können.<br/>
+Zweitens konnten wir große Mengen von Quellcode, der zuvor zum Bereitstellen der Spieldaten benötigt wurde, löschen. In Zahlen bedeutet das, dass wir insgesamt 18% des gesamten bisherigen Java-Quellcodes einsparen konnten. Und weniger Quellcode bedeutet stets weniger Potential für Fehler und bessere Verwaltbarkeit des Projekts.</p>
+
+<p>Die Änderungen führen des weiteren dazu, dass die Seiten schneller generiert - und somit angezeigt - werden können. Endgültiges Ziel hier ist es die Seiten tatsächlich ausführbar zu machen statt sie nur zu interpretieren. Dies würde einen weiteren, deutlichen Performance-Boost liefern.<br/>
+Insgesamt kann aber bereits jetzt gesagt werden: schneller und wartbarer als zuvor!</p>
+</dd>
+
+<dt><h2>Struktur und Aufbau von Conquer-Space.net</h2></dt>
+<dd>
+<p>Conquer-Space.net hat sich seit seinem Beginn stark entwickelt. Dies bedeutet auch, dass es zunehmend schwieriger wird, sich einen Gesamtüberblick über den Quellcode zu verschaffen. Deshalb arbeiten wir stets daran Conquer-Space.net in einzelne Bereiche einzuteilen, die einzeln gesehen einfacher zu begreifen sind. Diese einzelnen Bereiche können dann in Relation gebracht werden, um das Gesamtkonzept erfassen. Einer der Effekte dieses Aufbrechens des Projekts in einzelne Abschnitte ist die einfachere Erweiterbarkeit von Conquer-Space.net. So ist es vorstellbar, dass in der Zukunft individuelle Entwickler Plugins vorbereiten, die dann eingesetzt werden können.</p>
+
+<p>Neben der Strukturänderungen im Aufbau des Quellcodes gab es auch Veränderungen in der Verwaltung von Conquer-Space.net. Es gibt nun eine detailliertere Rechteverwaltung für die Administration, und die Steuerung von Conquer-Space.net an und für sich wurde vereinfacht. Dies hat unter anderem den Vorteil, dass wir ab sofort LAN-Versionen für jede Runde anbieten können. Für das Starten von Conquer-Space.net im privaten Netzwerk ist dann nur noch eine Java Runtime Environment (JRE) benötigt, das Compilieren des Quellcodes fällt weg.</p>
+
+<p>Schließlich ist es fortan möglich sich mit den gleichen Daten im Spiel und auf der Homepage, und dementsprechend dem Forum, anzumelden.</p>
+
+<p>Insgesamt kann hier gesagt werden: wartbarer und Benutzer-freundlicher!</p>
+</dd>
+</dl>
+
+<p>Wir hoffen dies gibt euch einen kleinen Einblick in unsere Bemühungen Conquer-Space.net zu verbessern. Eure Hilfe der neuen Version nun den letzten Schliff zu verpassen, und sie Gamma-tauglich zu machen, schätzen wir sehr. Es heißt also nun nur noch: auf zur Beta Anfang Februar - und keine Scheu beim Melden von Fehlern!</p>
+</body>
+</html>

@@ -1,0 +1,17 @@
+%include "include/player-head.inc";
+
+<div class="content player">
+
+<div class="colonyview-list">
+%loop colony foreach player.colonies;
+<div class="colonyview">
+	<img src="%string Session.GP.planets;l%string colony.Planet.rawtype;.gif" />
+	%string colony.position(galaxyView); - %string colony.name; <br />
+	%long colony.Buildings.total; Gebäude
+</div>
+%endloop;
+</div>
+
+</div>
+
+%include "include/player-foot.inc";

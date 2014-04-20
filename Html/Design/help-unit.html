@@ -1,0 +1,52 @@
+%embed "templates/help.tmpl";
+
+%set locale Session.getLocale;
+%define Unit unit;%set unit UnitEnum.TRUCK;
+%if Request.getUrlParameter(0) != null;
+%set unit Galaxy.getUnitSystem.parseUnit(Request.getUrlParameter(0));
+%endif;
+
+<div class="nobg">
+<table id="help">
+	<tr class="nospacetb">
+%loop q from 0 to 2;
+		<td class="nospacetb nowrap">
+			<b>%if (q = 0);%("planetary");%else;%if (q = 1);%("interplanetary");%else;%("interstellar");%endif;%endif;</b>
+			%loop tmpunit foreach Galaxy.getUnitSystem.getUniqueUnits;
+			%if ((q = 0) and tmpunit.isPlanetary) or ((q = 1) and tmpunit.isInterplanetary) or ((q = 2) and tmpunit.isInterstellar);
+			<div class="icon"%if unit = tmpunit; id="active"%endif;>
+				<a href="help-unit|%= tmpunit;" title="%= tmpunit.getName(locale);">
+					%loop url foreach Session.getUrls(tmpunit, true);
+					<span style="position:absolute"><img src="%= url;" alt="" width="30" height="30"/></span>
+					%endloop;
+				</a>
+			</div>
+			%endif;
+			%endloop;
+			%loop tmpunit foreach Session.getPlayerDataCopy.getUnitDesigns where tmpunit != null;
+			%if ((q = 0) and tmpunit.isPlanetary) or ((q = 1) and tmpunit.isInterplanetary) or ((q = 2) and tmpunit.isInterstellar);
+			<div class="icon"%if unit = tmpunit; id="active"%endif;>
+				<a href="help-unit|%= tmpunit;" title="%= tmpunit.getName(locale);">
+					%loop url foreach Session.getUrls(tmpunit, true);
+					<span style="position:absolute"><img src="%= url;" alt="" width="30" height="30"/></span>
+					%endloop;
+				</a>
+			</div>
+			%endif;
+			%endloop;
+		</td>
+%endloop;
+	</tr>
+	%if (unit != null);
+	<tr class="nospacetb">
+		<td colspan="3" class="nospacetb">	
+			<div class="extension">
+				<br />
+				<h2 class="nospacetb">%("details for unit {0}", unit.getName(locale));</h2>
+				%include "include/unit-details.inc";
+			</div>
+		</td>
+	</tr>
+	%endif;
+</table>
+</div>

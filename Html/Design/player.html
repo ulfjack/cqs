@@ -1,0 +1,151 @@
+%embed "templates/top.tmpl";
+
+%if Request.getUrlParameterCount > 0;
+%set index Tools.safeParseInt(Request.getUrlParameter(0), -1);
+%set player Galaxy.findPlayerByPid(index);
+
+<h1>%("details on player {0}", "<em>"+player.getName+"</em>");</h1>
+
+<table id="player">
+	<colgroup><col width="55%%" /><col width="45%%" /></colgroup>
+	<tr>
+		<td>
+			<!-- player data -->
+			<div class="bg">
+				<h3>%("player data");</h3>
+				<table class="stats">
+					<colgroup><col width="130" /><col width="30%%" /><col width="*" /></colgroup>
+					<tr class="nohover">
+						<td rowspan="8">
+							%if player.hasLogo;
+							<img src="%= player.getLogo;" alt="%= player.getName;" width="120" height="160" />
+							%else;
+							<img src="%= Session.getUrl(player.getSex);" alt="%= player.getName;" width="120" height="160" />
+							%endif;
+						</td>
+						<td>%("name");</td>
+						<td>%= player.getName;</td>
+					</tr>
+					<tr class="even">
+						<td>%("alliance");</td>
+						<td>
+							%if player.getAlliance != null;%set alliance player.getAlliance;
+							<a href="view-alliance|%= alliance.getId;">%= alliance.getName; [%= alliance.getShortName;]</a>
+							%else;
+							%("individual");
+							%endif;
+						</td>
+					</tr>
+					<tr class="odd">
+						<td>%("points");</td>
+						<td>%("{0,number,integer}", player.getScore.getPoints);</td>
+					</tr>
+					<tr class="even">
+						<td>%("colonies");</td>
+						<td>%("{0,number,integer}", player.getColonies.size);</td>
+					</tr>
+					<tr class="odd">
+						<td>%("highscore position");</td>
+						<td>%= player.getScore.getPosition+1;. (<a href="stats-ranking?pstart=%= player.getScore.getPosition-12;&amp;pmark=%= player.getScore.getPosition;&amp;pshow=25">Link</a>)</td>
+					</tr>
+					<tr class="even">
+						%set diplomacyEntry Galaxy.getDiplomacyEntry(player, Session.getPlayer);
+						%set status diplomacyEntry.getStatus;
+						<td>%("diplomatic status");</td>
+						<td class="%= status;">%= status.getName(Session.getLocale);%if status.canAttack;: %if diplomacyEntry.getAttackTime > Galaxy.getTime;%("attack allowed in"); %= Tools.asTime(diplomacyEntry.getAttackTime-Galaxy.getTime);%else;%("attack allowed!");%endif;%endif;</td>
+					</tr>
+					<tr class="odd">
+						<td>%("language");</td>
+						<td>%= player.getLocale.getDisplayName(Session.getLocale);</td>
+					</tr>
+					<tr class="nohover">
+						<td colspan="2" class="r">
+							<form action="search" method="post">
+								<input type="hidden" name="do" value="Player.memorizedPlayers.add" />
+								<input type="hidden" value="who" value="%= player.getPid;" />
+								<button type="submit">%("memorize nickname");</button>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- personal description -->
+			%if player.getDescription != "";
+			<div class="bg">
+				<h3>%("personal description");</h3>
+				%= player.getDescription;
+			</div>
+			%endif;
+
+			<!-- write message -->
+			<div class="bg">
+				<h3>%("write message");</h3>
+				%if Request.getTodo = "Player.Message.send";
+				%if Session.getFlag > 0;
+				<div class="note">%("Message was sent!");</div>
+				%else;
+				<div class="warn">%("Message was <i>not</i> sent!");</div>
+				%endif;
+				%endif;
+				<form action="player|%= player.getPid;" method="post" id="formular">
+					<input type="hidden" name="do" value="Player.Message.send" />
+					<input type="hidden" name="target" value="%= player.getPid;" />
+					<div>					
+						<select size="1" name="language" id="lang">
+							%loop syslang foreach Tools.getSupportedLocales;
+							<option %if syslang = Session.getLocale;selected="selected" %endif;value="%= syslang;">%= syslang.getDisplayName(syslang);</option>
+							%endloop;
+						</select>
+						<label for="lang">%("language");</label>
+					</div>
+					<div>
+						%set subject Request.getParameter("subject");
+						<input type="text" size="20" name="subject" id="subject" value="%= subject = null ? "" : subject;" />
+						<label for="subject">%("subject");</label>
+					</div><br />
+					<div class="pvcontrol" id="pvcontrol-0">%("text");</div>
+					<textarea id="wikitext-0" name="body" cols="45" rows="4"></textarea>
+					<div id="wikipreview-0"></div>
+					<button type="submit" id="submit">%("send");</button>
+				</form>
+			</div>
+		</td>
+		<td>
+			<!-- colonies in observable area -->
+			<div class="bg">
+				<h3>%("colonies in observable area");</h3>
+				<table id="sortable0" class="stats">
+					<tr id="head0">
+						<th id="key0-coords">%("position");</th>
+						<th id="key1-string">%("type");</th>
+						<th id="key2-number" class="r">%("size");</th>
+						<th>%("fleet");</th>
+					</tr>
+	
+					%set galaxyView Session.getGalaxyView;
+					%set x 0;
+					%loop colony foreach player.getColonies where galaxyView.isKnown(colony.getSolarSystem);
+					%set pos colony.getPosition;
+					%set planet colony.getPlanet;
+					<tr id="sort-a%= pos;" class="%= x%2=0 ? "even" : "odd";">
+						<td id="a%= pos;"><a class="a" href="%= Session.getMapUrl(pos);">%= pos;</a></td>
+						<td id="b%= pos;"><a href="%= Session.getMapUrl(planet.getPosition);">%= planet.getType.getName(Session.getLocale);</a></td>
+						<td id="c%= pos;" class="r">%("{0,number,integer}", colony.getSize);</td>
+						<td id="d%= pos;"><a href="send-fleet?to=%= pos;">%("send off");</a></td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript" src="js/common-tablesort.js"></script>
+<script type="text/javascript" src="js/view-player-message.js"></script>
+<script type="text/javascript" src="js/common-preview.js"></script>
+
+%else;
+<div class="nobg"><div class="warn">%("No valid player was selected.");</div></div>
+%endif;

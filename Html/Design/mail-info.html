@@ -1,0 +1,25 @@
+%embed "templates/messages.tmpl";
+
+%set infobox Session.getInfoBoxCopy;
+%set box 0;
+%if Request.getUrlParameterCount > 0;
+	%set box Tools.safeParseInt(Request.getUrlParameter(0), 0);
+%endif;
+
+	<table class="stats">
+		<colgroup><col width="25%%" /><col width="70%%" /><col width="5%%" /></colgroup>
+		<tr class="nohover"><td colspan="3"><a href="mail-info|%= box;?Information.cleanup=%= box;">%("clean up");</a></td></tr>
+		<tr class="nohover"><td class="clear" colspan="2">&#160;</td></tr>	
+		%if infobox.getList(box).size = 0;
+		<tr class="nohover"><td colspan="2">%("There are no events.");</td></tr>
+		%else;
+		%loop x,info foreach infobox.getList(box);
+		<tr class="%= x%2=0 ? "even" : "odd";"> 
+			<td><i>%= Tools.asDate(Session.getLocale, info.getRealtime);</i></td>
+			<td>%= info.getI18nMessage;</td>
+			<td><i>%= info.getCertainty(Galaxy.getTime) / 10;%%</i></td>
+		</tr>
+		%endloop;
+		%endif;
+	</table>
+

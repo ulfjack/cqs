@@ -1,0 +1,172 @@
+%embed "templates/settings.tmpl";
+
+%set player Session.getPlayer;
+
+<table id="settings">
+	<colgroup><col width="45%%" /><col width="55%%" /></colgroup>
+	<tr>
+		<td>
+			<!-- sort colonylist -->
+			<div class="bg">
+				<h3>%("sort colonylist");</h3>
+				<form action="settings-common" method="post">
+					<input type="hidden" name="do" value="Player.Colonies.sort" />
+					<input type="radio" id="sort-coords" name="sort" value="coords" />
+					<label for="sort-coords">%("by coordinates");</label>
+
+					<input type="radio" id="sort-name" name="sort" value="name" />
+					<label for="sort-name">%("by name");</label>
+
+					<input type="radio" id="sort-points" name="sort" value="points" />
+					<label for="sort-points">%("by points");</label>
+	
+					<input type="radio" id="sort-age" name="sort" value="age" />
+					<label for="sort-age">%("by age");</label>
+					<br />
+
+					<button type="submit">%("sort");</button>
+					<input type="checkbox" id="inverse" name="inverse" />
+					<label for="inverse">%("inverse order");</label>
+					<div class="clearr"></div>
+				</form>
+			</div>
+			<!-- game automation -->
+			<div class="bg">
+				<h3>%("game automation");</h3>
+				<form action="settings-common" method="post">
+					<input type="hidden" name="do" value="Player.Settings.Game.set" />
+					<button type="submit">%("ok");</button>
+					<input type="checkbox" %if player.isAutoStopUnits;checked="checked"%endif; id="autoStopUnits" name="autoStopUnits" />
+					<label for="autoStopUnits">%("stop unit queues if efficiency drops below 50%");</label>
+					<div class="clearr"></div>
+				</form>
+			</div>
+			<!-- email settings -->
+			<div class="bg">
+				<h3>%("email settings");</h3>
+				<em>%("You can change your email address on the <a href=""http://www.conquer-space.net"">homepage</a>.");</em>
+				<form action="settings-common" method="post">
+					<input type="hidden" name="do" value="Player.Settings.Account.set" />
+					<button type="submit">%("ok");</button>
+					<input type="checkbox" %if player.isForwardEmail;checked="checked"%endif; id="forwardEmail" name="forwardEmail" />
+					<label for="forwardEmail">%("send messages as an email");</label>
+					<div class="clearr"></div>
+				</form>
+			</div>
+
+			<!-- change nickname -->
+			<div class="bg">
+				<h3>%("request change of nickname");</h3>
+					%if player.isRestricted;
+					<div class="warn">%("This account is restricted, and cannot use this functionality.");</div>
+					%endif;
+				<form action="settings-common" method="post">
+					<input type="hidden" name="do" value="Support.send" />
+					<input type="hidden" name="subject" value="Antrag auf Nick-Änderung" />
+					<input type="hidden" name="body0" value="Alter Nick: " />
+					<input type="hidden" name="body1" value="%= player.getName;" />
+					<label for="body3">%("new nickname:");</label> <input type="hidden" name="body2" value="<br><br>Neuer Nick: " /><input type="text" size="20" name="body3" id="body3" value="%= player.getName;" /><br />
+					<label for="reason">%("reason:");</label><br /><input type="hidden" name="body4" id="reason" value="<br>Begründung:<br>" /><textarea cols="45" rows="2" name="body5"></textarea>
+					<input type="hidden" name="body6" value="<br>" />
+					<button type="submit">%("send");</button>
+					<div class="clearr"></div>
+				</form>
+			</div>
+			<!-- change password -->
+			<div class="bg">
+				<h3>%("change password");</h3>
+					%if player.isRestricted;
+					<div class="warn">%("This account is restricted, and cannot use this functionality.");</div>
+					%endif;
+		%if true;
+			%("You can change your password on the main page <a href=""http://www.conquer-space.net"">http://www.conquer-space.net</a> after logging in there.");
+		%else;
+			%if Request.getParameter("passwd") = "m4g1c";
+				%if Session.getFlag >= 0;
+				<div class="note">%("Your password was changed!");</div>
+				%else;
+				<div class="warn">%("Your password was <i>not</i> changed!");</div>
+				%endif;
+			%endif;
+				<form action="settings-common?passwd=m4g1c" method="post">
+					<input type="hidden" name="do" value="Player.Settings.Password.set" />
+					<div class="warn">%("When telling others your access-data, you are responsible for all the consequences of this transfer.");</div>
+					<input type="password" name="setpass0" id="setpass0" size="20" /> <label for="setpass0">%("old password");</label>
+					<div class="note">%("The password has to contain at least 5 characters!<br /> The safety of the new password approximates {0}", "<span id='secbox'>0</span>%!");</div>
+					<input type="password" name="setpass1" id="pw1" size="20" /> <label for="pw1">%("new password");</label><br />
+					<input type="password" name="setpass2" id="pw2" size="20" /> <label for="pw2">%("repeat new password");</label><br />
+					<button type="submit">%("change");</button>
+					<div id="pwbox">&#160;</div>
+					<div class="clearr"></div>
+				</form>
+				<script type="text/javascript" src="js/player-password.js"></script>
+		%endif;
+			</div>
+
+		</td>
+		<td>
+			<!-- user interface -->
+			<div class="bg">
+				<h3>%("user interface");</h3>
+				<form action="settings-common" method="post">
+					<input type="hidden" name="do" value="Player.Settings.Ui.set" />
+					<input type="text" size="2" name="buildingPreset" id="buildingPreset" value="%= player.buildingPreset;" />
+					<label for="buildingPreset">%("default building constructions +N");</label>
+					<br />
+					<input type="text" size="2" name="unitPreset" id="unitPreset" value="%= player.unitPreset;" />
+					<label for="unitPreset">%("default drilling units +N");</label>
+					<br />
+					<input type="checkbox" %if player.isAutoReturn;checked="checked"%endif; id="autoReturn" name="autoReturn" />
+					<label for="autoReturn">%("fleet base: default value for ""return fleet""");</label>
+					<br />
+					<input type="checkbox" %if player.isAutoStation;checked="checked"%endif; id="autoStation" name="autoStation" />
+					<label for="autoStation">%("fleet base: default value for ""station fleet""");</label>
+					<br />
+					<input type="checkbox" %if player.advancedCSS;checked="checked"%endif; id="advancedCSS" name="advancedCSS" />
+					<label for="advancedCSS">%("advanced css-effects"); <em>%("Depending on your computer and browser, this setting might lead to display errors or high CPU load.");</em></label>
+					<br />
+					<button type="submit">%("ok");</button>
+					<div class="clearr"></div>
+				</form>
+			</div>
+
+			<!-- graphic pack -->
+			<div class="bg">
+				<img id="gp" src="%= Session.getUrl(ImageEnum.GRAPHICPACK_CHECK);" alt="" />				
+				<h3>%("graphic pack");</h3>
+
+				<form action="settings-common" method="post">
+					<input type="hidden" name="do" value="Player.Settings.Gp.set" />
+
+						%("By using a graphic pack you can reduce the quota costs caused by downloading images from the Conquer-Space.net server. We therefore highly recommend activating the graphic pack. You can download the graphic pack from the <a href=""http://www.conquer-space.net/en/en/downloads"">homepage</a>. After unpacking it, specify the complete path to the graphic pack including the final ""/"".");<br />
+						<b>%("examples:");</b><br />
+						%("Webspace:"); <code>http://cqs.serverraum.org/Pack-default/</code><br />
+						Windows: <code>file:///C:/cqspack/</code><br />
+						Linux: <code>file:///home/myname/cqspack/</code><br />
+						MacOS: <code>file:///Macintosh HD/cqspack/</code><br />
+						<br />
+						%("If you are not using a graphic pack, please delete the path to get access to the graphics from the server.");
+
+					<div class="note">
+						%("We are most thankful for the graphic pack that Bambaata is hosting:<br />{0}", "<code>http://cqs.serverraum.org/Pack-default/</code>");
+					</div>
+
+					<div class="image">
+					
+					</div>
+					<label for="graphicpath">%("path to graphic pack");</label>
+					<input type="text" size="30" name="graphicpath" id="graphicpath" value="%= player.getGraphicPath;" />
+					<br />
+					<button type="submit">%("ok");</button>
+					<input type="checkbox" %if player.isCssInGp;checked="checked"%endif; id="cssInGP" name="cssInGP" />
+					<label for="cssInGP">%("use CSS from graphic pack (for experts only)");</label>
+					<div class="clearr"></div>
+					<div class="warn">
+					%("Due to security reasons most browsers do not support storing the graphic pack on a local disk by default. Visit <a href=""http://www.conquer-space.net/en/en/downloads"">http://www.conquer-space.net/en/en/downloads</a> to check whether (and how) you can activate this for your browser. Using a graphic pack stored on webspace is possible with every browser.");
+					</div>
+				</form>
+			</div>
+		</td>
+	</tr>	
+</table>
+

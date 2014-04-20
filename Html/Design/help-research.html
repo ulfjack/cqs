@@ -1,0 +1,46 @@
+%embed "templates/help.tmpl";
+
+%set locale Session.getLocale;
+%set topic Research.ENGINE;
+%if Request.getUrlParameter(0) != null;
+  %set topic Research.valueOf(Request.getUrlParameter(0));
+%endif;
+
+<div class="nobg">
+<table id="help">
+	<tr class="nospacetb">
+		<td class="nospacetb">
+		%loop tmptopic foreach Research.values;
+		<div class="icon"%if (topic != null) and (topic = tmptopic); id="active"%endif;><a href="help-research|%= tmptopic;" title="%= tmptopic.getName(locale);"><img src="%= Session.getUrl(tmptopic, false);" alt="%= tmptopic.getName(locale);" width="30" height="30" /></a></div>
+		%endloop;
+		</td>
+	</tr>
+	%if topic != null;
+	<tr class="nospacetb">
+		<td class="nospacetb">
+			<div class="extension">
+				<br />
+				<h2 class="nospacetb">%("details for research topic {0}", topic.getName(locale));</h2>
+				<table>
+					<colgroup><col width="320px" /><col width="*" /></colgroup>
+					<tr>
+						<td colspan="2" class="image"><img src="%= Session.getUrl(topic, true);" alt="" /></td>
+						<td colspan="2"class="table">
+							<table>
+								<colgroup width="25%%" span="4" />
+								<tr class="nohover"><th colspan="4">%("description");</th></tr>
+								<tr class="nohover"><td colspan="4">%= topic.getDescription(locale);</td></tr>
+								%if topic.getDep != null;
+								<tr class="nohover"><th colspan="4">%("requirements");</th></tr>
+								<tr><td>%= topic.getDepCount; &#160; %= topic.getDep.getName(locale);</td></tr>
+								%endif;
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	%endif;
+</table>
+</div>

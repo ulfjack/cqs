@@ -1,0 +1,11 @@
+%embed "templates/battles.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set blocks false;
+%set defenseOnly true;
+<div class="extension">
+	<h2>%("defense battles at your own colonies");</h2>
+%include "include/battlelist.inc";
+</div>
+

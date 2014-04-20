@@ -1,0 +1,42 @@
+%embed "top.tmpl";
+
+%set player Session.getPlayer;
+%set locale Session.getLocale;
+%set file Request.getBasename;
+%set box 0;
+%if Request.getUrlParameterCount > 0;
+	%set box Tools.safeParseInt(Request.getUrlParameter(0), 0);
+%endif;
+
+%set infobox (file="mail-info");
+%set infoinbox Session.getInfoBoxCopy;
+%set msgbox (file="mail-box");
+%set mailbox Session.getPlayerMailboxCopy;
+
+<table>
+	<colgroup width="14%%" span="7" />
+	<tr class="nospaceb">
+		<td class="nospaceb"><div class="bg"><a class="tab" href="mail-box|0">%("inbox ({0,number,integer})", mailbox.folderSize(0));</a></div></td>
+		<td class="nospaceb"><div class="bg"><a class="tab" href="mail-box|1">%("read ({0,number,integer})", mailbox.folderSize(1));</a></div></td>
+		<td class="nospaceb"><div class="bg"><a class="tab" href="mail-box|2">%("sent ({0,number,integer})", mailbox.folderSize(2));</a></div></td>
+		<td class="nospaceb"><div class="bg"><a class="tab" href="mail-info|0">%("events ({0,number,integer})", infoinbox.getSize(0));</a></div></td>
+		<td class="nospaceb"><div class="bg"><a class="tab" href="mail-info|1">%("exploration ({0,number,integer})", infoinbox.getSize(1));</a></div></td>
+		<td class="nospaceb"><div class="bg"><a class="tab" href="mail-info|2">%("espionage ({0,number,integer})", infoinbox.getSize(2));</a></div></td>
+		<td class="nospaceb"><div class="bg"><a class="tab" href="mail-info|3">%("battles ({0,number,integer})", infoinbox.getSize(3));</a></div></td>
+	</tr>
+	%set count -1;
+	%if (msgbox and (box>=0) and (box <= 2));%set count box;%endif;
+	%if (infobox and (box>=0) and (box <= 3));%set count box+3;%endif;
+	%if count > -1;
+	<tr class="nospacetb">
+		%loop y from 1 to count;
+		<td class="nospacetb"></td>
+		%endloop;
+		<td class="nospacetb"><div class="bgconnector-seventh"><br /></div></td>
+	</tr>
+	%endif;
+	<tr class="nospacetb"><td class="nospacetb" colspan="7"><div class="extension">
+%embed;
+	</div></td></tr>
+</table>
+

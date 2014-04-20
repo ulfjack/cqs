@@ -1,0 +1,97 @@
+%embed "templates/help.tmpl";
+
+%set locale Session.getLocale;
+%set class (Request.getUrlParameter(0) != null) and (Request.getParameter("class") != null)
+    ? Galaxy.getUnitSystem.parseUnitClass(Request.getParameter("class"))
+    : null;
+%set module class != null ? class.parseUnitModule(Request.getUrlParameter(0)) : null;
+%if class = null;
+  %set class UnitClass.INFANTRY;
+  %set module class.parseUnitModule("SPEED");
+%endif;
+
+<div class="nobg">
+<table id="help">
+	<tr class="nospacetb">
+	%loop tmpclass foreach UnitClass.values;
+		<td class="nospacetb nowrap">
+			<b>%= tmpclass.getName(locale);</b>
+		%loop tmpmodule foreach tmpclass.getModules;
+			<div class="tinyicon"%if (module = tmpmodule) and (class = tmpclass); id="active"%endif;>
+				<a href="help-unitmodule|%= tmpmodule;?class=%= tmpclass;" title="%=tmpclass.getName(locale);: %= tmpmodule.getName(locale);">
+					%loop url foreach Session.getUrls(tmpmodule, true);
+					<span style="position:absolute"><img src="%= url;" alt="" width="26" height="26"/></span>
+					%endloop;
+				</a>
+			</div>
+		%endloop;
+		</td>
+	%endloop;
+	</tr>
+	%if (module != null) and (class != null);
+	<tr class="nospacetb">
+		<td colspan="%= UnitClass.values.length;" class="nospacetb">
+			<div class="extension">
+				<br />
+				<h2 class="nospacetb">%("details for {0}''s unit module {1}", class.getName(locale), module.getName(locale));</h2>
+				<table>
+					<colgroup><col width="320px" /><col width="*" /></colgroup>
+					<tr>
+						<td class="image">
+							%loop url foreach Session.getUrls(module, true);
+							<div style="position:absolute"><img src="%= url;" alt=""/></div>
+							%endloop;
+						</td>
+						<td class="table">
+							<table class="stats">
+								<colgroup width="25%%" span="4" />
+								<tr class="nohover"><th colspan="4">%("description");</th></tr>
+								<tr class="nohover"><td colspan="4">%= module.getDescription(locale);</td></tr>
+								<!-- research dependencies -->
+								<tr class="nohover"><th colspan="4">%("requirements");</th></tr>								
+								%loop dep foreach module.getResearchDependencies;
+								%set topic dep.type;
+								%set amount dep.amount;
+								<tr><td colspan="4">%= amount; <a href="help-research|%= topic;">%= topic.getName(locale);</a></td></tr>
+								%endloop;
+								<tr class="nohover"><th colspan="4">%("fight values");</th></tr>
+								%set attack module.getFightSpec;				
+								<tr>
+								%set count 0;
+								%loop uclass foreach Galaxy.getUnitSystem.getUnitClasses;
+									%if (count < 3) and (uclass.isPlanetary = class.isPlanetary);
+									<td>%= uclass.getName(locale);: %("{0,number,integer}", Tools.floatToLong(attack.getAttack(count)));</td>
+									%set count count+1;
+									%endif;
+								%endloop;
+									<td>%("defense: {0,number,integer}", Tools.floatToLong(attack.getDefense));</td>
+								</tr>
+								<!-- costs -->
+								<tr class="nohover"><th colspan="4">%("costs");</th></tr>
+								%set cost module.getCost;
+								<tr>
+									%loop y from 0 to 3;
+									<td class="l">
+										<img src="%= Session.getUrl(Resource.get(y));" height="14" width="14" alt="" />
+										%("{0,number,integer}", cost.getResource(y));
+									</td>
+									%endloop;
+								</tr>
+								<tr>
+									<td class="l">
+										<img src="%= Session.getUrl(ImageEnum.COST_WORKERS);" height="16" width="16" title="%("construction workers");" alt="%("construction workers");" /> %("{0,number,integer}", cost.getConstructionJobs);
+									</td>
+									<td class="l"><img src="%= Session.getUrl(ImageEnum.SYMBOL_CREW);" height="16" width="16" title="%("crew");" alt="%("crew");" /> %("{0,number,integer}", cost.getPopulation);</td>
+									<td class="l"><img src="%= Session.getUrl(ImageEnum.SYMBOL_CLOCK);" height="16" width="16" title="%("construction time");" alt="%("construction time");" /> %= Tools.asTime(cost.getTime);</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	%endif;
+</table>
+</div>
+

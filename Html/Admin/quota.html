@@ -1,0 +1,80 @@
+%embed "include/design.tmpl";
+
+<h1>Quota</h1>
+<form action="" method="POST">
+<input type="hidden" name="do" value="Quota.resetAll" />
+<button type="submit">Reset Quota</button>
+</form>
+
+<h2>Editor</h2>
+<form action="" method="POST">
+<input type="hidden" name="do" value="Entry.add" />
+<table width="600">
+  <tr><td class="a1" colspan="2">Create New Entry</td></tr>
+  <tr>
+    <td class="b">Name</td>
+    <td class="b"><input type="text" name="name" /></td>
+  </tr>
+  <tr>
+    <td class="b">Quota (in KB)</td>
+    <td class="b"><input type="text" name="value" /></td>
+  </tr>
+  <tr>
+    <td class="b">Duration (in Days)</td>
+    <td class="b"><input type="text" name="duration" value="31" /></td>
+  </tr>
+  <tr>
+    <td class="b">Start Date</td>
+    <td class="b"><input type="text" name="date" value="%= QuotaTools.asDate(Request.getTime);" /></td>
+  </tr>
+  <tr>
+    <td class="b">Comment</td>
+    <td class="b"><input type="text" name="comment" value="" /></td>
+  </tr>
+  <tr><td class="a1" colspan="2"><button type="submit">Create</button></td></tr>
+</table>
+</form>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Entry.deleteOld" />
+<table width="600">
+  <tr><td class="b" colspan="5"><button type="submit">Delete All Old Entries</button></td></tr>
+</table>
+</form>
+
+
+<table width="600">
+  <tr><td class="a" colspan="5">Current Quota</td></tr>
+  <tr>
+    <td class="a1">&#160;</td>
+    <td class="a1">Name</td>
+    <td class="a1">Quota (in KB)</td>
+    <td class="a1">Duration (in Days)</td>
+    <td class="a1">Date</td>
+  </tr>
+  %set Quota QuotaTools.getQuotaConfiguration;
+  %loop x,entry foreach Quota;
+  <tr>
+    <td rowspan="2">
+    <form action="" method="post">
+    <input type="hidden" name="do" value="Entry.delete" />
+    <input type="hidden" name="id" value="%= entry.id;" />
+    <button type="submit">Delete</button>
+    </form>
+    </td>
+    <td class="b">%= entry.name;</td>
+    <td class="b">%= entry.value;</td>
+    <td class="b">%= entry.duration;</td>
+    <td class="b">%= entry.date;</td>
+  </tr>
+  <tr>
+    <td class="b2">
+      %if not entry.validName(Galaxy);nick wrong%endif;</td>
+    <td class="b" colspan="2">%= entry.comment;&#160;</td>
+    <td class="b">
+      %if not entry.hasStarted;not started%endif;
+      %if entry.hasExpired;expired%endif;</td>
+  </tr>
+  %endloop;
+</table>
+

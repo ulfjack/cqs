@@ -1,0 +1,11 @@
+%embed "templates/help.tmpl";
+
+<div class="compactbg">
+<h4>%("temporary reports");</h4>
+<p>%("A temporary spy report contains the following information:<br />After a spy sneaks into a colony, he observes a part of specific events (completion of units, buildings, and education). He summarizes this information, so you can see how the buildings and education-levels changed since he sneaked in. Note that this information can differ substantially from the current situation depending on the age of the colony. In the long term spys are a very mighty weapon against enemies, as the spy accustoms himself and can therefore observe more events. Consequently his reports improve continuously.");</p>
+
+<img src="%= Session.getUrl(ImageEnum.ESPIONAGE);" title="%("graph visualizing the precision of spies");" alt="%("graph visualizing the precision of spies");" />
+
+<h4>%("final reports");</h4>
+<p>%("When requesting a final spy report, one of your spies does his best to find out how many units are stationed on the colony. Because this is such a risky venture, the spy is detected by the enemy and killed. The chance that the spy succeeds in completing his report and sending it off before he is detected is {0}.", "<span class=""red"">70%</span>");</p>
+</div>

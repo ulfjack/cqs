@@ -1,0 +1,78 @@
+%embed "top.tmpl";
+
+%set player Session.getPlayer;
+%set alliance Session.getAlliance;
+%set rank player.getRank;
+%if alliance != null;
+
+<div class="nobglr">
+<h1>%("alliance"); &ndash; %= alliance.getName; [%= alliance.getShortName;]</h1>
+</div>
+%set file Request.getFilename;
+%set allyadmin false;
+%if file="alliance-admin"; %set allyadmin true;
+%else;%if file="alliance-admin-kick"; %set allyadmin true;
+%else;%if file="alliance-admin-editranks"; %set allyadmin true;
+%endif;%endif;%endif;
+
+<ul class="smenu">
+	<li %if file="alliance";class="active"%endif;><a href="alliance">%("overview");</a></li>
+
+%set mailbox Session.getAllianceMailboxCopy;
+	%set folder mailbox.getFolder(0);
+	<li %if file="alliance-internal";class="active"%endif;><a href="alliance-internal">%("forum ({0,number,integer})", folder.size);</a></li>
+	%set folder mailbox.getFolder(1);
+	<li %if file="alliance-external";class="active"%endif;><a href="alliance-external">%("inbox ({0,number,integer})", folder.size);</a></li>
+	%set folder mailbox.getFolder(2);
+	<li %if file="alliance-applications";class="active"%endif;><a href="alliance-applications">%("applications ({0,number,integer})", folder.size);</a></li>
+	<li %if allyadmin;class="active"%endif;><a href="alliance-admin">%("administration");</a></li>
+	<li %if file="alliance-user-leave";class="active"%endif;><a href="alliance-user-leave">%("leave alliance");</a></li>
+</ul>
+
+<div class="nobg nospacetb">
+	%if alliance.hasLogo;<img src="%= alliance.getLogo;" width="800" height="120" alt="" />%else;<img src="%= Session.getUrl(ImageEnum.ALLIANCE_BANNER);" width="800" height="120" alt="" />%endif;
+	<table class="info">
+		<tr>
+			<td><a href="view-alliance|%= alliance.getId;">%("view public appearance");</a></td>
+			<td class="r">%("Your current rank is {0}.", rank.getName);</td>
+		</tr>
+	</table>
+</div>
+
+%embed;
+
+%else;
+
+<div class="nobglr">
+<h1>%("alliance");</h1>
+</div>
+<div class="nobg"><div class="warn">%("You are currently not member of an alliance.");</div></div>
+
+<table>
+	<colgroup width="50%%" span="2" />
+	<tr>
+		<td>
+			<div class="bg">
+				<h3>%("search for an alliance");</h3>				
+				<form action="search" method="post">
+					<input type="hidden" name="do" value="Search.alliance" />
+					<label for="nameortag">%("name or tag");</label> <input type="text" name="name" id="nameortag" size="12" maxlength="40" />
+					<button type="submit">%("search");</button>
+				</form>
+			</div>
+		</td>
+		<td>
+			<div class="bg">
+				<h3>%("found alliance");</h3>
+				<form action="alliance" method="post">
+					<input type="hidden" name="do" value="Alliance.create" />
+					<label for="tag">%("tag");</label> <input type="text" id="tag" name="shortname" size="4" maxlength="40" />
+					<label for="name">%("name");</label> <input type="text" id="name" name="name" size="12" maxlength="30" />
+					<button type="submit">%("found");</button>
+				</form>
+			</div>
+		</td>
+	</tr>
+</table>
+
+%endif;

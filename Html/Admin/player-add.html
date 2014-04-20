@@ -1,0 +1,40 @@
+%embed "include/design.tmpl";
+
+<h1>Add Identity</h1>
+
+<form action="" method="post">
+	<input type="hidden" name="do" value="Identity.create" />
+<table width="500">
+	<tr>
+		<td class="b">Id:</td>
+		<td><input type="text" name="name" /></td>
+	</tr>
+	<tr>
+		<td class="b">email:</td>
+		<td><input type="text" name="email" /></td>
+	</tr>
+	<tr>
+		<td class="b">Password:</td>
+		<td><input type="text" name="password" /></td>
+	</tr>
+	<tr><td class="b" colspan="2"><button type="submit">Add</button></td></tr>
+</table>
+</form>
+
+<h1>Add Player to Identity</h1>
+
+<form action="" method="post">
+	<input type="hidden" name="do" value="Player.add" />
+<table width="500">
+	<tr>
+		<td class="b">Id:</td>
+		<td><input type="text" name="name" />@<input type="text" name="domain" value="local" /></td>
+	</tr>
+	<tr>
+		<td class="b">Nick:</td>
+		<td><input type="text" name="nick" /></td>
+	</tr>
+	<tr><td class="b" colspan="2"><button type="submit">Add</button></td></tr>
+</table>
+</form>
+

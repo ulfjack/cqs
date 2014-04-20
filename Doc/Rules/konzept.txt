@@ -1,0 +1,49 @@
+1. Benutzer-Interface
+---------------------
+
+Das UI ist grundsaetzlich in 3 Teile geteilt:
+
+- Spieleransicht
+- Allianzzentrale
+- Kartenansicht
+
+1a. Spieleransicht
+
+Hier kann der Spieler Einstellungen vornehmen, Nachrichten lesen/verschicken, Statistiken einsehen, Forschen und Spieler-Diplomatie fuehren.
+
+Ueber die Statistiken kann man ebenfalls in die Kolonie-Steuerung kommen.
+
+
+
+1b. Allianzzentrale
+
+Hier sind Allianz-Forum, Allianz-Einstellungen und Allianz-Nachrichtensystem angesiedelt. Dazu sollen hier Statistiken ueber die Allianzmitglieder einsehbar sein. Desweiteren gibt es hier die Allianz-Diplomatie- und Allianz-Koordinations-Zentralen.
+
+
+1c. Kartenansicht
+
+Die Kartenansicht wird ein wichtiger und zentraler Bestandteil der Benutzerfuehrung. Ueber die Kartenansicht sollen alle Kaempfe, Flotten und Spionagedaten abrufbar sein. Ausserdem soll man ueber die Kartenansicht in die Kolonie-Zentralen kommen koennen.
+
+Steuerung mehrerer Kolonien ist unabhaengig voneinander. Insbesondere kann man verschiedene Kolonien in verschiedenen Fenstern/Tabs oeffnen und verwalten.
+
+
+1d. Koloniezentrale
+
+Ueber die Koloniezentrale koennen alle Kolonie-Aktionen durchgefuehrt werden, insbesondere Editierung der Baulisten, Einheitenlisten, Ausbildung und Kolonieeinstellungen.
+
+Insbesondere soll es möglich sein, eine automatische Kolonieverwaltung einzurichten. Dabei gibt es zwei Stufen:
+a) Automatische Wiederaufnahme der Bau- und Einheitenqueues
+b) Parametrisierbare vollständig automatische Bau- und Einheitenqueues
+
+
+4. Spielstart
+-------------
+
+Bei Spielstart hat der Spieler die Wahl zwischen 3 Moeglichkeiten:
+
+1. einer Allianz beitreten / eine Allianz gruenden
+2. Einzelspieler werden
+3. der Anfaengerallianz beitreten
+
+Der Spielstart wird automatisch gesteuert und es gibt einen Countdown bis zum tatsaechlichen Spielstart. In dieser Zeit koennen sich die Spieler bereits einloggen und Eintraege in die Baulisten/Einheitenlisten vornehmen.
+

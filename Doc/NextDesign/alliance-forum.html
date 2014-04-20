@@ -1,0 +1,65 @@
+%include "include/head.inc";
+
+%if alliance.valid;
+%include "include/alliance-head.inc";
+
+%set mailbox alliance.mailbox;
+%set box 0;
+%set folder mailbox.folder(box);
+%if folder.size > 0;
+<form action="alliance-forum" method="post">
+<div>
+	<input type="hidden" name="do" value="Alliance.Message.delete" />
+	<input type="hidden" name="box" value="%long box;" />
+</div>
+<div class="content forum">
+
+<ul class="forum-menu">
+	<li><a href="?">%gettext "Neue Nachricht schreiben";</a></li>
+	<li><a href="alliance-forum?Alli.Readtime.set=%long Session.realtime+1;">%gettext "Alle Nachrichten als gelesen markieren";</a></li>
+</ul>
+
+<div class="messages">
+%set x 0;
+%loop message foreach folder;
+<div class="message-%long x % 2;">
+	<div class="sender">
+		%if player.allianceReadtime <= message.realtime;
+		<i class="new">NEU</i><br />
+		%endif;
+		%set player message.sender;
+		%string player.name; schrieb<br />
+		%gettext "am"; %date message.realtime;<br />
+		<a href="alliance-forum?Alli.Message.delete=%long box;,%string message.id;">%gettext "Löschen";</a>
+		<input type="checkbox" id="d%string message.id;" name="d%string message.id;" />
+		<label for="d%string message.id;">Markieren</label>
+	</div>
+	<div class="message">
+		%string message.text;
+	</div>
+</div>
+%set x x+1;
+%endloop;
+</div>
+
+<div class="forum-footer">
+markierte Nachrichten <input type="submit" value="löschen" />
+</div>
+
+</div>
+</form>
+
+%else;
+<div class="content forum">
+<ul class="forum-menu">
+	<li><a href="?">%gettext "Neue Nachricht schreiben";</a></li>
+	<li>Keine Nachrichten vorhanden</li>
+</ul>
+</div>
+%endif;
+
+%else;
+%include "include/no-alliance.inc";
+%endif;
+
+%include "include/foot.inc";

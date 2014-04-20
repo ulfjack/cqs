@@ -1,0 +1,46 @@
+%embed "templates/top.tmpl";
+%set player Session.getPlayer;
+%set galaxy Session.getGalaxy;
+%set target Position.safeDecode(Request.getQueryParameter("to"));
+
+%if target != null;
+<div class="bg">
+	<h2>%("Select colony from which to send fleet to {0}", target);</h2>
+	<table class="stats" id="sortable0">
+		<tr id="head0">
+			<th id="keyA-coords">%("pos");</th>
+			<th id="keyB-time" class="r" title="%("approximate flight duration");">%("duration");</th>
+			<th id="keyC-number" class="r" title="%("pioneers");">%("pioneers");</th>
+			<th id="keyD-number" class="r" title="%("settlers");">%("settlers");</th>
+			<th id="keyE-number" class="r" title="%("spies");">%("spies");</th>
+			<th id="keyF-number" class="r" title="%("planetary units");">%("planetary");</th>
+			<th id="keyG-number" class="r" title="%("interplanetary units");">%("interplanetary");</th>
+			<th id="keyH-number" class="r" title="%("interstellar units");">%("interstellar");</th>
+			<th></th>
+		</tr>
+	%loop x,c foreach player.getColonies;%set units c.getUnits;
+		<tr id="sort%= x;" class="%= x%2=0 ? "even" : "odd";">
+			<td id="a-%= x;" title="%= c.getName;">%= c.getPosition;</td>
+			<td id="b-%= x;" class="r">%= Tools.asTime(Speed.getMinimumFlightTime(galaxy, c.getPosition, target));</td>
+			<td id="c-%= x;" class="r">%("{0,number,integer}", units.get(UnitSelector.EXPLORATION));</td>
+			<td id="d-%= x;" class="r">%("{0,number,integer}", units.get(UnitSelector.SETTLEMENT));</td>
+			<td id="e-%= x;" class="r">%("{0,number,integer}", units.get(UnitSelector.ESPIONAGE));</td>
+			<td id="f-%= x;" class="r">%("{0,number,integer}", units.planetarySum);</td>
+			<td id="g-%= x;" class="r">%("{0,number,integer}", units.interplanetarySum);</td>
+			<td id="h-%= x;" class="r">%("{0,number,integer}", units.interstellarSum);</td>
+			<td id="i-%= x;" class="r">
+				<form action="colony-base|%= c.getPosition;" method="get">
+					<input type="hidden" name="target" value="%= target;" />
+					<button type="submit">%("ok");</button>
+				</form>
+			</td>
+		</tr>
+	%endloop;
+	</table>
+</div>
+<script type="text/javascript" src="js/common-tablesort.js"></script>
+
+%else;
+<div class="warn">%("No target selected!");</div>
+%endif;
+

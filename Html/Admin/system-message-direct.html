@@ -1,0 +1,32 @@
+%embed "include/design.tmpl";
+
+<h1>Display Message Ingame</h1>
+%set msg Galaxy.getInstantMessage;
+<div style="margin-top:1em">
+%if msg != null;
+	Currently a message is being displayed.
+	<form style="display: inline" action="" method="post">
+		<input type="hidden" name="do" value="System.clearMessage" />
+		<button type="submit">clear</button>
+	</form>
+%else;
+Currently no message is being displayed.
+%endif;
+</div>
+
+<table>
+<tr><th>locale</th><th>message</th></tr>
+%loop locale foreach Tools.getSupportedLocales;
+<tr>
+	<td>%= locale.getDisplayName(locale);</td>
+	<td>
+		<form action="" method="post">
+			<input type="hidden" name="do" value="System.displayMessage" />
+			<input type="hidden" name="locale" value="%= locale;" />
+			<textarea name="translation" cols="40" rows="3">%if (msg != null);%= msg.get(locale);%endif;</textarea>
+			<button type="submit">update</button>
+		</form>
+	</td>
+</tr>
+%endloop;
+</table>

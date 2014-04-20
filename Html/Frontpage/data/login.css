@@ -1,0 +1,205 @@
+.top-left {
+
+margin-right: 9px; /* clip right corner */
+background-image: url(/data/frame.png);
+height: 9px; /* vertical: show first half of the image with the top-corners in it */
+font-size: 2px; /* correct height for IE */
+}
+
+.top-right {
+
+margin-top: -9px; /* to level of top-left corner */
+margin-left: 9px; /* clip left corner */
+background-image: url(/data/frame.png);
+background-position: 100% 0; /* show bg-image starting at the right */
+height: 9px; 
+font-size: 2px;
+}
+
+.bottom-left {
+
+margin-right: 9px; /* clip right corner */
+
+background-image: url(/data/frame.png);
+background-position: 0 -9px; /* show under half of the image */
+height: 9px;
+font-size: 2px;
+}
+
+.bottom-right {
+
+margin-top: -9px; /* to level of bottom-left corner */
+margin-left: 9px; /* clip left corner */
+background-image: url(/data/frame.png); 
+background-position: 100% -9px; /* under half, right side */
+height: 9px; 
+font-size: 2px; 
+}
+
+.maincontent
+{
+	padding: 0px 10px;
+}
+
+.fleft  { background: url(/data/frame-left.png) repeat-y left; }
+.fright { background: url(/data/frame-right.png) repeat-y right; }
+
+
+#main
+{
+	position: absolute;
+	left: 215px;
+	top: 10px;
+	background: url(/data/bg.png) repeat;
+	background-color: #151930; /*#414141;*/
+	width: 340px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#main h1
+{ margin: 0px; padding: 2px; font-size: 1.2em; text-align: center; }
+
+
+
+
+body
+{
+	background-color: black;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 770px;
+	height: 495px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: 0px;
+	padding: 0px;
+	margin-left: -385px;
+	margin-top: -250px;
+}
+
+#content
+{
+	background: url(/data/cqs-start.png) no-repeat;
+	width: 770px;
+	height: 495px;
+	margin: 0px;
+	padding: 0px;
+}
+
+a, a:visited, a:link, a:hover
+{
+	color: white;
+	text-decoration: none;
+}
+
+img.logo
+{
+	vertical-align: middle;
+	border: none;
+	padding: 0px;
+}
+
+.c
+{ text-align: center; }
+.r
+{ text-align: right; }
+
+.warn
+{
+	background-color: #600;
+	border: 1px solid #a00;
+}
+
+.note
+{
+	background-color: #060;
+	border: 1px solid #0a0;
+}
+
+#cqslogo
+{
+	position: absolute;
+	left: 290px;
+	top: 230px;
+}
+
+ul
+{
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+ul.list
+{
+	list-style: circle;
+	margin-left: 20px;
+}
+
+ul li
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+#link1, #link2, #link3, #link4, #link5, #link6, #link7, #link8
+{
+	width: 166px;
+	height: 34px;
+	padding-top: 8px;
+	position: absolute;
+	text-align: center;
+}
+
+#link1, #link2, #link3, #link4
+{ background: url(/data/link-left.png) no-repeat; }
+#link5, #link6, #link7, #link8
+{ background: url(/data/link-right.png) no-repeat; }
+
+/*#link1 { left: 9px; top: 165px; }
+#link2 { left: 32px; top: 251px; }
+#link3 { left: 79px; top: 337px; }
+#link4 { left: 599px; top: 165px; }
+#link5 { left: 574px; top: 251px; }
+#link6 { left: 529px; top: 337px; }*/
+
+#link1 { left: 0px; top: 139px; }
+#link2 { left: 18px; top: 206px; }
+#link3 { left: 47px; top: 273px; }
+#link4 { left: 92px; top: 340px; }
+#link5 { left: 605px; top: 139px; }
+#link6 { left: 587px; top: 206px; }
+#link7 { left: 559px; top: 273px; }
+#link8 { left: 514px; top: 340px; }
+
+
+#logo1, #logo2, #logo3, #logo4
+{
+	position: absolute;
+}
+
+#logo1 { bottom: 5px; right: 15px; }
+#logo2 { bottom: 30px; right: 70px; }
+#logo3 { bottom: 5px; right: 66px; }
+#logo4 { bottom: 5px; right: 170px; }
+
+#flag1, #flag2, #flag3, #flag4
+{
+	position: absolute;
+	border: 1px solid #aaa;
+	bottom: 5px;
+}
+
+#flag1 { left: 15px; }
+#flag2 { left: 50px; }
+#flag3 { left: 85px; }
+#flag4 { left: 120px; }
+
+
+
+form { margin: 0px; }
+fieldset { border-width: 1px; }
+input { font-size: .9em; }

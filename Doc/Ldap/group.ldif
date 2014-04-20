@@ -1,0 +1,6 @@
+##---------------------group_testgroup.ldif---------------------
+dn: cn=user,ou=Group,dc=unet,dc=de
+objectClass: posixGroup
+objectClass: top
+cn: user
+gidNumber: 1000

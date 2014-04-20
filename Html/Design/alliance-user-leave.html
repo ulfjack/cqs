@@ -1,0 +1,11 @@
+%embed "templates/alliance-admin.tmpl";
+
+<div class="bg">
+	<img class="cornericon" src="pack/design/x.png" alt="" />
+	<h3>%("leave alliance");</h3>
+	<div class="warn">%("When you leave an alliance, you cannot immediately join a new one. You will first have to wait for {0,number,integer} hours to pass. Then you can apply to any alliance again, or found a new alliance.", Constants.ALLIANCE_SWITCH_TIME/3600);</div>
+	<form action="alliance" method="post">
+		<input type="hidden" name="do" value="Alliance.leave" />
+		<button type="submit">%("leave alliance");</button>
+	</form>
+</div>

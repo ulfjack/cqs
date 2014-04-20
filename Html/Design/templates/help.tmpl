@@ -1,0 +1,24 @@
+%embed "top.tmpl";
+
+<div class="nobglr">
+	<h1>Conquer Space %= Tools.getVersion; %("system"); &ndash; %("help");</h1>
+</div>
+
+%set file Request.getBasename;
+<ul class="smenu">
+	<li %if file="help";class="active"%endif;><a href="help">%("overview");</a></li>
+	<li %if file="help-civpoints";class="active"%endif;><a href="help-civpoints">%("civilization points");</a></li>
+	<li %if file="help-building";class="active"%endif;><a href="help-building">%("buildings");</a></li>
+	<li %if file="help-education";class="active"%endif;><a href="help-education">%("education");</a></li>
+	<li %if file="help-research";class="active"%endif;><a href="help-research">%("research");</a></li>
+	<li %if file="help-espionage";class="active"%endif;><a href="help-espionage">%("espionage");</a></li>
+	<li %if file="help-unitclass";class="active"%endif;><a href="help-unitclass">%("unit classes");</a></li>
+	<li %if file="help-unitmodule";class="active"%endif;><a href="help-unitmodule">%("unit modules");</a></li>
+	<li %if file="help-unit";class="active"%endif;><a href="help-unit">%("units");</a></li>
+</ul>
+
+%if Galaxy.getSpeed > 1;
+<div class="warn">%("This round runs {0} times faster than normal.", Galaxy.getSpeed);</div>
+%endif;
+
+%embed;

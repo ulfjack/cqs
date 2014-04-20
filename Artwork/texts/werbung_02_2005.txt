@@ -1,0 +1,16 @@
+12.02.2005
+
+Eine neue Ära beginnt
+
+Am 12. Februar 2005 (um etwa 12:00) wird die Welt neu erschaffen, denn: Die GAMMA-Runde von Conquer-Space.net (kurz CqS) wird gestartet! Nach einer längeren Testphase in der Beta können wir nun mit Stolz eine neue Runde mit action-bringenden neuen Features präsentieren.
+
+Neben dem normalen Kampfeinheiten kannst Du nun eigene Todesmaschinen konstruieren und Dich erst so richtig bei den Feinden austoben. Außerdem wurde die Forschung total neu entwickelt, nicht zuletzt um Dir viele Möglichkeiten zu geben verschiedene Einheiten zusammenzustellen.
+
+Um ultimativ gegen Deine Feinde agieren zu können, gibt es Spione, die einem Informationen über die gegnerischen Aktionen mitteilen. Alternativ kannst Du gleich einen Bericht über die aktuelle militärische Situation liefern. Lnagfristig ist die erste Variante allerdings mächtiger, also passt auf, was Deine Gegner so treiben!
+
+Wenn Du keine Lust hat, das Spiel im faden alten Deutsch zu spielen, kannst Du auch alles auf Englisch haben. Conquer-Space.net ist also multilingual. Außerdem haben wir einen besseren Bugtracker eingeführt, so dass nun Bugs einfacher berichtet werden können und so noch schneller als zuvor gefixt werden können. Wir deshalb kundgeben, dass die Gamma keine Bugs aufweisen wird, die in der Beta irgendwann aufgetaucht sind.
+
+Mehr Informationen zum Spiel findest Du:
+
+    * auf der Homepage http://www.conquer-space.net
+    * im IRC irc.conquer-space.net:6667 #cqs

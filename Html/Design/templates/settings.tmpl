@@ -1,0 +1,12 @@
+%embed "top.tmpl";
+
+%set file Request.getFilename;
+<ul class="smenu">
+	<li %if file="settings-common";class="active"%endif;><a href="settings-common">%("main settings");</a></li>
+	<li %if file="settings-profile";class="active"%endif;><a href="settings-profile">%("profile");</a></li>
+	<li %if file="settings-quota";class="active"%endif;><a href="settings-quota">%("donations");</a></li>
+	<li %if file="settings-delete";class="active"%endif;><a href="settings-delete">%("delete account");</a></li>
+</ul>
+
+%embed;
+

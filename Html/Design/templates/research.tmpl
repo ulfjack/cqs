@@ -1,0 +1,51 @@
+%embed "top.tmpl";
+
+%set player Session.getPlayer;
+%set file Request.getBasename;
+%set filter "";%set count 0;%set title "";
+%if (file = "research");%set filter Request.getUrlParameter(0);%endif;
+
+%if (file = "research") and (filter = "current");%set title gettext "current research topics";%set count 1;
+%elseif (file = "research") and (filter = "completed");%set title gettext "completed research";%set count 2;
+%elseif (file = "research") and (filter = "all");%set title gettext "all research topics";%set count 3;
+%elseif file = "research-universities";%set title gettext "universities";%set count 4;
+%elseif file = "research-techtree";%set title gettext "tech tree";%set count 5;
+%else;%set title "";%set count -1;
+%endif;
+
+<table>
+	<colgroup width="20%%" span="5" />
+	<tr class="nospacetb">
+		<td class="nospacetb"><div class="bg"><a class="tab" href="research|current">%("current topics");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="research|completed">%("completed topics");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="research|all">%("all topics");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="research-universities">%("universities");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="research-techtree">%("tech tree");</a></div></td>
+	</tr>
+	<tr class="nospacetb">
+		%loop x from 1 to count-1;
+		<td class="nospacetb"></td>
+		%endloop;
+		<td class="nospacetb"><div class="bgconnector-fifth"><br /></div></td>
+	</tr>
+	<tr>
+		<td colspan="5" class="nospacetb">
+			<div class="extension">
+				<h3>%("research"); &ndash; %= title;</h3>
+				<table>
+					<colgroup><col width="35px" /><col width="15%%" /><col width="35px" /><col width="15%%" /><col width="(" /></colgroup>
+					<tr>
+						<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_RESEARCH);" width="30" height="30" alt="%("researchers");" /></td>
+						<td class="l"><b>%("researchers");</b><br />%("employed: {0,number,integer}", player.getResearchAmount);</td>
+						<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CLOCK);" width="30" height="30" alt="%("duration");" /></td>
+						<td class="l"><b>%("duration");</b><br />%if player.getResearchAmount = 0;%("n/a");%else;%= Tools.asTime(Research.ENGINE.timeNeeded(player));%if Galaxy.getSpeed > 1; (%= Tools.asTime(Research.ENGINE.timeNeeded(player)/Galaxy.getSpeed);)%endif;%endif;</td>
+						<td class="l">%("The more researchers available, the faster you can research.");<br />
+				%("duration = {0,number,integer}s / (researchers+{1})", 10*Research.ENGINE.timeNeeded, 9);</td>
+					</tr>
+				</table><br />
+%embed;
+				<div class="final"></div>
+			</div>
+		</td>
+	</tr>
+</table>

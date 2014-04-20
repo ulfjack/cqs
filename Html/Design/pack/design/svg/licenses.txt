@@ -1,0 +1,33 @@
+File	Original	Source	License
+
+add.svg	list-add.svg	gnome	GPL
+adown.svg	go-down.svg	gnome	GPL
+alliance.svg	http://commons.wikimedia.org/wiki/Image:UserIconTrust.svg	gnome	GNU Free Documentation License
+aright.svg	go-next.svg	gnome	GPL
+battles.svg	http://commons.wikimedia.org/wiki/File:Swords.svg	gnome	Public domain
+clock.svg	gnome-panel-clock.svg	gnome hicolor	GPL
+delete.svg	edit-delete.svg	gnome	GPL
+diplomacy.svg	application-certificate.svg	gnome	GPL
+edit.svg	http://commons.wikimedia.org/wiki/File:Gnome-accessories-text-editor.svg	GPL
+education.svg	http://en.wikipedia.org/wiki/File:Sciences_humaines.svg	KDE	LGPL
+espionage.svg	edit-find.svg	gnome	GPL
+finances.svg	gnucash-icon.png	gnome	GPL
+help.svg	help-faq.svg	gnome	GPL
+inbox.svg	mail-mark-important.svg	gnome	GPL
+inbox_new.svg	mail-message-new.svg,emblem-mail.svg	gnome	GPL
+jobs.svg	config-users.svg,package-settings.svg	gnome	GPL
+logout.svg	application-exit.svg	gnome	GPL
+loop.svg	zen-icon.svg	gnome	GPL
+nojob.svg	dialog-error.svg	gnome	GPL
+orders.svg	Start_hand.svg http://commons.wikimedia.org/wiki/File:Start_hand.svg	CC-Attribution
+population.svg	config-users.svg	gnome	GPL
+research.svg	gnome-applications-science.svg	gnome	GPL
+search.svg	gtk-zoom-fit.svg	gnome	GPL
+settings.svg	package_settings.svg	gnome	GPL
+statistics.svg	? gnome	GPL
+unitdesign.svg	applications-accessories.svg	gnome	GPL
+x.svg	process-stop.svg	gnome GPL
+
+navi-flag_de.png	Germany-128.png	http://www.iconspedia.com/icon/germany-flag-2186.html	Creative Commons Attribution-Noncommercial-No Derivative Works 3.0
+navi-flag_us.png	Baker Island-128.png	http://www.iconspedia.com/icon/baker-island-flag-2066.html	Creative Commons Attribution-Noncommercial-No Derivative Works 3.0
+

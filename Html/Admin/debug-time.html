@@ -1,0 +1,43 @@
+%embed "include/design.tmpl";
+
+<h1>Time</h1>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Time.advance" />
+<input type="hidden" name="delta" value="1m" />
+<button type="submit" name="">+ 1 minute</button>
+</form>
+
+<hr />
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Time.advance" />
+<input type="hidden" name="delta" value="1h" />
+<button type="submit" name="">+ 1 hour</button>
+</form>
+
+<hr />
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Time.advance" />
+<input type="hidden" name="delta" value="1d" />
+<button type="submit" name="">+ 1 day</button>
+</form>
+
+<hr />
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Time.advance" />
+<input type="text" name="delta" value="" />
+<button type="submit" name="">Advance Time</button>
+</form>
+
+<hr />
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Time.setSpeed" />
+<input type="text" name="speed" value="" />
+<button type="submit" name="">Set Speed</button>
+</form>
+
+

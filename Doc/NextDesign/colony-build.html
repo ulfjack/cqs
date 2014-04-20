@@ -1,0 +1,159 @@
+%include "include/map-head.inc";
+%include "include/colony-menu.inc";
+
+<script type="text/javascript">
+%if Galaxy.isRunning;
+speed = %long Galaxy.speed;;
+%else;
+speed = 0;
+%endif;
+</script>
+<script type="text/javascript" src="/cqspack/js/common-timer.js"></script>
+
+
+<div class="title colony">
+<h1>
+%string colony.name; - %string colony.position(galaxyView);
+<span>
+	<a href="map">Galaxie</a> - 
+	<a href="map-system">System</a> - 
+	<a href="map-planet">Planet</a> - 
+	<a href="map-colony">Kolonie</a>
+</span>
+</h1>
+</div>
+
+
+<div class="content colony">
+
+<div class="queue">
+
+<div class="current">
+%if colony.CurrentBuilding.running or (colony.BuildingQueue.amount > 0);
+	%if colony.CurrentBuilding.running;
+		<img src="%string Session.GP.buildings;%string
+		colony.CurrentBuilding.image;-small.png" alt="" />
+		<div>%if colony.CurrentBuilding.id < 0;Abriss%endif;
+		%string colony.CurrentBuilding.name(lang);<br />
+		Aktuell vorhanden: %long colony.CurrentBuilding.level;
+		<div id="timer-0-%long colony.CurrentBuilding.time-Galaxy.time;">%time colony.CurrentBuilding.time-Galaxy.time;</div>
+		<a href="colony-build?Building.abort=do">%gettext "Abbrechen";</a>
+		</div>
+	%else;
+		%gettext "Gestoppt!";<br />
+		<a class="%bool colony.Buildings.possible(colony.BuildingQueue.data(0));" href="colony-build?Building.resume=do">%gettext "Fortsetzen";</a>
+	%endif;
+%else;
+	%gettext "Keine Bauaktivität";
+%endif;
+</div>
+
+%set max colony.BuildingQueue.amount-1;
+%if colony.BuildingQueue.amount > 0;
+<div class="list">
+
+%set timecalc 0L;%if colony.CurrentBuilding.running;%set timecalc colony.CurrentBuilding.time-Galaxy.time;%endif;
+%loop x from 0 to max;
+<div class="item">
+	%set building colony.BuildingQueue.data(x);
+	%set number colony.BuildingQueue.number(x);
+	
+	<img class="icon" src="%string Session.GP.buildings;%string building.image;-small.png" alt="" />
+	
+	%if number < 0;<i />%endif;
+	%long number; x %string building.name(lang);
+	
+	<br />
+	
+	<span class="modifylinks">
+	<a href="?Building.delete=%long max-x;">[X]</a>&#160;&#160;
+	<a href="javascript:reduceN('colony-build?Building.modify=%long max-x;',0)">[-N]</a>
+	<a href="?Building.modify=%long max-x;,-1">[-1]</a>&#160;&#160;
+	<a href="?Building.modify=%long max-x;,1">[+1]</a>
+	<a href="javascript:addN('?Building.modify=%long max-x;',0)">[+N]</a>
+	</span>
+	
+	<span class="movelinks">
+	<a class="%bool x > 0;" href="?Building.moveTop=%long max-x;"><img src="%string Session.GP.design;atop.gif" alt="move to top"/></a>
+	<a class="%bool x > 0;" href="?Building.moveUp=%long max-x;"><img src="%string Session.GP.design;aup.gif" alt="move up" /></a>
+	<a class="%bool x < max;" href="?Building.moveDown=%long max-x;"><img src="%string Session.GP.design;adown.gif" alt="move down" /></a>
+	</span>
+	
+	%if number > 0;%set timecalc timecalc + colony.Buildings.time(building)*number;%else;%set timecalc timecalc - colony.Buildings.time(building)*number/2;%endif;
+</div>
+%endloop;
+
+<div class="length">
+%gettext "Ungefähre Schleifenlänge";:
+<div id="timer-1-%long timecalc;">%time timecalc;</div>
+</div>
+
+</div> <!-- list -->
+%endif;
+
+</div> <!-- queue -->
+
+
+<div class="queue-list">
+%set x 0L;
+%loop building foreach Building.all;
+%if player.Buildings.isKnown(building);
+<div class="item">
+	<img class="icon" src="%string Session.GP.buildings;%string building.image;-small.png" alt="" />
+	<div id="btns-%long x;" class="start %bool colony.Buildings.possible(building);">
+		%if (colony.Buildings.amountOf(building) > 0) and (player.name != "gast");
+		(<a class="false" href="?" onclick="javascript:verify('?Building.remove=%long x;,1')">-1</a>
+		 <a class="false" href="?" onclick="javascript:removeN('?Building.remove=%long x;',%long x;)">-N</a>)
+		%endif;
+		<a href="?Building.start=%long x;">+1</a>
+		<a href="?Building.start=%long x;,2">+2</a>
+		<a href="?Building.start=%long x;,5">+5</a>
+		<a href="?" onclick="javascript:buildN('?Building.start=%long x;',%long x;)">+N</a>
+	</div>
+	<div>
+		<h3><a href="?">%string building.name(lang);</a> (%long colony.Buildings.amountOf(building);)</h3>
+		<ul>
+			%loop y from 0 to 3;
+			<li><img src="%string Session.GP.design;res%long y+1;.gif" alt="" /> %format colony.Buildings.needs(building, y);</li>
+			%endloop;
+		</ul>
+		<ul>
+			<li><img src="%string Session.GP.design;resymb3.gif" alt="time" /> %time colony.Buildings.time(building);</li>
+			<li><img src="%string Session.GP.design;b1.gif" alt="workers" /> %format colony.Buildings.workers(building);</li>
+			<li><img src="%string Session.GP.design;b3.gif" alt="employees" /> %format colony.Buildings.employees(building);</li>
+			<li><img src="%string Session.GP.design;res5.gif" alt="upkeep" /> %format building.upkeep; / h</li>
+		</ul>
+		<ul>
+			<li>%gettext "Zivilisationspunkte";: %format building.points;</li>
+		</ul>
+	</div>
+</div>
+%else;
+<div class="item">
+	<img class="icon" src="%string Session.GP.buildings;%string building.image;-small.png" alt="" />
+	<div class="start">
+		<a href="?Building.start=%long x;">+1</a>
+		<a href="javascript:buildN('?Building.start=%long x;',%long x;)">+N</a>
+	</div>
+	<div>
+		<h3><a href="?">%string building.name(lang);</a> %if colony.Buildings.amountOf(building) > 0;(%long colony.Buildings.amountOf(building);)%endif;</h3>
+		%loop y from 0 to building.Depends.amount-1;
+			%set type building.Depends.what(y);
+			%set amount building.Depends.howmuch(y);
+			%long amount; %string type.name(lang);<br />
+		%endloop;
+	</div>
+</div>
+%endif;
+%set x x+1;
+%endloop;
+
+<div class="final"></div>
+</div>
+
+</div>
+
+<div class="footnote">
+</div>
+
+%include "include/foot.inc";

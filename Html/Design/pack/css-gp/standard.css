@@ -1,0 +1,451 @@
+/**
+ * This file contains standard css that is common to all pages.
+ */
+
+html,body
+{
+	font-family: Arial, Helvetica;
+	background-color: black;
+	color: #eee;
+	font-size: 11px;
+	height: 100%;
+	width: 780px;
+	padding: 0px;
+	margin: 0px;
+}
+
+div
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+/* head status line */
+.status
+{
+	width: 100%;
+	text-align: center;
+	border-bottom: 1px dotted #114466;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.status a
+{
+	padding-left: 2px;
+	padding-right: 2px;
+	border: 1px solid transparent;
+}
+
+.status a.no
+{
+	color: #ddd;
+}
+
+.status a.no:hover
+{
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+
+.status a.true
+{
+	text-decoration: blink;
+	color: red;
+}
+
+.status a:hover
+{
+	background-color: #222d35;
+	border: 1px solid gray;
+}
+
+.status a.logout
+{
+	position: absolute;
+	left: 10px;
+}
+
+.status a.logout img
+{
+	vertical-align: middle;
+	border: none;
+}
+
+
+/* head system messages */
+.sysmessage
+{
+	width: 100%;;
+	text-align: left;
+}
+
+.sysmessage span
+{
+	float: left;
+	width: 140px;
+	margin-right: 20px;
+	text-align: right;
+}
+
+
+/* main menu */
+.mmenu
+{
+	width: 100%;
+	text-align: center;
+	display: block;
+}
+
+.mmenu ul
+{
+	width: 100%;
+	text-align: center;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	padding-top: 2px;
+	border-bottom: 1px solid gray;
+}
+
+.mmenu li
+{
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+.mmenu a
+{
+	border: 1px solid transparent;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size: 18px;
+}
+
+.mmenu a:hover
+{
+	background-color: #222d35;
+	border: 1px solid gray;
+}
+
+.mmenu a#mactive
+{
+	border: 1px solid gray;
+	border-bottom: 1px solid black;
+}
+
+.mmenu a#mactive:hover
+{
+	color: white;
+	background-color: inherit;
+}
+
+
+/* side menu & content area */
+.smenu
+{
+	float: left;
+	width: 145px;
+	margin-bottom: 10px;
+	border-right: 1px solid gray;
+	border-bottom: 1px solid gray;
+}
+
+.smenu ul
+{
+	display: block;
+	border: 0px;
+	margin: 0px;
+	padding: 5px;
+	list-style-type: none;
+}
+
+.smenu h1
+{
+	margin: 0px;
+	padding: 0px;
+	font-size: 15px;
+	display: block;
+	font-weight: normal;
+	margin-top: 5px;
+}
+
+.smenu h2
+{
+	margin: 0px;
+	padding: 0px;
+	font-size: 11px;
+	display: block;
+	font-weight: normal;
+	margin-top: 5px;
+}
+
+.smenu a
+{
+	border: 1px solid transparent;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 4px;
+	margin-right: 4px;
+	display: block;
+	font-size: 13px;
+}
+
+.smenu a:hover
+{
+	background-color:#222d35;
+	border:1px solid gray;
+	display: block;
+}
+
+/* title */
+.title
+{
+	display: block;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-left: 150px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	border: 1px solid gray;
+	border-bottom: 0px;
+	background-color: #333;
+}
+
+.title h1
+{
+	padding: 0px;
+	margin: 0px;
+	padding-top: 10px;
+	color: #eee;
+	font-size: 18px;
+	font-weight: normal;
+	text-decoration: none;
+	text-align: center;
+}
+
+.title h1 span
+{
+	display: block;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	padding-top: 2px;
+	
+	color: #eee;
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	text-align: center;
+}
+
+/* content */
+.content
+{
+/*	margin-top: 5px;*/
+	margin-left: 150px;
+	margin-right: 5px;
+	padding: 5px;
+	border: 1px solid gray;
+	display: block;
+}
+
+/* footnote */
+.footnote
+{}
+
+/* footer line */
+.footer
+{
+	clear: both;
+	width: 100%;
+	text-align: center;
+	border-top: 1px solid gray;
+	margin-top: 10px;
+	height: 15px;
+/*	position: fixed;*/
+	bottom: 0px;
+	background-color: inherit;
+}
+
+
+/* input forms */
+fieldset.stdform
+{
+	color: #eee;
+	border: 1px solid gray;
+	margin-bottom: 5px;
+}
+
+fieldset.stdform div.warn
+{
+	background-color: #600;
+	border: 1px solid #a00;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+	text-align: center;
+}
+
+fieldset.stdform div.note
+{
+	background-color: #060;
+	border: 1px solid #0a0;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+	text-align: center;
+}
+
+fieldset.stdform div.option
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.option input
+{
+	margin-left: 200px;
+	margin-right: 5px;
+}
+
+fieldset.stdform div.option label
+{
+	padding-left: 4px;
+	padding-right: 4px;
+	border: 1px solid transparent;
+}
+
+fieldset.stdform div.option label:hover
+{
+	background-color: #222d35;
+	border: 1px solid gray;
+}
+
+
+fieldset.stdform div.select
+{
+	margin-top: 14px;
+	margin-bottom: 14px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.select select
+{
+	position: absolute;
+	margin-left: 150px;
+	width: 240px;
+}
+
+
+fieldset.stdform div.textinput
+{
+	margin-top: 14px;
+	margin-bottom: 14px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.textinput input
+{
+	position: absolute;
+	margin-left: 200px;
+	width: 240px;
+}
+
+fieldset.stdform div.submit
+{
+	margin-top: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+}
+
+fieldset.stdform div.image
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+	text-align: center;
+}
+
+
+/* headings */
+h1.head
+{
+	display: block;
+	width: 100%;
+	margin: 0px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	
+	color: #eee;
+	font-size: 18px;
+	font-weight: normal;
+	text-decoration: none;
+	text-align: center;
+}
+
+h2.head
+{
+	display: block;
+	width: 100%;
+	margin: 0px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	
+	color: #eee;
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	text-align: center;
+}
+
+
+/* links */
+a
+{
+	color: #6688a0;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+
+/* pictures */
+img
+{
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+img.intext
+{
+	border: none;
+	margin: 0px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+
+/* tables */
+/* We don't want tables, so we give them bright colors. */
+table
+{
+	background-color: red;
+}
+
+th
+{
+	background-color: blue;
+}
+
+td
+{
+	background-color: green;
+}

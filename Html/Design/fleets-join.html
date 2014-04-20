@@ -1,0 +1,59 @@
+%embed "templates/fleets.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set t Tools.getRandomLong;
+
+<h3>%("fleets"); &ndash; %("merge fleets");</h3>
+%set fleets player.getMergableFleets;
+%if (fleets.size = 0);
+%("You don''t have any fleets that can be merged!");
+%else;
+<form action="fleets-join" method="post">
+<div><input type="hidden" name="do" value="Fleet.join" /></div>
+
+<table class="stats">
+	<tr>
+		<th>%("pick");</th>
+		<th>%("fleet");</th>
+		<th>%("position");</th>
+		<th class="r">%("costs/h");</th>
+		<th class="r">%("units");</th>
+		<th class="r">%("planetary");</th>
+		<th class="r">%("space");</th>
+		<th class="r">%("resources");</th>
+	</tr>
+%set lastPos fleets.get(0).getPosition;
+%loop x,fleet foreach fleets;
+	<tr class="%= x%2=0 ? "even" : "odd";%if lastPos != fleet.getPosition; sepborder%endif;%set lastPos fleet.getPosition;">
+		<td><input type="checkbox" id="id%= fleet.getId;" name="fleet%= fleet.getId;" /></td>
+		<td><a href="fleets-commands|%= fleet.getId;">&quot;%= fleet.getName;&quot; (%= fleet.getId;)</a></td>
+		<td>%= fleet.getPosition;</td>
+		<td class="r">%("{0,number,integer}", fleet.calculateUpkeep);</td>
+		<td class="r">%("{0,number,integer}", fleet.getTotalUnits);</td>
+		<td class="r">%("{0,number,integer}", fleet.getTotalGroundUnits);</td>
+		<td class="r">%("{0,number,integer}", fleet.getTotalSpaceUnits);</td>
+		<td class="r">%("{0,number,integer}", fleet.getTotalCargo);</td>
+	</tr>
+%endloop;
+</table>
+<div class="submit">
+	%("Use command list of fleet:");
+	<select size="1" name="cmdlist">
+		<option value="">%("(choose one)");</option>
+		%loop fleet foreach fleets;
+		<option value="%= fleet.getId;">"%= fleet.getName;" (%= fleet.getId;)</option>
+		%endloop;
+	</select>
+	%("Move fleet to desktop:");
+	<select name="desktop">
+		%loop x from 0 to Constants.MAX_DESKTOP;
+		<option value="%= x;" %if (x=0);selected="selected"%endif;>%= x; - %= player.getDesktopName(Session.getLocale, x);</option>
+		%endloop;
+	</select>
+
+	<button type="submit">%("merge fleets");</button>
+</div>
+</form>
+%endif;
+

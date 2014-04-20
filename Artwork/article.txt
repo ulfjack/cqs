@@ -1,0 +1,38 @@
+Wer ohne Anmeldung ins Spiel schauen möchte, kann den Gast-Account nutzen: [WWW] http://beta.conquer-space.net
+
+Fast alle Funktionen lassen sich durch Schleifen und Auftragslisten bedienen, der permanente Anwesenheitszwang, der häufig in anderen Spielen gefunden wird, entfällt. Durch ein komplexes Flottensystem (Befehlslisten und -schleifen) und ein vielfältiges Universum können die Spieler sehr individuelle Imperien gründen.
+
+Während der Neuling bekannte Spielelemente wiederfinden wird und so ein einfacher Einstieg möglich ist, erschließen sich, während man das Spiel kennenlernt, immer vielfältigere Möglichkeiten und Strategien. Teamplay spielt eine entscheidende Rolle, eine Einsteigerallianz sichert einen einfachen Zugang zum Spiel. Besonders ertragreich sind Allianzen, in denen Spezialisierung in Einheitenbau und Forschung, unionsweites Teilen von Transmitterstationen oder die Möglichkeit mit vielen Spielern in einer Schlacht zu partizipieren, exzessiv genutzt werden ohne dabei die vollständige Hingabe des Spielers und seiner Ressourcen zu seiner Allianz zu erzwingen.
+
+Ein schneller Server und selbstentwickelte Softwarearchitektur garantieren auch bei hoher Last schnellaufbauende Seiten und Spielspaß, das Universum expandiert je nach Spielerzahl dynamisch. CqS ist nicht kommerziell, wird vollständig durch Spenden finanziert und ist somit völlig werbefrei. Ein engagiertes und gut erreichbares Team sorgt für eine schnelle Behebung von etwaigen Störungen und Bugs, während gleichzeitig die Weiter- und Neuentwicklung von Features für weitere Runden auf Hochtouren läuft, die in einer Betarunde mitvollzogen und gestaltet werden kann.
+
+Insbesondere ist CqS OpenSource, das heißt der Quellcode ist für jeden frei zugänglich. Dazu einige technische Daten:
+
+CqS ist in Java geschrieben, ebenso wie der selbstgebaute Webserver. Es werden keine SQL-Datenbank oder PHP genutzt. Stattdessen wird auf eine selbstgeschriebene Java-Datenbank zurückgegriffen, die Html-Seiten werden von einem selbstgeschriebenem Dynamic Content Script erzeugt. Des weiteren wird Rhino JavaScript eingesetzt.
+
+- - - Was erwartet Dich als Spieler bei CqS? - - -
+
+Als junger und ambitionierter Emporkömmling hast Du es bewerkstelligt einige kleinere Dörfer zu einen. Auf Grund Deiner bisherigen Verdienste zeigen sich die Einwohner Dir gegenüber dankbar und ernennen Dich zu ihrem Herrscher. Somit betrauen sie Dich mit der Aufgabe der Stadtplanung, aber auch mit der Bildung eines Militärs und der Errichtung von Ausbildungs- und Forschungsstätten.
+
+Du nimmst also die Position eines Herrschers über ein noch sehr beschränktes Gebiet ein. In dieser mächtigen Stellung solltest Du allerdings nicht vergessen, dass Du stets von Deinen Leuten abhängig bist und auch, dass es nicht nur freundlich gesinnte Zeitgesellen gibt.
+
+Es hat sich nämlich gezeigt, dass sich auch an anderen Orten Städte bilden. Einige Stadtherren haben sich bereits zu Allianzen vereinigt um sich gegenseitig beizustehen.
+
+Einer Deiner wichtigsten Aktionen wird es jetzt sein, festzulegen, ob auch Du einer Allianz beitreten oder lieber auf Dich selbst gestellt sein möchtest. Natürlich kannst Sie auch eine eigene Allianz gründen in der Hoffnung andere mögen sich Dir anschliessen.
+
+Dies ist also Deine aktuelle Situation, alle Deine Beschlüsse können und werden Konsequenzen haben. Mögen deshalb Deine Entscheidungen weise sein und Deine Herrschaft glorreich!
+
+- - - In a nutshell - - -
+
+Conquer-Space.net ist ein Lang-Echtzeit Massiv-Multiplayer Futuristisches Browser-basiertes Online-Spiel.
+
+Langzeit: Eine einzelne Runde in CqS dauert mehrere Monate.
+
+Echtzeit: CqS treibt Echtzeit bis zum Limit: Buchstäblich alles läuft in Echtzeit ab und alle Aktionen benötigen Zeit.
+
+Massiv-Multiplayer: Alle Spieler befinden sich in derselben Galaxie und können frei miteinander interagieren. Die Galaxien sind auf bis zu 10.000 Spieler ausgelegt, auch wenn wir diese magische Grenze bisher nicht erreicht haben.
+
+Futuristisch: CqS spielt im weiten Weltraum. Es geht darum, Kolonien auf fremden Planeten zu gründen, Raumschiffe zu bauen und sich in gigantischen Raumschlachten miteinander zu messen.
+
+Browser-basiert: Ein aktueller Browser ist (neben einem Internetzugang) alles, was für das Spiel benötigt wird. Wir empfehlen dabei das Nutzen von Firefox
+

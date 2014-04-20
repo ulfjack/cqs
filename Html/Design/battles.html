@@ -1,0 +1,10 @@
+%embed "templates/battles.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set blocks false;
+%set defenseOnly false;
+<div class="extension">
+	<h2>%("all battles (excluding blockades)");</h2>
+%include "include/battlelist.inc";
+</div>

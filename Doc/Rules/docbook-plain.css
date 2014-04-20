@@ -1,0 +1,1017 @@
+/*
+
+This is the docbook-plain.css style sheet that can be used to display
+a docbook document directly in a browser.
+
+It was taken from Vex - A Visual Editor for XML
+You can find Vex here:
+
+http://vex.sourceforge.net/
+
+This document may fall under the GNU Lesser General Public License (LGPL)
+
+*/
+
+/* MODIFICATIONS START HERE
+	Modified by Ulf Ochsenfahrt
+*/
+
+book
+{
+	counter-reset: chapter section appendix;
+}
+
+chapter, appendix
+{
+	counter-reset: section;
+	margin-bottom: 40px;
+}
+
+chapter > title:before
+{
+	content: "Chapter " counter(chapter) ": ";
+	counter-increment: chapter;
+}
+
+chapter > section > title:before
+{
+	content: counter(chapter) "." counter(section) ". ";
+	counter-increment: section;
+}
+
+appendix > title:before
+{
+	content: "Appendix " counter(appendix, upper-latin) ". ";
+	counter-increment: appendix;
+}
+
+appendix > section > title:before
+{
+	content: counter(appendix, upper-latin) "." counter(section) ". ";
+	counter-increment: section;
+}
+
+table
+{ display: table; border-collapse: collapse; }
+
+tr
+{ display: table-row; }
+
+td, th
+{ display: table-cell; border: 1px solid black; padding: 2px;}
+
+th
+{ font-weight: bold; }
+
+/* MODIFICATIONS END HERE */
+
+
+abbrev
+{
+  display: inline;
+}
+
+abstract
+{
+  font-style: italic;
+  margin-left: 0.5in;
+  margin-right: 0.5in;
+  display: block;
+  padding: 6px;
+}
+
+acronym
+{
+  display: inline;
+}
+
+address
+{
+  display: block;
+}
+
+affiliation
+{
+  display: block;
+  margin-left: 10px;
+}
+
+appendix
+{
+  display: block;
+}
+
+article, book
+{
+  font-family: "Times New Roman", serif;
+  font-size: 16px;
+  display: block;
+  margin: .25in;
+}
+
+articleinfo
+{
+  border: 1px solid #669;
+  color: #669;
+  display: block;
+  font: 10pt Verdana, sans-serif;
+  margin-bottom: .25in;
+  padding: 3px;
+}
+
+articleinfo:before 
+{
+  color: #669;
+  content: 'Article Info';
+  font-weight: bold;
+  display: block;
+  margin-top: .25in;
+  padding: 3px;
+}
+
+articleinfo > title:before {
+  content: "Title: ";
+  font-weight: bold;
+}
+
+articleinfo email
+{
+  display: block;
+}
+
+articleinfo email:before
+{
+  content: "Email: ";
+  font-weight: bold;
+}
+
+attribution
+{
+  display: block;
+  font-style: italic;
+  text-align: right;
+}
+
+attribution:before
+{
+  content: '-- ';
+}
+
+audiodata
+{
+  display: inline;
+}
+
+audioobject
+{
+  display: inline;
+}
+
+author
+{
+  display: block;
+}
+
+author:before
+{
+  content: 'Author: ';
+  font-weight: bold;
+}
+
+authorblurb
+{
+  display: block;
+}
+
+authorgroup
+{
+  display: block;
+}
+
+authorinitials
+{
+  display: inline;
+}
+
+bibliodiv
+{
+  display: block;
+}
+
+bibliography
+{
+  display: block;
+}
+
+bibliomisc
+{
+  display: inline;
+}
+
+bibliomixed
+{
+  display: block;
+}
+
+bibliomset
+{
+  display: block;
+}
+
+blockquote
+{
+  display: block;
+  margin-left: 0.5in;
+  margin-right: 0.5in;
+}
+
+bookinfo
+{
+  border: 1px solid #669;
+  color: #669;
+  display: block;
+  font: 10pt Verdana, sans-serif;
+  margin-bottom: .25in;
+  padding: 3px;
+}
+
+bookinfo:before 
+{
+  color: #669;
+  content: 'Book Info';
+  font-weight: bold;
+  display: block;
+  margin-top: .25in;
+  padding: 3px;
+}
+
+bookinfo > title:before {
+  content: "Title: ";
+  font-weight: bold;
+}
+
+bookinfo email
+{
+  display: block;
+}
+
+bookinfo email:before
+{
+  content: "Email: ";
+  font-weight: bold;
+}
+
+caption
+{
+  display: block;
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+}
+
+chapter {
+  display: block;
+}
+
+citetitle
+{
+  display: inline;
+  font-style: italic;
+}
+
+colspec
+{
+  display: inline;
+}
+
+command
+{
+  color: #008;
+  display: inline;
+  font-family: "Andale Mono", monospace;
+  font-size: 12px;
+  /* font-weight: bold; */
+}
+
+computeroutput
+{
+  display: inline;
+  font-family: monospace;
+}
+
+copyright
+{
+  display: inline;
+}
+
+copyright:before
+{
+  content: 'Copyright (c) ';
+}
+
+corpauthor
+{
+  display: block;
+}
+
+corpauthor:before
+{
+  content: 'Corporate Author: ';
+  font-weight: bold;
+}
+
+date
+{
+  display: inline;
+}
+
+bookinfo > date:before {
+  content: 'Date: ';
+  font-weight: bold;
+}
+
+edition
+{
+  display: inline;
+}
+
+editor
+{
+  display: inline;
+}
+
+email
+{
+  display: inline;
+  font-style: italic;
+}
+
+emphasis
+{
+  display: inline;
+  font-style: italic;
+}
+
+entry
+{
+  /* display: table-cell; */ /* pending Vex impl. of tables */
+  display: inline;
+}
+
+entrytbl
+{
+  /* display: table; */ /* pending Vex impl. of tables */
+  display: block;
+}
+
+epigraph
+{
+  font-style: italic;
+  display: block;
+  margin-left: 0.5in;
+}
+
+example
+{
+  display: block;
+}
+
+example title
+{
+  display: block;
+  font-style: italic;
+  font-weight: bold;
+}
+
+example title:before
+{
+  content: 'Example: ';
+}
+
+figure
+{
+  display: block;
+}
+
+figure title
+{
+  display: block;
+  font-style: italic;
+  font-weight: bold;
+}
+
+figure title:before
+{
+  content: 'Figure: ';
+}
+
+filename
+{
+  display: inline;
+  font: bold 10pt monospace;
+}
+
+firstname
+{
+  display: inline;
+}
+
+footnote
+{
+  display: inline;
+}
+
+holder
+{
+  display: inline;
+}
+
+honorific
+{
+  display: inline;
+}
+
+imagedata
+{
+  display: inline;
+}
+
+imageobject
+{
+  display: inline;
+}
+
+informaltable
+{
+  display: block;
+}
+
+inlinemediaobject
+{
+  display: inline;
+}
+
+isbn
+{
+  display: inline;
+}
+
+issn
+{
+  display: inline;
+}
+
+issuenum
+{
+  display: inline;
+}
+
+itemizedlist
+{
+  display: block;
+  list-style-type: disc;
+  margin-left: 1em;
+}
+
+itemizedlist itemizedlist
+{
+  list-style-type: circle;
+}
+
+itemizedlist itemizedlist itemizedlist
+{
+  list-style-type: square;
+}
+
+keyword
+{
+  display: inline;
+}
+
+keywordset
+{
+  display: inline;
+}
+
+legalnotice
+{
+  display: inline;
+}
+
+lineage
+{
+  display: inline;
+}
+
+lineannotation
+{
+  display: inline;
+}
+
+link
+{
+  display: inline;
+}
+
+listitem
+{
+  display: list-item;
+  margin-left: 1em;
+}
+
+literal
+{
+  font-family: Courier;
+  display: inline;
+}
+
+literallayout
+{
+  display: inline;
+}
+
+mediaobject
+{
+  display: inline;
+}
+
+member
+{
+  display: inline;
+}
+
+note
+{
+  display: inline;
+}
+
+objectinfo
+{
+  display: inline;
+}
+
+option
+{
+  display: inline;
+}
+
+orderedlist
+{
+  display: block;
+  list-style-type: decimal;
+  margin-left: 1em;
+}
+
+orderedlist orderedlist
+{
+  list-style-type: lower-alpha;
+}
+
+orderedlist orderedlist orderedlist
+{
+  list-style-type: lower-roman;
+}
+
+otheraddr
+{
+  display: inline;
+}
+
+othercredit
+{
+  display: inline;
+}
+
+othername
+{
+  display: inline;
+}
+
+pagenums
+{
+  display: inline;
+}
+
+para
+{
+  display: block;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+part
+{
+  display: block;
+}
+
+phone
+{
+  display: inline;
+}
+
+phrase
+{
+  display: inline;
+}
+
+pob
+{
+  display: inline;
+}
+
+postcode
+{
+  display: inline;
+}
+
+preface
+{
+  display: block;
+}
+
+printhistory
+{
+  display: inline;
+}
+
+procedure
+{
+  display: inline;
+}
+
+programlisting
+{
+  background-color: #ffd;
+  border: 1px solid black;
+  font: smaller "Andale Mono", "Courier New", monospaced;
+  display: block;
+  padding: 3px;
+  white-space: pre;
+}
+
+pubdate
+{
+  display: block;
+}
+
+pubdate:before {
+  content: "Publication Date: ";
+  font-weight: bold;
+}
+
+publisher
+{
+  display: inline;
+}
+
+publishername
+{
+  display: inline;
+}
+
+qandaentry {
+  display: block;
+}
+
+qandaset {
+  display: block;
+}
+
+question {
+  display: block;
+  font-weight: bold;
+}
+
+answer {
+  display: block;
+  margin-left: 30px;
+}
+
+quote
+{
+  display: inline;
+}
+
+releaseinfo
+{
+  display: block;
+}
+
+releaseinfo:before
+{
+  content: "Release Info: ";
+  font-weight: bold;
+}
+
+replaceable
+{
+  display: inline;
+  font-family: "Times New Roman", serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
+revhistory
+{
+  /* display: table; */
+  display: block;
+  margin-top: 10px;
+}
+
+revhistory:before {
+  content: "Revision History:";
+  font-weight: bold;
+}
+
+revision
+{
+  /* display: table-row; */
+  display: block;
+}
+
+revnumber
+{
+  display: inline;
+}
+
+revremark
+{
+  display: inline;
+}
+
+row
+{
+  /* display: table-row; */
+  display: block;
+}
+
+section, sect1, sect2, sect3, sect4, sect5
+{
+  display: block;
+  margin-left: 18px;
+}
+
+sectioninfo
+{
+  display: none;
+}
+
+sidebar
+{
+  display: block;
+}
+
+simplelist
+{
+  display: inline;
+}
+
+state
+{
+  display: inline;
+}
+
+step
+{
+  display: inline;
+}
+
+street
+{
+  display: inline;
+}
+
+substeps
+{
+  display: inline;
+}
+
+subtitle
+{
+  font: bold 16pt Arial, sans-serif;
+  display: block;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+surname
+{
+  display: inline;
+}
+
+systemitem
+{
+  display: inline;
+}
+
+tbody
+{
+  /* display: table-row-group; */
+  display: block;
+}
+
+term
+{
+  display: block;
+}
+
+textobject
+{
+  display: inline;
+}
+
+tgroup
+{
+  /* display: table; */
+  display: block;
+}
+
+thead
+{
+  /* display: table-row-group; */
+  display: block;
+}
+
+title
+{
+  display: block;
+}
+
+article > title
+{
+  font: bold 20pt Arial, sans-serif;
+  display: block;
+  margin-top: .7in;
+  margin-bottom: 16px;
+  text-align: center;
+  
+  padding-bottom: 6px;
+  border-bottom: 2px solid black;
+}
+
+book > preface > title,
+book > part > title
+{
+  font: bold 20pt Arial, sans-serif;
+  display: block;
+  margin-top: .7in;
+  margin-bottom: 16px;
+  text-align: center;
+  
+  padding-bottom: 6px;
+}
+
+appendix > title, 
+section > title,
+sect1 > title,
+chapter > title
+{
+  font: bold 16pt Arial, sans-serif;
+  margin-top: .25in;
+  margin-bottom: .1in;
+  display: block;
+  text-align: left;
+}
+
+/*appendix > title:before
+{
+  content: 'Appendix: ';
+}*/
+
+appendix > section > title,
+section > section > title,
+sect2 > title
+{
+  font: italic bold 14pt Arial, sans-serif;
+  display: block;
+  margin-top: .25in;
+  margin-bottom: .1in;
+  text-align: left;
+}
+
+appendix > section > section > title,
+section > section > section > title,
+sect3 > title
+{
+  font: bold 12pt Arial, sans-serif;
+  display: block;
+  margin-top: .25in;
+  margin-bottom: .1in;
+  text-align: left;
+}
+
+appendix > section > section > section > title,
+section > section > section > section > title,
+sect4 > title
+{
+  font: italic bold 12pt Arial, sans-serif;
+  display: block;
+  margin-top: .25in;
+  margin-bottom: .1in;
+  text-align: left;
+}
+
+appendix > section > section > section > section > title,
+section > section > section > section > section > title,
+sect5 > title
+{
+  font: bold 10pt Arial, sans-serif;
+  display: block;
+  margin-top: .25in;
+  margin-bottom: .1in;
+  text-align: left;
+}
+
+appendix > section > section > section > section > section > title,
+section > section > section > section > section > section > title,
+sect6 > title
+{
+  font: bold 10pt Arial, sans-serif;
+  display: block;
+  margin-top: .25in;
+  margin-bottom: .1in;
+  text-align: left;
+}
+
+titleabbrev
+{
+  display: none;
+}
+
+trademark
+{
+  display: inline;
+}
+
+ulink
+{
+  border-bottom: 1px solid blue;
+  color: blue;
+  display: inline;
+}
+
+userinput
+{
+  display: inline;
+}
+
+variablelist
+{
+  display: block;
+  margin-left: 1em;
+  list-style-type: none;
+}
+
+varlistentry
+{
+  display: block;
+  margin-left: 1em;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+varlistentry listitem
+{
+  margin-left: 3em;
+}
+
+videodata
+{
+  display: inline;
+}
+
+videoobject
+{
+  display: inline;
+}
+
+volumenum
+{
+  display: inline;
+}
+
+warning
+{
+  border: 1px solid red;
+  display: block;
+  padding: 3px;
+}
+
+warning:before
+{
+	content: 'WARNING';
+	color: red;
+	font-weight: bold;
+	display: block
+}
+
+xref
+{
+  display: inline;
+}
+
+year
+{
+  display: inline;
+}
+

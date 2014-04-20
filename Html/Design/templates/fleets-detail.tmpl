@@ -1,0 +1,30 @@
+%embed "top.tmpl";
+
+%set file Request.getBasename;
+%set title gettext "overview";
+%if file = "fleets-commands";%set title gettext "detailed view";%endif;
+%if file = "fleets-name";    %set title gettext "rename";%endif;
+%if file = "fleets-split";   %set title gettext "split fleets";%endif;
+
+%set player Session.getPlayer;
+%set fleet player.findFleetById(Tools.safeParseInt(Request.getUrlParameter(0),-1));
+%if fleet != null;
+
+<input type="hidden" id="x-cqs-fleet" value="%= fleet.getId;" />
+%include "../include/fleetmenu.inc";
+
+%embed;
+
+%else;
+
+<h1>%("no fleet selected"); &ndash; %= title;</h1>
+
+%include "../include/fleetmenu.inc";
+
+<div class="warn">%("The accessed fleet does not exist!");<br />
+<b>%("possible reasons:");</b>
+<div>%("fleet was stationed");</div>
+<div>%("fleet was not created");</div>
+</div>
+%endif;
+

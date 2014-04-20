@@ -1,0 +1,726 @@
+html
+{
+	background-color: #000000;
+	color: #EEEEEE;
+}
+
+body
+{
+	font-family: Arial, Helvetica;
+	background-color: #000000;
+	color: #EEEEEE;
+	font-size: 10px;
+}
+
+table
+{
+	border-width: 0px;
+	width: 600px;
+}
+
+table.floating
+{
+	border-width: 0px;
+	width: 120px;
+}
+
+table.header
+{
+	background-color:transparent;
+	border-bottom: 1px;
+	border-color: #114466;
+	border-style: dotted
+}
+
+table.header span
+{
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+
+table.stats
+{
+	width:100%;
+	background-color: transparent;
+	border-spacing: 0px;
+}
+
+table.stats th
+{
+	text-align: center;
+	font-weight: bold;
+}
+
+table.stats th.big
+{
+	font-size: 14px;
+	font-weight: bold;
+}
+
+table.stats td
+{
+	text-align: center;
+	padding: 0px 10px 0px 10px;
+}
+
+table.stats td.table
+{
+	padding: 1px;
+	vertical-align: top;
+}
+
+table.stats td.r
+{
+	text-align: right;
+}
+
+table.stats td.l
+{
+	text-align: left;
+}
+
+table.stats tr.even
+{ background: url(/cqspack/design/even.png) repeat scroll; }
+
+table.stats tr.odd
+{ background: url(/cqspack/design/odd.png) repeat scroll; }
+
+table.stats tr.hl
+{ background-color: #600; }
+
+table.stats tr.even:hover
+{ background: #222d35; }
+
+table.stats tr.odd:hover
+{ background: #222d35; }
+
+table.stats tr.hl:hover
+{ background: #222d35; }
+
+table.stats td.even
+{
+	background: url(/cqspack/design/even.png) repeat scroll;
+	text-align: left;
+}
+
+table.stats td.odd
+{
+	background: url(/cqspack/design/odd.png) repeat scroll;
+	text-align: left;
+}
+
+table.stats td.hover
+{ text-align: left; }
+
+table.stats td.even:hover
+{ background: #222d35; }
+
+table.stats td.odd:hover
+{ background: #222d35; }
+
+table.stats td.hover:hover
+{ background: #222d35; }
+
+table.stats tr.hover:hover
+{ background: #222d35; }
+
+table.stats td.current { background-color: #035301; }
+table.stats td.next    { background-color: #070153; }
+
+table.stats td.image
+{
+	height: 300px;
+	width: 300px;
+	padding: 0px;
+	vertical-align: top;
+}
+
+table.info
+{
+	width:100%;
+	background-color: transparent;
+}
+
+table.info tr.t
+{ vertical-align: top; }
+
+table.info td
+{ text-align: center; }
+
+table.info th.big
+{
+	font-size: 14px;
+	font-weight: bold;
+}
+
+table.info td.r
+{ text-align: right; }
+
+table.info td.l
+{ text-align: left; }
+
+table.info td.hl
+{
+	color: #D00;
+	text-align: left;
+}
+
+table.info td.image
+{
+	height:300px;
+	vertical-align:top;
+}
+
+
+
+
+
+h1
+{
+	font-size:18px;
+	text-align:center;
+}
+
+h2
+{
+	font-size:14px;
+	text-align:center;
+}
+
+h3
+{
+	font-size:12px;
+	text-align:center;
+}
+
+
+div
+{
+	width: auto;
+	padding: 0px;
+	margin: 0px;
+}
+div.planetimg
+{
+	height: 100%;
+	min-height: 600px;
+	margin: 0px;
+	padding: 0px;
+	background-position: left top;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+div.n
+{
+	width: 8px;
+}
+
+div.inline
+{
+	display: inline;
+}
+
+div.map
+{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 600px;
+	height: 500px;
+	border: none;
+	cursor: crosshair;
+	background-repeat: no-repeat;
+}
+
+div.sys
+{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 600px;
+	height: 600px;
+	border: none;
+	background-repeat: no-repeat;
+}
+
+div.floatingLeft
+{
+	position: absolute;
+	top: 500px;
+	left: 350px;
+	width: 120px;
+}
+
+div.floatingRight
+{
+	position: absolute;
+	top: 500px;
+	left: 480px;
+	width: 120px;
+}
+
+span
+{
+}
+
+span.red
+{
+	color: #d00;
+}
+
+/* Ternaere Fallunterscheidung -> Flottenbefehle und Stats */
+
+td.false
+{
+	color: #880000;
+	text-align: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+td.none
+{
+	text-align: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+td.true
+{
+	color: #008800;
+	text-align: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+/* Flottenbefehle */
+
+b.fighting { color: #AA0000; }
+b.acting   { color: #00AA00; }
+
+td.current { background-color: #7C7; }
+td.next    { background-color: #99E; }
+
+/* Ingame-Design grau/blau i -> rot, u -> ueberschriften, n -> spezial, l -> linksbuendig, r -> rechtsbuendig */
+
+td
+{
+	text-align: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+th
+{
+	font-size:12px;
+	font-weight:bold;
+	text-align:center;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+td.l
+{
+	text-align:left;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+td.r
+{
+	text-align:right;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+/* Linkdefinitionen - standart/schwarz/weiß - Auftraglinks(wahr/falsch) */
+
+a
+{
+	color:#6688a0;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+a.blink
+{
+	color:#d33;
+	font-weight:bold;
+	text-decoration:blink;
+}
+
+a.true
+{
+	color: #40AA5b;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.false
+{
+	color: #d00;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/* alle roten schriftzuege */
+
+i.a
+{
+	color: #d00;
+}
+
+/* Bild als Inline und Blockelement */
+
+img
+{
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+img.tiny
+{
+	width: 14px;
+	height: 14px;
+}
+
+/* New Design */
+/* This css code is pretty complex and should be simplified if possible! */
+div.ajax
+{
+	text-align: center;
+}
+
+div.title
+{
+	text-align: center;
+	font-size: 16px;
+}
+
+div.jobqueue
+{
+	float: left;
+	width: 220px;
+}
+
+div.currentjob
+{
+	height: 80px;
+	border: 1px solid gray;
+	background-color: #222d35;
+	text-align: center;
+}
+
+div.currentjob .icon
+{
+	float: left;
+	width: 80px;
+	height: 80px;
+}
+
+div.currentjob div
+{ padding-top: 4px; }
+
+
+div.queuelist
+{
+	margin-top: 4px;
+/*	background-color: #222d35;*/
+	border: 0px solid gray;
+}
+
+div.queuelist div.item
+{
+	background: url(/cqspack/design/even.png) repeat scroll;
+	height: 40px;
+	margin-top: -1px;
+	border: 1px solid gray;
+}
+
+div.queuelist span.modifylinks
+{
+	float: right;
+	margin-right: 2px;
+}
+
+div.queuelist span.movelinks a.false
+{
+	visibility: hidden;
+}
+
+div.queuelist .icon
+{
+	float: left;
+	width: 40px;
+	height: 40px;
+}
+
+div.queuelist div.item:hover
+{
+	border: 1px solid gray;
+	background: #222d35;
+}
+
+
+div.queuelength
+{
+	text-align: center;
+}
+
+div.joblist
+{
+	float: right;
+}
+
+div.jobitem
+{
+	background: url(/cqspack/design/even.png) repeat scroll;
+	display: block;
+	border: 1px solid gray;
+	margin-top: -1px;
+	width: 370px;
+	min-height: 40px;
+}
+
+div.jobitem .icon
+{
+	width: 40px;
+	height: 40px;
+	border: none;
+	float: left;
+}
+
+div.jobitem img
+{
+	width: 14px;
+	height: 14px;
+}
+
+div.jobitem div.data
+{
+	margin-left: 41px;
+	display: block;
+}
+
+div.jobitem div.false
+{
+	float: right;
+	margin-left: 0px;
+	margin-right: 2px;
+	text-align: right;
+}
+
+div.jobitem div.true
+{
+	float: right;
+	margin-left: 0px;
+	margin-right: 2px;
+	text-align: right;
+}
+
+div.jobitem div.false a
+{
+	color: red;
+}
+
+div.jobitem div.true a
+{
+	color: green;
+}
+
+div.jobitem h3
+{
+	font-size: 12px;
+	text-decoration: none;
+	font-weight: normal;
+	height: 20px;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 4px;
+}
+
+div.jobitem ul
+{
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.jobitem li
+{
+	display: inline;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+div.jobitem:hover
+{
+	border: 1px solid gray;
+	background: #222d35;
+}
+
+div.jobitem a.menu
+{
+	border: 1px solid gray;
+	background-color: #222d35;
+	display: block;
+}
+
+div.jobitem a.menu:hover
+{
+	border: 1px solid gray;
+	background: #222d35;
+}
+
+
+div.final
+{
+	clear: both;
+	height: 20px;
+}
+
+div.warn
+{
+	background-color: #600;
+	border: 1px solid #a00;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+	text-align: center;
+}
+
+div.note
+{
+	background-color: #060;
+	border: 1px solid #0a0;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+	text-align: center;
+}
+
+div.note h1
+{
+	font-size: 14px;
+	text-align: center;
+	margin: 0px;
+}
+
+div.note h2
+{
+	font-size: 12px;
+	text-align: center;
+	margin: 0px;
+	margin-top: 3px;
+}
+
+div.center
+{ text-align: center; }
+
+/* input forms */
+fieldset.stdform
+{
+	color: #eee;
+	border: 1px solid gray;
+	margin-bottom: 5px;
+}
+
+fieldset.stdform div.warn
+{
+	background-color: #600;
+	border: 1px solid #a00;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+	text-align: center;
+}
+
+fieldset.stdform div.note
+{
+	background-color: #060;
+	border: 1px solid #0a0;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+	text-align: center;
+}
+
+fieldset.stdform div.option
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.option input
+{
+	margin-left: 200px;
+	margin-right: 5px;
+}
+
+fieldset.stdform div.option label
+{
+	padding-left: 4px;
+	padding-right: 4px;
+	border: 1px solid transparent;
+}
+
+fieldset.stdform div.option label:hover
+{
+	background: #222d35;
+	border: 1px solid gray;
+}
+
+
+fieldset.stdform div.select
+{
+	margin-top: 14px;
+	margin-bottom: 14px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.select select
+{
+	position: absolute;
+	margin-left: 150px;
+	width: 240px;
+}
+
+
+fieldset.stdform div.textinput
+{
+	margin-top: 14px;
+	margin-bottom: 14px;
+	padding-left: 10px;
+}
+
+fieldset.stdform div.textinput input
+{
+	position: absolute;
+	margin-left: 200px;
+	width: 240px;
+}
+
+fieldset.stdform div.submit
+{
+	margin-top: 10px;
+	margin-bottom: 2px;
+	text-align: center;
+}
+
+fieldset.stdform div.image
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+	text-align: center;
+}

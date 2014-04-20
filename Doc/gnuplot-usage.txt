@@ -1,0 +1,7 @@
+set timefmt "%H:%M:%S"
+set xdata time
+plot ["0:0:0":"23:50:0"] "temp.txt" using 1:2 with lines
+
+# set terminal svg dynamic
+# set output "output.svg"
+# replot

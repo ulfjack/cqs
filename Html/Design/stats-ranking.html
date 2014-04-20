@@ -1,0 +1,157 @@
+%embed "templates/stats.tmpl";
+
+<!-- vars for player ranking -->
+%set playerRanking Galaxy.getPlayerHighscore;
+%set pmark Tools.safeParseInt(Request.getParameter("pmark"), -1);
+%set plength playerRanking.size;
+%if pmark > plength-1; %set pmark -1; %endif;
+%if pmark < 0;          %set pmark -1; %endif;
+
+%set playerStart Tools.safeParseInt(Request.getParameter("pstart"), -1);
+%if playerStart > plength-1; %set playerStart plength-1; %endif;
+%if playerStart < 0;          %set playerStart 0;         %endif;
+%set showPlayers Tools.safeParseInt(Request.getParameter("pshow"), 25);
+%set playerStop playerStart+showPlayers-1;
+%if playerStop > plength-1;  %set playerStop plength-1;  %endif;
+
+%set playerPos Session.getPlayer.getScore.getPosition;
+
+<!-- vars for alliance ranking -->
+%set allianceRanking Galaxy.getAllianceHighscore;
+%set amark Tools.safeParseInt(Request.getParameter("amark"), -1);
+%set alength allianceRanking.size;
+%if amark > alength-1; %set amark -1; %endif;
+%if amark < 0;          %set amark -1;         %endif;
+
+%set allianceStart Tools.safeParseInt(Request.getParameter("astart"), -1);
+%if allianceStart > alength-1; %set allianceStart alength-1; %endif;
+%if allianceStart < 0;          %set allianceStart 0;         %endif;
+%set showAlliances Tools.safeParseInt(Request.getParameter("ashow"), 25);
+%set allianceStop allianceStart+showAlliances-1;
+%if allianceStop > alength-1;  %set allianceStop alength-1;  %endif;
+
+%set alliancePos -1;
+%if Session.getAlliance != null;
+	%set alliancePos Session.getAlliance.getScore.getPosition;
+%endif;
+
+<table>
+	<colgroup><col width="44%%" /><col width="2%%" /><col width="54%%" /></colgroup>
+	<tr>
+		<td colspan="3"><div class="note">%("Players and alliances are ranked according to civilisation points and the number of units they have drilled throughout the whole round &ndash; including already destroyed units. This means that the highest position party is not necessarily the currently strongest one.");</div></td>
+	</tr>
+	<tr>
+		<td>
+				<h3>%("player ranking");</h3>
+				<table>
+				<colgroup><col width="5%%" /><col width="5%%" /><col width="40%%" /><col width="20%%" /><col width="20%%" /><col width="5%%" /><col width="5%%" /></colgroup>
+					<tr>
+						<th>%if playerStart > 0;<a href="stats-ranking?pstart=%=playerStart-250;&amp;pmark=%= pmark;&amp;pshow=%=showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&lt;&lt;</a>%endif; </th>
+						<th>%if playerStart > 0; <a href="stats-ranking?pstart=%=playerStart-showPlayers;&amp;pmark=%= pmark;&amp;pshow=%=showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&lt;</a>%endif; </th>
+						<th>&#160;</th>
+						<th class="r">%if showPlayers=25;%("show {0}", 25);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=25&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">%("show {0}", 25);</a>%endif;</th>
+						<th class="r">%if showPlayers=50;%("show {0}", 50);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=50&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">%("show {0}", 50);</a>%endif;</th>
+						<th class="r">%if playerStop < plength-1;<a href="stats-ranking?pstart=%=playerStart+showPlayers;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&gt;</a>%endif; </th>
+						<th class="r">%if playerStop < plength-1;<a href="stats-ranking?pstart=%=playerStart+250;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&gt;&gt;</a>%endif; </th>
+					</tr>
+				</table>
+				<table class="stats">
+				<colgroup><col width="10%%" /><col width="45%%" /><col width="15%%" /><col width="20%%" /><col width="10%%" /></colgroup>
+					<tr class="nohover">
+						<th class="r"></th>
+						<th>%("name");</th>
+						<th>%("alliance");</th>
+						<th class="r">%("colonies");</th>
+						<th class="r">%("points");</th>
+					</tr>
+	
+					%loop x from playerStart to playerStop;
+						%set pl playerRanking.get(x);
+						%set pscore pl.getScore;
+						<tr class="%= (x=playerPos) or (x=pmark) ? "hl" : x % 2 = 0 ? "even" : "odd";">
+							<td class="r">%= x+1;.</td>
+							<td class="l"><a href="player|%= pl.getPid;">%= pl.getName;</a>
+							</td>
+							<td>%if pl.getAlliance != null;
+								[<a href="view-alliance|%= pl.getAlliance.getId;">%= pl.getAlliance.getShortName;</a>]
+								%endif;
+							</td>
+							<td class="r">%("{0,number,integer}", pl.getColonies.size);</td>
+							<td class="r">%("{0,number,integer}", pscore.getPoints);</td>
+						</tr>
+					%endloop;
+				</table>
+				<table>
+				<colgroup><col width="5%%" /><col width="5%%" /><col width="40%%" /><col width="20%%" /><col width="20%%" /><col width="5%%" /><col width="5%%" /></colgroup>
+					<tr>
+						<th>%if playerStart > 0;<a href="stats-ranking?pstart=%=playerStart-250;&amp;pmark=%= pmark;&amp;pshow=%=showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&lt;&lt;</a>%endif; </th>
+						<th>%if playerStart > 0; <a href="stats-ranking?pstart=%=playerStart-showPlayers;&amp;pmark=%= pmark;&amp;pshow=%=showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&lt;</a>%endif; </th>
+						<th>&#160;</th>
+						<th class="r">%if showPlayers=25;%("show {0}", 25);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=25&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">%("show {0}", 25);</a>%endif;</th>
+						<th class="r">%if showPlayers=50;%("show {0}", 50);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=50&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">%("show {0}", 50);</a>%endif;</th>
+						<th class="r">%if playerStop < plength-1;<a href="stats-ranking?pstart=%=playerStart+showPlayers;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&gt;</a>%endif; </th>
+						<th class="r">%if playerStop < plength-1;<a href="stats-ranking?pstart=%=playerStart+250;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&gt;&gt;</a>%endif; </th>
+					</tr>
+				</table>
+		</td>
+		<td></td>
+		<td>
+				<h3>%("alliance ranking");</h3>
+				<table>
+				<colgroup><col width="5%%" /><col width="5%%" /><col width="40%%" /><col width="20%%" /><col width="20%%" /><col width="5%%" /><col width="5%%" /></colgroup>
+					<tr>
+						<th>%if allianceStart > 0;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart-250;&amp;amark=%= amark;&amp;ashow=%= showAlliances;">&lt;&lt;</a>%endif; </th>
+						<th>%if allianceStart > 0; <a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%=showPlayers;&amp;astart=%= allianceStart-showAlliances;&amp;amark=%= amark;&amp;ashow=%=showAlliances;">&lt;</a>%endif; </th>
+						<th>&#160;</th>
+						<th class="r">%if showAlliances=25;%("show {0}", 25);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=25">%("show {0}", 25);</a>%endif;</th>
+						<th class="r">%if showAlliances=50;%("show {0}", 50);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=50">%("show {0}", 50);</a>%endif;</th>
+						<th class="r">%if allianceStop < alength-1;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart+showAlliances;&amp;amark=%= amark;&amp;ashow=%= showAlliances;">&gt;</a>%endif; </th>
+						<th class="r">%if allianceStop < alength-1;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart+250;&amp;amark=%= amark;&amp;ashow=%= showAlliances;">&gt;&gt;</a>%endif; </th>
+					</tr>
+				</table>
+				<table class="stats">
+				<colgroup><col width="5%%" /><col width="30%%" /><col width="10%%" /><col width="20%%" /><col width="10%%" /><col width="15%%" /></colgroup>
+					%if allianceStart <= allianceStop;
+						<tr class="nohover">
+							<th class="r"></th>
+							<th>%("name");</th>
+							<th>%("tag");</th>
+							<th class="r">%("points");</th>
+							<th class="r">%("members");</th>
+							<th class="r">%("average");</th>
+						</tr>
+						%loop x from allianceStart to allianceStop;
+							%set alli allianceRanking.get(x);
+							%set ascore alli.getScore;
+							<tr class="%= (x=alliancePos) or (x=amark) ? "hl" : x % 2 = 0 ? "even" : "odd";">
+								<td class="r">%= x+1;.</td>
+								<td class="l"><a href="view-alliance|%= alli.getId;">%= alli.getName;</a></td>
+								<td>[<a href="view-alliance|%= alli.getId;">%= alli.getShortName;</a>]</td>
+								<td class="r">%("{0,number,integer}", ascore.getPoints);</td>
+								<td class="r">%("{0,number,integer}", alli.size);</td>
+								<td class="r">%("{0,number,integer}", alli.size != 0 ? ascore.getPoints/alli.size : 0); </td>
+							</tr>
+						%endloop;
+					%else;
+						<tr class="even">
+							<td colspan="6"> %("currently no alliance existent"); </td>
+						</tr>
+					%endif;
+				</table>
+				<table>
+				<colgroup><col width="5%%" /><col width="5%%" /><col width="40%%" /><col width="20%%" /><col width="20%%" /><col width="5%%" /><col width="5%%" /></colgroup>
+					<tr>
+						<th>%if allianceStart > 0;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart-250;&amp;amark=%= amark;&amp;ashow=%= showAlliances;">&lt;&lt;</a>%endif; </th>
+						<th>%if allianceStart > 0; <a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart-showAlliances;&amp;amark=%= amark;&amp;ashow=%= showAlliances;">&lt;</a>%endif; </th>
+						<th>&#160;</th>
+						<th class="r">%if showAlliances=25;%("show {0}", 25);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=25">%("show {0}", 25);</a>%endif;</th>
+						<th class="r">%if showAlliances=50;%("show {0}", 50);%else;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart;&amp;amark=%= amark;&amp;ashow=50">%("show {0}", 50);</a>%endif;</th>
+						<th class="r">%if allianceStop < alength-1;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart+showAlliances;&amp;amark=%= amark;&amp;ashow=%= showAlliances;">&gt;</a>%endif; </th>
+						<th class="r">%if allianceStop < alength-1;<a href="stats-ranking?pstart=%=playerStart;&amp;pmark=%= pmark;&amp;pshow=%= showPlayers;&amp;astart=%= allianceStart+250;&amp;amark=%= amark;&amp;ashow=%= showAlliances;">&gt;&gt;</a>%endif; </th>
+					</tr>
+				</table>
+		</td>
+	</tr>
+</table>
+
+

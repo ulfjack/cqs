@@ -1,0 +1,27 @@
+%embed "templates/top.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+<div class="bg">
+	<img class="cornericon" src="%= Session.getUrl(ImageEnum.SYMBOL_MONEY);" alt="" />
+	<h3>%("finances"); &ndash; %("next update in:"); <span id="countto-a-%= player.getNextUpkeepTime;">%= Tools.asTime(player.getNextUpkeepTime-Galaxy.getTime);</span></h3>
+
+	<table>
+		<tr>
+			<td class="table" style="padding-right:10px">
+	%include "include/finances-account_overview.inc";
+			</td>
+			<td style="width:500px;height:400px;overflow:hidden;">
+				%set sum income-upkeep;
+				<div class="%if sum >= 0;note%else;warn%endif;" style="margin:0;padding:0px 5px;width:100%%;text-align:left;">
+					%("CqSol: {0}", player.getMoney); (<b>%if sum >= 0;+%("{0,number,integer}/h", sum);%else;-%("{0,number,integer}/h", 0-sum);%endif;</b>)
+					%if sum < 0; &ndash; %("Your credit is decreasing!");%endif;
+				</div>
+%set md Tools.getMoneyReport(Session.getPlayer());
+<img src="%= md.getUrl;" width="500" height="400" alt="chart" />
+			</td>
+		</tr>
+	</table>
+</div>
+

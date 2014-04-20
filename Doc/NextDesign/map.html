@@ -1,0 +1,23 @@
+%include "include/map-head.inc";
+
+<div class="content map map-galaxy">
+	<div class="colony-list">
+		<h2>Eigene Kolonien:</h2>
+		<ul>
+		%loop colony foreach player.colonies;
+		<li id="c%string colony.position(galaxyView);"><a href="map-colony?Colony.set=%string colony.position(galaxyView);"><span>%string colony.position(galaxyView);</span> %string colony.name;</a></li>
+		%endloop;
+		</ul>
+	</div>
+	
+	<div class="galaxy" style="background-image:url('%string Session.GP.design;galaxy-background.jpg')">
+	%loop x from 0 to Galaxy.Systems.amount-1;
+		<div id="s%long x;" class="system" style="left:%long 3*Galaxy.Systems.x(x)/2+390;px;top:%long 3*Galaxy.Systems.y(x)/2+300;px;">
+		<a href="map-system?View.System.select=%string Galaxy.Systems.position(player,x);" title="%string Galaxy.Systems.position(player,x);">
+		<img src="%string Session.GP.design;system%long Galaxy.Systems.state(player,x);.gif" alt="%string Galaxy.Systems.position(player,x);" /></a>
+		</div>
+	%endloop;
+	</div>
+</div>
+
+%include "include/map-foot.inc";

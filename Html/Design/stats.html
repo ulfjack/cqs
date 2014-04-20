@@ -1,0 +1,49 @@
+%embed "templates/stats.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+<table>
+	<colgroup><col width="35%%" /><col width="65%%" /></colgroup>
+	<tr>
+		<td>
+			<h3>%("account data");</h3>
+			<table class="stats">
+				<tr><td>%("name");</td><td>%= player.getName;</td></tr>
+					%if player.getAlliance != null;<tr><td>%("alliance");</td><td>%= player.getAlliance.getName;</td></tr>%endif;
+				<tr><td>%("alliance change possible in");</td><td>%if player.getNextAllianceChangeTime < 0;%("alliance change possible");%else;%= Tools.asTime(player.getNextAllianceChangeTime);%if Galaxy.getSpeed > 1; (%= Tools.asTime(player.getNextAllianceChangeTime/Galaxy.getSpeed);)%endif;%endif;</td></tr>
+				<tr class="nohover"><td colspan="2"><br /></td></tr>
+				<tr><td>%("points");</td><td>%("{0,number,integer}", player.getScore.getPoints);</td></tr>
+				<tr><td>%("CqSol");</td><td>%("{0,number,integer}", player.getMoney);</td></tr>
+				<tr class="nohover"><td colspan="2"><br /></td></tr>
+				<tr><td>%("colonies");</td><td>%("{0,number,integer}", player.getColonies.size);</td></tr>
+				<tr><td>%("civilization points");</td><td>%("{0,number,integer}", player.getPoints);</td></tr>
+				<tr><td>%("needed for next colony");</td><td>%if player.mayColonize;%("colonization possible");%else;<a href="help-civpoints">%("{0,number,integer}", player.neededPoints);</a>%endif;</td></tr>
+	
+			</table>
+		</td>
+		<td>
+			<h3>%("colonies");</h3>
+			<table class="stats" id="sortable0">
+				<tr id="head0">
+					<th id="key0-coords">%("position");</th>
+					<th id="key1-string">%("name");</th>
+					<th id="key2-string">%("type");</th>
+					<th id="key3-number" class="r">%("size");</th>
+					<th id="key4-number" class="r">%("civ points");</th>
+				</tr>
+				%loop x,colony foreach player.getColonies;
+				<tr id="sort%= x;" class="%= x % 2 = 0 ? "even" : "odd";">
+					<td id="a%= x;"><a href="colony|%= colony.getPosition;">%= colony.getPosition;</a></td>
+					<td class="l" id="b%= x;"><a href="colony|%= colony.getPosition;">%= colony.getName;</a></td>
+					<td id="c%= x;">%= colony.getPlanet.getType.getName(Session.getLocale);</td>
+					<td class="r" id="d%= x;">%("{0,number,integer}", colony.getSize);</td>
+					<td class="r" id="e%= x;">%("{0,number,integer}", colony.getPoints);</td>
+				</tr>
+				%endloop;
+			</table>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript" src="js/common-tablesort.js"></script>

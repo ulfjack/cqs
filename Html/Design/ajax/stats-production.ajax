@@ -1,0 +1,12 @@
+%set locale Session.getLocale;
+%set player Session.getPlayer;
+%set colony Session.getColony(Request.getPostParameter("c"));
+%set q Tools.safeParseInt(Request.getPostParameter("q"), -1);
+
+<meta name="quotaUsed" value="%= player.getUsedBandwidth;" />
+%if player.getUsedBandwidth > player.getTotalBandwidth;<meta name="alert" value="%("No quota remaining!");" />%endif;
+%if q < 0;
+%include "../include/production-building.inc";
+%else;
+%include "../include/production-unit.inc";
+%endif;

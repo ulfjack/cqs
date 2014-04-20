@@ -1,0 +1,10 @@
+.note table.info
+{
+	width: 450px;
+	font-size: .7em;
+}
+
+.note table.info td
+{
+	padding: 5px;
+}

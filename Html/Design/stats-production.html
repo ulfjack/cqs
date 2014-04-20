@@ -1,0 +1,42 @@
+%embed "templates/stats.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+%set t Tools.getRandomLong;
+
+	<h3>%("production queues");</h3>
+	<table class="stats">
+	<colgroup width="20%%" span="5" />
+		<tr class="nohover">
+			<th colspan="5">
+				<form action="stats-production" method="post">
+					<input type="hidden" name="do" value="Player.Colony.resumeAll" />
+					<button type="submit">%("resume everything");</button>
+				</form>
+			</th>
+		</tr>
+		<tr class="nohover">
+			<th>%("colony");</th>
+			<th>%("buildings");</th>
+			<th>%("planetary units");</th>
+			<th>%("interplanetary units");</th>
+			<th>%("interstellar units");</th>
+		</tr>
+		%loop x,colony foreach player.getColonies;
+		<tr class="%= x%2=0 ? "even" : "odd";">
+			<td class="l"><a href="colony|%= colony.getPosition;">%= colony.getName; (%= colony.getPosition;)</a></td>
+			<td id="id-%= colony.getPosition;-0">
+				%include "include/production-building.inc";
+			</td>
+			%loop q from 0 to 2;
+			<td id="id-%= colony.getPosition;-%= q+1;">
+				%include "include/production-unit.inc";
+			</td>
+			%endloop;
+		</tr>
+		%endloop;
+	</table>
+
+<script type="text/javascript" src="js/stats-production.js"></script>
+

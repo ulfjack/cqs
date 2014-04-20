@@ -1,0 +1,23 @@
+%include "html-head.inc";
+<body class="bgimage" lang="%= Session.getLocale;">
+
+%if colony != null;
+<input type="hidden" id="x-cqs-colony" value="%= colony.getPosition;" />
+%endif;
+<div>
+%include "menu.inc";
+
+%if colony != null;
+
+%embed;
+
+%else;
+
+<div class="warn">%("no colony selected!");</div>
+
+%endif;
+<br />
+</div>
+</div>
+</body>
+</html>

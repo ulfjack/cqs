@@ -1,0 +1,26 @@
+%embed "templates/help.tmpl";
+
+%set player Session.getPlayer;
+
+<h1>%("civilization points needed for founding colonies (currently: {0,number,integer})", player.getPoints);</h1>
+<table>
+<colgroup width="25%%" span="4" />
+	<tr>
+		%loop x from 0 to 3;
+		<td class="table">
+			<div class="bg">
+				<h3>%("{0} to {1} colonies", 10*x+1, 10*x+10);</h3>
+				<table class="stats">
+					%loop y from 0 to 9;
+					<tr class="%if (player.getPoints >= Constants.neededPoints(10*x+y)) and (player.getPoints < Constants.neededPoints(10*x+y+1));hl%else;%= y % 2 = 0 ? "even" : "odd";%endif;">
+						<td class="l">%("for your {0,number,integer}. colony:", 10*x+y+1);</td>
+						<td class="r">%("{0,number,integer}", Constants.neededPoints(10*x+y));</td>
+					</tr>
+					%endloop;
+				</table>
+			</div>
+		</td>
+		%endloop;
+	</tr>
+</table>
+

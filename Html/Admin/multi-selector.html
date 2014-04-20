@@ -1,0 +1,19 @@
+%embed "include/design.tmpl";
+
+<h1>Set to Multi</h1>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="select" />
+<table width="500">
+  <tr><td class="b"><button type="submit">Alle auf 'Multi' setzen"</button></td></tr>
+</table>
+</form>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="deselect" />
+<table width="500">
+  <tr><td class="b"><button type="submit">Alle aus 'Multi' befreien</button></td></tr>
+</table>
+</form>
+
+%include "i-player-list.include";

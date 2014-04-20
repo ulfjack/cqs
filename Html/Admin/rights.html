@@ -1,0 +1,14 @@
+%embed "include/design.tmpl";
+
+<h1>Rights Management</h1>
+
+<pre>
+%= AdminTools.displayRights();
+</pre>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Admin.add" />
+<input type="text" name="name" /><br />
+<button type="submit">Allow Full Access</button>
+</form>
+

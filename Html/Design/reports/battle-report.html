@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>Conquer-Space.net %("battle report");</title>
+	<link rel="stylesheet" type="text/css" href="/data/report.css" />
+</head>
+
+%set locale Session.getLocale;
+
+<body>
+
+<div id="content">
+
+<h1>Conquer-Space.net %("battle report");</h1>
+
+%set Report Tools.getBattleReport(Request.getFilename);
+%if Report != null;
+
+<table id="info">
+<colgroup><col width="40%%" /><col width="30%%" /><col width="30%%" /></colgroup>
+<tr><td rowspan="9"><img src="/data/logo.png" alt="" /></td></tr>
+<tr><th>%("type");</th><td>%= Report.getType.getName(locale);</td></tr>
+<tr><th>%("start");</th><td>%= Tools.asDate(locale, Report.getStartTime);</td></tr>
+<tr><th>%("position");</th><td>%= Report.getPosition;</td></tr>
+<tr><th>%("status");</th><td>%= Report.getState.getName(locale);</td></tr>
+<tr><th colspan="2"><img src="/cqspack/design/grey.gif" width="250" height="1" alt="" /></th></tr>
+<tr><th>%("attacker");</th>
+	<td>
+%loop player foreach Report.getAttackers;%= player.getName;%if player.getAllianceTag != null; [%= player.getAllianceTag;]%endif;<br />%endloop;
+	</td>
+</tr>
+<tr><th colspan="2"><img src="/cqspack/design/grey.gif" width="250" height="1" alt="" /></th></tr>
+<tr><th>%("defender");</th>
+	<td>
+%loop player foreach Report.getDefenders;%= player.getName;%if player.getAllianceTag != null; [%= player.getAllianceTag;]%endif;<br />%endloop;
+	</td>
+</tr>
+<tr><td><br /></td><td><br /></td></tr>
+</table>
+
+<!--<table>
+<tr><td class="u" colspan="2">%("display mode");</td></tr>
+</table>
+
+<table>
+<colgroup><col width="50%%" /><col width="50%%" /></colgroup>
+<tr>
+	<td><a href="?mode=normal">%("normal");</a></td>
+	<td><a href="?mode=raw">%("raw data");</a></td>
+</tr>
+</table>-->
+
+%if Request.getParameter("mode") != "raw";
+
+<h2>%("battle progression");</h2>
+<!-- Normale Darstellung -->
+<table class="events">
+<colgroup><col width="50%%" /><col width="50%%" /></colgroup>
+%loop x,event foreach Report.getNormalEvents;
+%set done false;
+	%if event.getType = 0;
+		<tr><th class="h" colspan="2">%= event.getText;</th></tr>
+	%elseif event.getType = 1;
+	<tr>
+		<td class="table">
+			<table class="stats">
+				%loop fleet foreach event.getAttackerUnitsActive;
+				%set player fleet.getOwner;
+				%set playername "<span class=""red"">null</span>";
+				%if player != null;
+					%set playername player.getName;
+					%if player.getAllianceTag != null;
+				 		%set playername playername+"["+player.getAllianceTag+"]";
+					%endif;
+				%endif;
+					<tr><th colspan="2">%("{0} (id {1}) owned by {2} is fighting with:", fleet.getName, fleet.getId, playername);</th></tr>
+					%loop y,entry foreach fleet.getUnits;
+					<tr class="%= y % 2 = 0 ? "even" : "odd";">
+						<td>%= entry.type.getName(locale);</td><td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%endloop;
+				%endloop;
+			</table>
+		</td>
+		<td class="table">
+			<table class="stats">
+				%loop fleet foreach event.getDefenderUnitsActive;
+				%set player fleet.getOwner;
+				%set playername "<span class=""red"">null</span>";
+				%if player != null;
+					%set playername player.getName;
+					%if player.getAllianceTag != null;
+				 		%set playername playername+"["+player.getAllianceTag+"]";
+					%endif;
+				%endif;
+					<tr><th colspan="2">%("{0} (id {1}) owned by {2} is fighting with:", fleet.getName, fleet.getId, playername);</th></tr>
+					%loop y,entry foreach fleet.getUnits;
+					<tr class="%= y % 2 = 0 ? "even" : "odd";">
+						<td>%= entry.type.getName(locale);</td><td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%endloop;
+				%endloop;
+			</table>
+		</td>
+	</tr>
+	%elseif event.getType = 2;
+		<tr><td class="c" colspan="2">%= event.getText;</td></tr>
+	%else;
+		<tr><th colspan="2">%("INTERNAL ERROR: unknown event"); (%= event.getText;)</th></tr>
+	%endif;
+%endloop;
+</table>
+
+<h2>%("total damage");</h2>
+<table>
+<colgroup><col width="50%%" /><col width="50%%" /></colgroup>
+	<tr>
+		<th>%("attacker"); &ndash; %("lost units");</th>
+		<th>%("defender"); &ndash; %("lost units");</th>
+	</tr>
+	<tr>
+		<td class="table">
+			<table class="stats">
+				%loop y,entry foreach Report.getAttackerTotalLost;
+				<tr class="%= y % 2 = 0 ? "even" : "odd";">
+					<td>%= entry.type.getName(locale);</td><td class="r">%("{0,number,integer}", entry.amount);</td>
+				</tr>
+				%endloop;
+			</table>
+		</td>
+		<td class="table">
+			<table class="stats">
+				%loop y,entry foreach Report.getDefenderTotalLost;
+				<tr class="%= y % 2 = 0 ? "even" : "odd";">
+					<td>%= entry.type.getName(locale);</td><td class="r">%("{0,number,integer}", entry.amount);</td>
+				</tr>
+				%endloop;
+			</table>
+		</td>
+		</tr>
+</table>
+
+<h2>%("invaded buildings");</h2>
+<table>
+<colgroup><col width="50%%" /><col width="50%%" /></colgroup>
+	<tr>
+		<th>%("type");</th>
+		<th>%("invaded");</th>
+		<th>%("destroyed");</th>
+	</tr>
+	%set y 0;
+	%loop building foreach Building.values where (Report.getBuildingsInvaded(building) > 0) or (Report.getBuildingsBurned(building) > 0);
+	<tr class="%= y % 2 = 0 ? "even" : "odd";">
+		<td>%= building.getName(locale);</td>
+		<td class="r">%= Report.getBuildingsInvaded(building);</td>
+		<td class="r">%= Report.getBuildingsBurned(building);</td>
+	</tr>
+	%set y y+1;
+	%endloop;
+</table>
+
+%else;
+
+<!-- Rohdaten -->
+<table>
+<tr><td>
+<div style="text-align:left">
+<ol>
+%loop s foreach Report.getRawEvents;
+	<li>%= s;</li>
+%endloop;
+</ol>
+</div>
+</td></tr>
+</table>
+
+%endif;
+
+%else;
+<div class="warn">%("The battle report was not found!");</div>
+%endif;
+
+</div>
+
+</body>
+</html>

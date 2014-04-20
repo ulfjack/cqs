@@ -1,0 +1,23 @@
+%embed "include/design.tmpl";
+
+<h1>Find Multis</h1>
+
+<form action="" method="post">
+<input type="hidden" name="resetMulticounters" value="on" />
+<table width="500">
+	<tr><td class="b"><button type="submit">Multi-Counter reseten</button></td></tr>
+</table>
+</form>
+
+<form action="" method="post">
+<table width="500">
+	<tr><td class="b" align="left"><input type="checkbox" name="email" /> Gleiche emails checken</td></tr>
+	<tr><td class="b"><input type="checkbox" name="password" /> Gleiche Passwörter checken</td></tr>
+	<tr><td class="b"><input type="checkbox" name="graphicpath" /> Gleiche Graphikpack-Pfade checken</td></tr>
+	<tr><td class="b"><input type="checkbox" name="counter" /> Multi-Counter checken</td></tr>
+	<tr><td class="b">Mindestanzahl:	<input type="text" name="mincount" value="1" /></td></tr>	
+	<tr><td class="b"><button type="submit">Suchen</button></td></tr>
+</table>
+</form>
+
+%include "i-player-list.include";

@@ -1,0 +1,33 @@
+%embed "templates/top.tmpl";
+
+%set locale Session.getLocale;
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+<script type="text/javascript" src="js/common-json.js"></script>
+
+<div class="warn">
+%loop event foreach Galaxy.getPastEvents;
+%("{0} {1}", Tools.asDate(locale, event.getTime), event.getType.getName(locale));<br />
+%endloop;
+
+<br />
+
+%set t Galaxy.getTime()+200;
+<span id="countto-X-%= t;">%= Tools.asTime(t-Galaxy.getTime);</span><br />
+<br />
+<button onclick="doSomething()">Do something!</button>
+</div>
+
+<script type="text/javascript">
+function doSomething()
+{
+	var request = new AjaxRequest("test.json");
+	request.onsuccess = function(text)
+		{
+			var result = json_parse(text);
+			alert(text+" "+result+" "+result.response);
+		};
+	request.post();
+}
+</script>

@@ -1,0 +1,87 @@
+%embed "include/design.tmpl";
+
+%if Request.getUrlParameterCount() = 1;
+%set id AdminTools.safeParseInt(Request.getUrlParameter(0), -1);
+%set player Galaxy.findPlayerByPid(id);
+%if player != null;
+
+<h1>Player %= player.getName();</h1>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Player.allowLogin" />
+<input type="hidden" name="id" value="%= player.getPid;" />
+<table width="500">
+	<tr><td class="b"><button type="submit">Allow Login to this Player</button></td></tr>
+</table>
+</form>
+
+<table width="500">
+	<tr><td class="a"><a href="/Ingame/">To the game!</a></td></tr>
+</table>
+
+<form action="?name=%= player.getPid;" method="post">
+<table width="500">
+  <tr>
+    <td class="b">Neuer Name:</td>
+    <td class="b"><input type="text" name="newname" /></td>
+  </tr>
+  <tr>
+    <td class="b">Neue email:</td>
+    <td class="b"><input type="text" name="newemail" /></td>
+  </tr>
+  <tr>
+    <td class="b">Neue Alli:</td>
+    <td class="b"><input type="text" name="newally" /></td>
+  </tr>
+  <tr><td class="b" colspan="2">-</td></tr>
+  
+  <tr>
+    <td class="b"><input type="checkbox" %if player.mayLogin;checked="checked"%endif; name="mayLogin" />Login erlaubt</td>
+    <td class="b"><input type="checkbox" %if player.isMulti;checked="checked"%endif; name="isMulti" />'Ist Multi'</td>
+  </tr>
+  
+  <tr>
+    <td class="b"><input type="checkbox" %if player.showAds;checked="checked"%endif; name="showAds" />Werbung zeigen</td>
+    <td class="b"><input type="checkbox" %if player.isAllianceAdmin;checked="checked"%endif; name="isAdmin" />Ist Allianz-Admin</td>
+  </tr>
+  <tr><td class="b" colspan="2">-</td></tr>
+  <tr>
+    <td class="b" colspan="2">Kommentare</td>
+  </tr>
+  <tr>
+    <td class="b" colspan="2"><textarea name="comments" cols="50" rows="10">%= AdminTools.getPlayerComment(player.getPid());</textarea></td>
+  </tr>
+  <tr><td class="b" colspan="2">-</td></tr>
+  <tr><td class="b" colspan="2"><input type="checkbox" name="take" /> Apply Changes</td></tr>
+<!--  <tr><td class="b" colspan="2">-</td></tr>
+  <tr><td class="b" colspan="2"><input type="checkbox" name="password" />Passwort zeigen</input></td></tr>-->
+  <tr><td class="b" colspan="2">-</td></tr>
+  <tr><td class="b" colspan="2">
+		<input type="hidden" name="pid" value="%= player.getPid;" />
+		<input type="hidden" name="do" value="Player.edit" />
+		<button type="submit">Los</button>
+	</td></tr>
+</table>
+</form>
+
+<pre>%= Session.displayPlayer(player);</pre>
+
+%endif;
+
+%else;
+<h1>Search Player</h1>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="PlayerList.search" />
+<table width="500">
+  <tr><td class="b">Name:  <input type="text" name="nick" /></td></tr>
+  <tr><td class="b">email: <input type="text" name="email" /></td></tr>
+  <tr><td class="b">Allianz: <input type="text" name="ally" /></td></tr>
+  <tr><td class="b">Alles: <input type="text" name="anything" /></td></tr>
+  <tr><td class="b"><input type="checkbox" name="incremental" /> Aktuelle Liste nicht loeschen</td></tr>
+  <tr><td class="b"><button type="submit">Suchen</button></td></tr>
+</table>
+</form>
+
+%include "i-player-list.include";
+%endif;

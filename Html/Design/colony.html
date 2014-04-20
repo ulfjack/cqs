@@ -1,0 +1,145 @@
+%embed "templates/colony.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set locale Session.getLocale;
+%set colony Session.getColony(Request.getUrlParameter(0));
+%set position colony.getPosition;
+%set t Tools.getRandomLong;
+
+%set planet colony.getPlanet;
+
+<script type="text/javascript">
+var bPreset = "%= player.buildingPreset;";
+var uPreset = "%= player.unitPreset;";
+</script>
+<script type="text/javascript" src="js/colony.js"></script>
+<script type="text/javascript" src="js/colony-build.js"></script>
+<script type="text/javascript" src="js/colony-units.js"></script>
+<script type="text/javascript" src="js/colony-education.js"></script>
+
+<div id="colony">
+<table>
+	<colgroup><col width="18%%" /><col width="17%%" /><col width="65%%" /></colgroup>
+	<tr class="nospacetb">
+		<td class="nospacetb"><div class="bg-tab"><img class="cornericon" src="pack/buildings/residence-small.png" alt="" /><h1>%("colony {0}", colony.getPosition);</h1></div></td><td colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="nospacet" colspan="2">
+			<div class="bg">
+				<table class="stats">
+					<tr><td>%("name:");</td><td class="r">%= colony.getName; <a href="" onclick="return showRename()"><img src="%= Session.getUrl(ImageEnum.EDIT);" title="%("rename");" alt="%("rename");" width="12" height="12" /></a></td></tr>
+					<tr><td colspan="2" class="r">
+					<form id="colony-rename-td" action="?" method="post" style="display:none">
+						<input type="hidden" name="do" value="Colony.Name.set" />
+						<input type="hidden" name="c" value="%= colony.getPosition;" />
+						<button type="submit">%("rename to");</button>
+						<input type="text" size="12" maxlength="30" name="name" value="%= colony.getName;" />
+					</form>
+					</td></tr>
+					<tr><td>%("buildings:");</td><td class="r">%("{0,number,integer}", colony.getSize);</td></tr>
+					<tr><td>%("civ points:");</td><td class="r">%("{0,number,integer}", colony.getPoints);</td></tr>
+					<tr><td colspan="2"><br /></td></tr>
+					<tr><td>%("planetary units:");</td><td class="r">%("{0,number,integer}", colony.getUnits.planetarySum);</td></tr>
+					<tr><td>%("interplanetary units:");</td><td class="r">%("{0,number,integer}", colony.getUnits.interplanetarySum);</td></tr>
+					<tr><td>%("interstellar units:");</td><td class="r">%("{0,number,integer}", colony.getUnits.interstellarSum);</td></tr>
+					<tr><td colspan="2"><a href="colony-base|%= colony.getPosition;">%("send fleet from here");</a></td></tr>
+				</table>
+			</div>
+		</td>
+		<td>
+			<div class="bg">
+				<img class="cornericon-big" src="%= Session.getUrl(planet.getType, false);" alt="" />
+				<h3>%("{0} {1}", planet.getType.getName(locale), planet.getPosition); (%("size: {0,number,integer}", planet.getDisplaySize);)</h3>
+%include "include/planet-colonies.inc";
+%include "include/planet-blockade.inc";
+			</div>
+		</td>
+	</tr>
+</table>
+
+<!--natural resources and population-->
+<table>
+	<colgroup><col width="58%%" /><col width="42%%" /></colgroup>
+  <tr>
+		<td>
+			<div class="bg">
+				<img class="cornericon-big" src="pack/buildings/oil_tanks-small.png" alt="" />
+				<h3>%("natural resources");</h3>
+%include "include/natural-resources.inc";
+			</div>
+		</td>
+		<td>
+			<div class="bg">
+				<img class="cornericon-big" src="%= Session.getUrl(ImageEnum.SYMBOL_JOBS);" alt="" />
+				<h3>%("population and jobs");</h3>
+%include "include/population.inc";
+			</div>
+		</td>
+	</tr>
+</table>
+
+<!-- education and finances -->
+<table>
+	<colgroup><col width="50%%" span="2" /></colgroup>
+  <tr class="nospaceb">
+		<td class="nospaceb">
+			<div class="bg">
+				<a href="colony-education|%= colony.getPosition;" onclick="return showEducation('%= colony.getPosition;')"><img class="cornericon" src="pack/design/education.png" alt="" /></a>
+				<div id="colony-education-basic">
+%include "include/education.inc";
+				</div>
+			</div>
+		</td>
+		<td class="nospaceb">
+			<div class="bg">
+				<a href="colony-budget|%= colony.getPosition;" onclick="return showFinances('%= colony.getPosition;')"><img class="cornericon" src="%= Session.getUrl(ImageEnum.SYMBOL_MONEY);" alt="" /></a>
+				<h3><a class="titlelink" href="colony-budget|%= colony.getPosition;" onclick="return showFinances('%= colony.getPosition;')">%("finances"); (%("globally {0,number,integer}", player.getMoney);%if (player.getLastTotal < 0); <span class="red">%("and decreasing");</span>%endif;)</a> <a href="colony-budget|%= colony.getPosition;" onclick="return showFinances('%= colony.getPosition;')" id="colony-finances-link">%("show details");</a></h3>
+%include "include/finances.inc";
+			</div>
+		</td>
+	</tr>
+	<tr class="nospacetb">
+		<td id="indent-education" class="nospacetb"></td>
+		<td id="indent-finances" class="nospacetb"></td>
+	</tr>
+	<tr class="nospacetb">
+		<td id="colony-education-td" colspan="2" class="nospacetb" style="display:none;"><div class="extension" id="colony-education"></div></td>
+		<td id="colony-finances-td" colspan="2" class="nospacetb" style="display:none;"><div class="extension" id="colony-finances"></div></td>
+	</tr>
+</table>
+<!-- construction -->
+<table>
+	<colgroup><col width="25%%" span="4" /></colgroup>
+	<tr class="nospaceb">
+		<td class="nospaceb">
+			<div id="construction-building" class="bg">
+%include "include/construction-building.inc";
+			</div>
+		</td>
+		%loop q from 0 to 2;
+		<td class="nospaceb">
+			<div id="construction-unit-%= q;" class="bg">
+%include "include/construction-unit.inc";
+			</div>
+		</td>
+		%endloop;
+	</tr>
+	<tr class="nospacetb">
+		<td id="indent-build" class="nospacetb"><div class="bgconnector-quarter"><br /></div></td>
+		<td id="indent-unit-0" class="nospacetb"></td>
+		<td id="indent-unit-1" class="nospacetb"></td>
+		<td id="indent-unit-2" class="nospacetb"></td>
+	</tr>
+	<tr class="nospacetb">
+		<td id="colony-build-td" colspan="4" class="nospacetb">
+			<div class="extension" id="colony-build">
+%include "include/colony-buildings.inc";
+			</div>
+		</td>
+		<td id="colony-unit-0-td" colspan="4" class="nospacetb" style="display:none;"><div class="extension" id="colony-unit-0"></div></td>
+		<td id="colony-unit-1-td" colspan="4" class="nospacetb" style="display:none;"><div class="extension" id="colony-unit-1"></div></td>
+		<td id="colony-unit-2-td" colspan="4" class="nospacetb" style="display:none;"><div class="extension" id="colony-unit-2"></div></td>
+	</tr>
+</table>
+</div>

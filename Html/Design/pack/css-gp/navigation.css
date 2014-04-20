@@ -1,0 +1,104 @@
+body.bgimage
+{
+	height: 100%;
+	min-height: 600px;
+	margin: 0px;
+	padding: 0px;
+	background-position: left top;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+div.lmenu
+{
+	position: fixed;
+	width: 160px;
+	height: 600px;
+	left: 0px;
+	top: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-repeat: no-repeat;
+	background-image:url(/cqspack/design/navi.png);
+}
+
+div.lmenu select { position:absolute; top:33px; left:45px; }
+
+div.lmenu a.a1 { position:absolute; top:150px;	left:40px; }
+div.lmenu a.a2 { position:absolute; top:163px;	left:40px; }
+div.lmenu a.a3 { position:absolute; top:176px;	left:40px; }
+div.lmenu a.a4 { position:absolute; top:189px;	left:40px; }
+div.lmenu a.a5 { position:absolute; top:202px;	left:40px; }
+
+div.lmenu a.c1 { position:absolute; top:462px; left:30px; }
+div.lmenu a.c2 { position:absolute; top:475px; left:30px; }
+div.lmenu a.c3 { position:absolute; top:488px; left:30px; }
+
+div.lmenu a.d1 { position:absolute; top:285px; left:30px; }
+div.lmenu a.d2 { position:absolute; top:298px; left:30px; }
+div.lmenu a.d3 { position:absolute; top:311px; left:30px; }
+div.lmenu a.d4 { position:absolute; top:324px; left:30px; }
+div.lmenu a.d5 { position:absolute; top:337px; left:30px; }
+div.lmenu a.d5a { position:absolute; top:350px; left:30px; }
+div.lmenu a.d6 { position:absolute; top:363px; left:30px; }
+
+div.lmenu a.f1 { position:absolute; top:388px; left:30px; }
+div.lmenu a.f2 { position:absolute; top:401px; left:30px; }
+div.lmenu a.f3 { position:absolute; top:414px; left:30px; }
+div.lmenu a.f4 { position:absolute; top:427px; left:30px; }
+div.lmenu a.f5 { position:absolute; top:440px; left:30px; }
+
+div.lmenu a.g1 { position:absolute; top:513px; left:50px; }
+
+div.lmenu .colonymenu
+{
+	color: #97A3B1;
+	background-color: #202d3d;
+	font-family: Arial,Helvetica,sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	width:80px;
+	border:1px #000000 solid;
+	
+/*	filter: alpha(opacity=75);
+	-moz-opacity: .75;
+	-khtml-opacity: .75;*/
+}
+
+div.lmenu .button
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+	position: absolute;
+	background-repeat: no-repeat;
+	width: 31px;
+	height: 28px;
+	top: 65px;
+	left: 16px;
+	background-image: url(/cqspack/design/button.gif);
+}
+
+div.bgimage
+{
+	height: 100%;
+	min-height: 600px;
+	margin: 0px;
+	padding: 0px;
+	background-position: left top;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+
+div.content
+{
+	height: 100%;
+	position: relative;
+	width: 600px;
+	left: 160px;
+	top: 0px;
+	margin: 0px;
+	padding: 0px;
+}

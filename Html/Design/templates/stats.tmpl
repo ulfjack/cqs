@@ -1,0 +1,36 @@
+%embed "top.tmpl";
+
+%set file Request.getBasename;
+
+%set count 0;
+%if file="stats-ranking";%set count 1;
+%elseif file="stats";%set count 2;
+%elseif file="stats-production";%set count 3;
+%elseif file="stats-units";%set count 4;
+%elseif file="stats-resources";%set count 5;
+%else;%set count -1;
+%endif;
+<table>
+	<colgroup width="20%%" span="5" />
+	<tr class="nospacetb">
+		<td class="nospacetb"><div class="bg"><a class="tab" href="stats-ranking">%("rankings");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="stats">%("account");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="stats-production">%("production");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="stats-units">%("units");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="stats-resources">%("resources");</a></div></td>
+	</tr>
+	<tr class="nospacetb">
+		%loop x from 1 to count-1;
+		<td class="nospacetb"></td>
+		%endloop;
+		<td class="nospacetb"><div class="bgconnector-fifth"><br /></div></td>
+	</tr>
+	<tr class="nospacetb">
+		<td colspan="5" class="nospacetb">
+			<div class="extension">
+%embed;
+			</div>
+		</td>
+	</tr>
+</table>
+

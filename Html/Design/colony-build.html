@@ -1,0 +1,18 @@
+%embed "templates/colony.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set locale Session.getLocale;
+%set colony Session.getColony(Request.getUrlParameter(0));
+%set position colony.getPosition;
+
+%set title gettext "buildings";
+%include "include/coltitle.inc";
+
+<div class="bg">
+	<h3>%("available resources");</h3>
+	%include "include/resources.inc";
+</div>
+<div class="nobg">
+%include "include/colony-buildings.inc";
+</div>

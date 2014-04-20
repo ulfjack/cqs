@@ -1,0 +1,108 @@
+%embed "include/design.tmpl";
+
+%set url Request.getParameter("url");
+%if url = null;%set url "/Ingame/?lang="+Identity.getLocaleId;%endif;
+%set locale Identity.getLocale;
+
+%if Identity.isLoggedIn;
+
+%("Hello {0}!", Identity.getName);<br />
+<br />
+
+%if Identity.mayCreatePlayer;
+<fieldset><legend>%("create new player");:</legend>
+<form action="?lang=%= Identity.getLocaleId;" method="post">
+<div><input type="hidden" name="do" value="Player.create" /></div>
+<div>
+	%("nickname"); <input type="text" name="nick" value="" size="30" /><br />
+	<button type="submit">%("create new player");</button><br />
+</div>
+</form>
+</fieldset>
+<br />
+%endif;
+
+%set players Identity.getAccessiblePlayers;
+%if players.length > 0;
+<fieldset><legend>%("You have access to:");</legend>
+<table>
+	<tr><th>%("name");</th><th>%("access level");</th></tr>
+%loop entry foreach players;
+	%if entry.getPlayer.mayLogin;
+	<tr>
+		<td>
+			<form action="%= url;" method="post">
+			<div>
+			<input type="hidden" name="do" value="login2" />
+			<input type="hidden" name="to" value="%= entry.getPlayer.getPid;" />
+			<button type="submit">%= entry.getPlayer.getName;</button><br />
+			</div>
+			</form>
+		</td>
+		<td>%= entry.getAccessLevel.getName(locale);</td>
+	</tr>
+	%else;
+	<tr>
+		<td><i>%= entry.getPlayer.getName;</i></td>
+		<td>%("deactivated");</td>
+	</tr>
+	%endif;
+%endloop;
+</table>
+</fieldset>
+<br />
+%endif;
+
+%if Identity.mayAccessAdministration;
+<a href="/Admin/">%("administration");</a><br /><br />
+%endif;
+
+<form action="" method="post">
+<div>
+<input type="hidden" name="do" value="logout" />
+<button type="submit">%("logout");</button><br />
+</div>
+</form>
+
+%else;
+
+%set id Request.getParameter("id"); %set id id = null ? "" : id;
+%set pw Request.getParameter("pw"); %set pw pw = null ? "" : pw;
+<form action="?lang=%= Identity.getLocaleId;" method="post">
+<div><input type="hidden" name="do" value="login" /></div>
+<div><table style="width:320px">
+	<tr>
+		<td colspan="3" class="c"><h1>%("Conquer Space {0} Login", Game.version);</h1></td>
+	</tr>
+	<tr>
+		<td colspan="3" class="c">%("since {0}", Game.asDate(locale, Galaxy.getStartTime));</td>
+	</tr>
+	%if not Galaxy.isRunning;
+	<tr><td colspan="3" class="warn c">%("This round is currently stopped!");</td></tr>
+	%endif;
+	<tr>
+		<td>%("Id");</td>
+		<td class="r"><input type="text" size="20" name="user" tabindex="1" value="%= id;" /></td>
+		%if Game.isImageCodeRequired;
+		<td rowspan="2" class="c"><img src="secid.jpg" alt="Login Code" /><br /><input type="text" name="secid" size="20" maxlength="40" tabindex="3" /><br />%("login code");</td>
+		%endif;
+	</tr>
+	<tr>
+		<td>%("Password");</td>
+		<td class="r"><input type="password" size="20" name="pass" tabindex="2" value="%= pw;" /></td>
+	</tr>
+	<tr>
+		<td class="c" colspan="3">
+			<button type="submit">%("login");</button>
+		</td>
+	</tr>
+	<tr><td class="c" colspan="3">%("players online: {0} of {1}", Game.online, Galaxy.getPlayerCount);</td></tr>
+	%set reason Request.getQueryParameter("denied");
+	%if reason != null;
+	<tr><td colspan="3" class="warn c">%= Game.convertAccessDeniedReason(locale, reason);</td></tr>
+	%endif;
+</table>
+</div>
+</form>
+
+%endif;

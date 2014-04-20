@@ -1,0 +1,156 @@
+<project name="cqs" default="dist" basedir=".">
+  <description>Conquer-Space.net Build</description>
+
+  <property name="build" location="Build" />
+  <property name="jarfile" location="cqs.jar" />
+
+  <!-- Depend on all .jar files in Libraries/ -->
+  <fileset id="required.jarfiles" dir="." includes="Libraries/*.jar" />
+
+  <path id="project.classpath">
+    <fileset refid="required.jarfiles" />
+  </path>
+  <path id="project.test.classpath">
+    <path refid="project.classpath" />
+    <pathelement location="Libraries/Testing/junit-4.7.jar" />
+  </path>
+  <path id="project.runtest.classpath">
+    <path refid="project.test.classpath" />
+    <pathelement location="${build}" />
+  </path>
+
+  <patternset id="project.ressources">
+    <include name="**/*.xml"/>
+    <include name="**/*.html"/>
+    <include name="**/*.js"/>
+    <include name="**/*.png"/>
+    <include name="**/*.po"/>
+  </patternset>
+
+  <target name="javadoc" description="javadoc documentation">
+    <javadoc sourcepath="Engine;Source" packagenames="net.cqs.*" destdir="Doc/Docs/"
+      classpathref="project.classpath" encoding="UTF-8"
+      source="1.5" access="public" />
+  </target>
+
+  <target name="init" description="init">
+    <tstamp />
+    <mkdir dir="${build}" />
+  </target>
+
+  <target name="compile_source" depends="init" description="compile the source">
+    <mkdir dir="Build/net/cqs/main/" />
+
+    <!-- TODO(ulfjack): Split into two when Engine does not require Source -->
+    <javac srcdir="Engine;Source" destdir="${build}"
+      classpathref="project.classpath" encoding="UTF-8"
+      source="1.5" target="1.5" debug="true" includeantruntime="false" />
+    <javac srcdir="Plugins" destdir="${build}" 
+      classpathref="project.classpath" encoding="UTF-8"
+      source="1.5" target="1.5" debug="true" includeantruntime="false" />
+
+    <copy todir="${build}">
+      <fileset dir="Engine"><patternset refid="project.ressources"/></fileset>
+      <fileset dir="Source"><patternset refid="project.ressources"/></fileset>
+      <fileset dir="Plugins"><patternset refid="project.ressources"/></fileset>
+      <fileset dir="I18n"><patternset refid="project.ressources"/></fileset>
+    </copy>
+  </target>
+  
+  <target name="compile_test" depends="compile_source" description="compile the tests">
+    <javac srcdir="Test" destdir="${build}"
+      classpathref="project.test.classpath" encoding="UTF-8"
+      source="1.6" target="1.6" debug="true" />
+  </target>
+
+  <target name="dist" depends="compile_source" description="generate the distribution">
+    <manifestclasspath property="jar.manifest.classpath" jarfile="${jarfile}">
+      <classpath refid="project.classpath" />
+    </manifestclasspath>
+    <jar jarfile="${jarfile}" basedir="${build}" index="false">
+      <manifest>
+        <attribute name="Main-Class" value="net.cqs.main.Main"/>
+        <attribute name="Class-Path" value="${jar.manifest.classpath}" />
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="start" depends="clean, init" description="generate the startup jar">
+    <javac srcdir="Startup" destdir="${build}"
+      encoding="UTF-8" source="1.5" target="1.5" debug="true" />
+    <copy todir="${build}">
+      <fileset dir="Startup">
+        <patternset>
+          <include name="**/getdown.txt" />
+        </patternset>
+      </fileset>
+    </copy>
+    <jar jarfile="startup.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="net.cqs.startup.Main"/>
+      </manifest>
+    </jar>
+    <jar jarfile="cqs-getdown.jar" basedir="${build}">
+      <zipfileset src="Doc/GetDown/getdown-pro.jar" excludes="META-INF/**" />
+      <manifest>
+        <attribute name="Main-Class" value="net.cqs.startup.GetDownMain"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="i18n" description="update i18n po/pot files">
+    <java jar="startup.jar" fork="true">
+      <arg value="mergePot" />
+      <arg value="I18n/cqs_de_DE.po" />
+    </java>
+    <java jar="startup.jar" fork="true">
+      <arg value="mergePot" />
+      <arg value="I18n/cqs_en_US.po" />
+    </java>
+  </target>
+
+  <target name="testability" depends="dist" description="compute testability">
+    <!-- Results in absolute paths, but that's ok. -->
+    <pathconvert property="testability.classpath" pathsep=":">
+      <path refid="project.classpath" />
+    </pathconvert>
+    <java jar="Libraries/Testing/testability-explorer-1.3.2.jar" fork="true" output="testability-report.html">
+      <arg value="-cp" />
+      <arg value="${jarfile}:${testability.classpath}" />
+      <arg value="-whitelist" />
+      <arg value="com.thoughtworks.xstream:com.sleepycat.je:org.mozilla.javascript:org.mortbay.jetty" />
+      <arg value="-print" />
+      <arg value="html" />
+      <arg value="net.cqs" />
+    </java>
+  </target>
+
+  <target name="test" depends="compile_test" description="run the unit tests">
+    <java classname="org.junit.runner.JUnitCore" classpathref="project.runtest.classpath" fork="true">
+      <arg value="net.cqs.CqsTestSuite" />
+    </java>
+  </target>
+
+<!--  <target name="emma" depends="compile_test" description="run emma">
+    <mkdir dir="Doc/Docs/Emma" />
+    <java jar="Libraries/emma-2.0.jar" fork="true">
+      <jvmarg value="-Demma.report.sort=&quot;+name&quot;" />
+      <jvmarg value="-Demma.report.html.out.file=Doc/Docs/Emma/index.html" />
+      <arg value="-f" />
+      <arg value="-ix" />
+      <arg value="net.cqs.*,-net.cqs.main.*,-net.cqs.plugins.*,-net.cqs.web.*,-*Test*" />
+      <arg value="-r" />
+      <arg value="html" />
+      <arg value="-sp" />
+      <arg value="Source/" />
+      <arg value="-cp" />
+      <arg value="Build/:Libraries/junit.jar:Libraries/catfish.jar:Libraries/ulfscript.jar:Libraries/ulfio.jar:Libraries/cssparser-0.9.4.jar" />
+      <arg value="junit.textui.TestRunner" />
+      <arg value="net.cqs.CqsTestSuite" />
+    </java>
+  </target>-->
+
+  <target name="clean" description="clean up">
+    <delete dir="${build}"/>
+  </target>
+</project>

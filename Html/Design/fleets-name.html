@@ -1,0 +1,31 @@
+%embed "templates/fleets-detail.tmpl";
+
+%set player Session.getPlayer;
+%set fleet player.findFleetById(Tools.safeParseInt(Request.getUrlParameter(0),-1));
+%if fleet = null;
+<div class="warn">%("You did not select a valid fleet!");</div>
+%else;
+<form action="fleets-name|%= fleet.getId;" method="post">
+<fieldset class="stdform"><legend>%("rename fleet");</legend>
+<div>
+	<input type="hidden" name="do" value="Fleet.Name.change" />
+	<input type="hidden" name="id" value="%= fleet.getId;" />
+</div>
+<table class="info">
+	<tr>
+		<th>ID:</th>
+		<td>
+			%= fleet.getId;
+		</td>
+	</tr>
+	<tr>
+		<th>Name:</th>
+		<td>
+			<input type="text" size="40" maxlength="40" name="name" value="%= fleet.getName;" />
+		</td>
+	</tr>
+</table>
+<div class="submit"><button type="submit">%("set");</button></div>
+</fieldset>
+</form>
+%endif;

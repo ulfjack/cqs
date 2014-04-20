@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "Java-Dateien und Zeilen (CqS):"
+find . | grep "\\.java" | wc -l
+find . | grep "\\.java" | xargs cat | wc -l
+
+echo "HTML-Dateien und Zeilen (CqS):"
+cd Html
+find . | grep "\\.html\\|\\.include" | wc -l
+find . | grep "\\.html\\|\\.include" | xargs cat | wc -l
+cd ..
+
+echo "Java-Dateien und Zeilen (Catfish):"
+cd ../catfish/
+find . | grep "\\.java" | wc -l
+find . | grep "\\.java" | xargs cat | wc -l
+cd ../cqs/

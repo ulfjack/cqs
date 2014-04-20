@@ -1,0 +1,81 @@
+%embed "templates/help.tmpl";
+
+<table class="info">
+<colgroup><col width="35%%" /><col width="40%%" /><col width="25%%" /></colgroup>
+	<tr>
+		<th rowspan="6"><img src="/data/logo.png" width="160" height="160" alt="" /></th>
+		<td colspan="2">&#160;</td>
+	</tr>
+	<tr>
+		<th>%("homepage");</th>
+		<td><a href="http://www.conquer-space.net/">http://www.conquer-space.net/</a></td>
+	</tr>
+	<tr>
+		<th>%("forum");</th>
+		<td><a href="http://www.conquer-space.net/forum">http://www.conquer-space.net/forum</a></td>
+	</tr>
+	<tr>
+		<th>%("help");</th>
+		<td><a href="http://www.conquer-space.net/help">http://www.conquer-space.net/help</a></td>
+	</tr>
+	<tr>
+		<th>%("bugtracker");</th>
+		<td><a href="http://bugs.conquer-space.net/">http://bugs.conquer-space.net/</a></td>
+	</tr>
+	<tr>
+		<td colspan="2">&#160;</td>
+	</tr>
+</table>
+
+<table>
+	<colgroup><col width="35%%" /><col width="65%%" /></colgroup>
+	<tr>
+		<td class="table">
+			<div class="bg">
+				<h3>%("system");</h3>
+				<table class="stats">
+				<colgroup><col width="60%%" /><col width="40%%" /></colgroup>
+					<tr><th>%("players");</th><td>%("{0,number,integer} of {1,number,integer} online", Tools.countOnlinePlayers, Galaxy.countPlayers);</td></tr>
+					<tr><th>%("galaxy");</th><td>%("{0,number,integer}", Galaxy.countSystems); %("systems");</td></tr>
+				</table>
+			</div>
+			<div class="bg">
+				<h3>%("events");</h3>
+				<table class="stats">
+				%loop event foreach Galaxy.getPastEvents;
+					<tr><td>%= Tools.asDate(Session.getLocale, event.getTime);</td><td>%= event.getName(Session.getLocale);</td></tr>
+				%endloop;
+				</table>
+			</div>
+		</td>
+		<td class="table">
+			<div class="bg">
+				<h3>%("unit production total");</h3>
+				%set units Galaxy.getBuiltUnits;
+				<table >
+				<colgroup><col width="33%%" span="2" /><col width="34%%" /></colgroup>
+					<tr>
+						%loop q from 0 to 2;
+						<td class="table">
+							<table class="stats">
+								<tr class="nohover"><th colspan="2">%if q=0;%("planetary units");%else;%if q=1;%("interplanetary units");%else;%("interstellar units");%endif;%endif;</th></tr>
+								%set x q;
+								%loop unit foreach units;
+								%if ((q=0) and unit.type.isPlanetary) or ((q=1) and unit.type.isInterplanetary) or ((q=2) and unit.type.isInterstellar);
+								<tr class="%= x % 2 = 0 ? "even" : "odd";">
+									<td class="l"><a href="help-unit|%= unit.type;">%= unit.type.getName(Session.getLocale);</a> %if unit.type.getResourceCapacity > 0;[%("capacity: {0,number,integer}", unit.type.getResourceCapacity);]%endif;</td>
+									<td class="r">%("{0,number,integer}", unit.amount);</td>
+								</tr>
+								%set x x+1;
+								%endif;
+								%endloop;
+							</table>
+						</td>
+						%endloop;
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+</table>
+

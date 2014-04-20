@@ -1,0 +1,34 @@
+div.status
+{
+	outline: 1px solid red !important;
+}
+
+div.mmenu
+{
+	outline: 1px solid red !important;
+}
+
+div.smenu
+{
+	outline: 1px solid red !important;
+}
+
+div.title
+{
+	outline: 1px solid red !important;
+}
+
+div.content
+{
+	outline: 1px solid red !important;
+}
+
+div.footnote
+{
+	outline: 1px solid green !important;
+}
+
+div.footer
+{
+	outline: 1px solid red !important;
+}

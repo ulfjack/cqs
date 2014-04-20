@@ -1,0 +1,36 @@
+%embed "templates/settings.tmpl";
+
+%set player Session.getPlayer;
+
+<div class="bg" id="profile">
+	<h3>%("change avatar image and description");</h3>
+	<form action="settings-profile" method="post">
+		<input type="hidden" name="do" value="Player.Profile.set" />
+		<table>
+			<tr>
+				<td>
+					<div class="image">
+						%if (player.getLogo != null) and (player.getLogo != "");
+						<img src="%= player.getLogo;" width="120" height="160" alt="" />
+						%else;
+						<img src="%= Session.getUrl(player.getSex);" width="120" height="160" alt="" />
+						%endif;
+					</div>
+					<br />
+					<label for="server">%("path to the image");</label><br />
+					<input type="text" size="30" name="server" id="server" value="%= player.getLogo;" /><br />
+					<p>%("The avatar image should be 120 x 160 pixel and have the file extension .png, .gif or .jpg.<br />The path has to lead to an image that is stored on webspace. Please do not enter a local path leading to an image stored on your hard drive.");</p>
+					<button type="submit">%("apply changes");</button>
+				</td>
+				<td>
+					<div class="pvcontrol" id="pvcontrol-0">%("description");</div>
+					<textarea id="wikitext-0" name="text" rows="10" cols="30">%= HtmlToolkit.asTextAreaContent(player.getPlaintext);</textarea>
+					<div id="wikipreview-0" style="display:none"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<script type="text/javascript" src="js/common-preview.js"></script>
+

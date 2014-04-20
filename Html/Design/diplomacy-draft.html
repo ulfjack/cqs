@@ -1,0 +1,351 @@
+%embed "templates/diplomacy.tmpl";
+
+%set player Session.getPlayer;
+%set alliance player.getAlliance;
+%set proposal Session.getContractDraft;
+
+%set finalize (Request.getParameter("action") = "finalize");
+%define ContractType type;
+%if finalize;
+	%set proposal Session.getContractDraft;
+	%if (proposal != null);
+		%set type proposal.getType;
+	%else;
+		%set type null;
+	%endif;
+%else;
+	%if Request.getUrlParameter(0) != null;
+	%set type ContractType.valueOf(Request.getUrlParameter(0));
+	%else;
+	%set type ContractType.TRADE;
+	%endif;
+%endif;
+
+%set isWar (type = ContractType.WAR);
+
+<table>
+	<colgroup width="20%%" span="5" />
+	<tr class="nospaceb">
+		%loop ctype foreach ContractType.values;
+		<td class="nospaceb"><div class="bg nospaceb"><a class="tab" href="diplomacy-draft|%= ctype;">%= ctype.getName(Session.getLocale);</a></div></td>
+		%endloop;
+	</tr>
+	%if type != null;
+		%set x 0;
+		%set found false;
+		%loop tmptype foreach ContractType.values;
+			%if not found;
+				%set x x+1;
+				%set found tmptype = type;
+			%endif;
+		%endloop;
+	<tr class="nospacetb">
+		%loop y from 1 to x-1;
+		<td class="nospacetb"></td>
+		%endloop;
+		<td class="nospacetb"><div class="bgconnector-fifth"><br /></div></td>
+	</tr>
+	%endif;
+	<tr class="nospacetb">
+		<td colspan="6" class="nospacet">
+			<div class="extension">
+				<div>
+				%if type = ContractType.WAR;				
+					<h3><span class="red">%("declare war");</span></h3>
+					%= type.getDescription(Session.getLocale);
+				%elseif type != null;
+					<h3>%("propose {0}", type.getName(Session.getLocale));</h3>
+					%= type.getDescription(Session.getLocale);
+				%else;
+					%("Please select a contract type.");
+				%endif;
+				</div><br />
+				<!-- finalize contract -->
+				%if finalize and (proposal != null) and
+						(isWar and (Session.getPlannedVictim != null) or (proposal.size > 0));
+					%if isWar and (Session.getPlannedVictim != null);
+
+						%if Session.plannedAttackerIsPlayer;
+					<h4>%("proposed attacker: player <span class=""red"">{0}</span>", player.getName);</h4>
+						%else;
+					<h4>%("proposed attacker: alliance <span class=""red"">{0}</span>", alliance.getName);</h4>
+						%endif;
+
+						%if Session.getPlannedVictim.isPlayer;
+					<h4>%("proposed victim: player <span class=""red"">{0}</span>", Session.getPlannedVictim.getName);</h4>
+						%else;
+					<h4>%("proposed victim: alliance <span class=""red"">{0}</span>", Session.getPlannedVictim.getName);</h4>
+						%endif;
+					<div>
+						<form action="diplomacy" method="post">
+							<input type="hidden" name="do" value="ContractWarDraft.do" />
+							<button type="submit">%("declare war");</button>
+						</form>
+					</div>
+					%else;
+					<h4>%("proposed contract partners");</h4>
+					<table class="stats statsform" style="width:50%%">
+						<colgroup><col width="15%%" /><col width="85%%" /></colgroup>
+						%set initiator proposal.getInitiator;
+						<tr class="even"><td>%if initiator.isPlayer;%("player");%else;%("alliance");%endif;</td><td>%= initiator.getName;</td></tr>
+						%loop x from 0 to proposal.size-1;
+						<tr class="%= x%2=1 ? "even" : "odd";">
+							<td>%if proposal.get(x).isPlayer;%("player");%else;%("alliance");%endif;</td>
+							<td>%= proposal.get(x);</td>
+						</tr>
+						%endloop;
+					</table>
+					<br />
+					<div>
+						%if proposal.getInitiator.isPlayer;
+						<form action="mail-box|0" method="post">
+							<input type="hidden" name="do" value="ContractDraft.proposal" />
+							<button type="submit">%("propose contract");</button>
+						</form>
+						%else;
+						<form action="alliance-external" method="post">
+							<input type="hidden" name="do" value="ContractDraft.proposal" />
+							<button type="submit">%("propose contract");</button>
+						</form>
+						%endif;
+					</div>
+					%endif;
+				%else; <!-- not finalizing or no proposal -->
+					%if finalize;
+					<div class="warn">%("You did not draft a contract yet! Please first specify contract type and contract partners.");</div>
+					%endif;
+				<!-- draft contract -->
+				<table>
+					<colgroup><col width="49%%" /><col width="2%%" /><col width="49%%" /></colgroup>
+					<tr>
+						<td>
+						%if isWar;
+							<table class="stats statsform">
+								<tr>
+									<th>%("attacker");</th>
+									<td>
+							%if (Session.plannedAttackerIsPlayer) or (alliance = null);
+										%("player <span class=""red"">{0}</span>", player.getName);
+							%else;
+										%("alliance <span class=""red"">{0}</span>", alliance.getName);
+							%endif;
+									</td>
+							%if (alliance != null) and player.getRank.hasRight(Right.MAKE_CONTRACTS);
+									<td class="r">
+										<form action="diplomacy-draft|%= type;" method="post">
+											<input type="hidden" name="do" value="ContractWarDraft.setAttacker" />
+									%if Session.plannedAttackerIsPlayer;
+											<input type="hidden" name="attacker" value="a" />
+											<button type="submit">%("change to alliance");</button>
+									%else;
+											<input type="hidden" name="attacker" value="p" />
+											<button type="submit">%("change to player");</button>
+									%endif;
+										</form>
+									</td>
+							%endif;
+								</tr>
+								<tr>
+									<th>%("victim");</th>
+									<td>
+							%if Session.getPlannedVictim != null;
+								%if Session.getPlannedVictim.isPlayer;
+										%("player <span class=""red"">{0}</span>", Session.getPlannedVictim.getName);
+								%else;
+										%("alliance <span class=""red"">{0}</span>", Session.getPlannedVictim.getName);
+								%endif;
+							%else;
+										%("no victim proposed yet");
+							%endif;
+									</td>
+									<td class="r">
+										%if Session.getPlannedVictim != null;
+										<form action="diplomacy-draft|%= type;" method="post">
+											<input type="hidden" name="do" value="ContractWarDraft.setVictimPlayer" />
+											<input type="hidden" name="index" value="-1" />
+											<button type="submit">%("remove");</button>
+										</form>
+										%endif;
+									</td>
+								</tr>
+							</table>
+
+							<br />
+							<form action="diplomacy-draft?action=finalize" method="post">
+								<input type="hidden" name="do" value="ContractDraft.setType" />
+								<input type="hidden" name="type" value="%= type;" />
+								<button type="submit">%("finalize war declaration");</button>
+							</form>
+						%else;
+							<h4>%("proposed contract partners");</h4>
+							%if proposal != null;
+							<table class="stats statsform">
+								<colgroup><col width="12%%" /><col width="43%%" /><col width="45%%" /></colgroup>
+								<tr class="even">
+									%set initiator proposal.getInitiator;
+									<td>%if initiator.isPlayer;%("player");%else;%("alliance");%endif;</td>
+									<td>%= initiator.getName;</td>
+									<td class="r">
+										%if (alliance != null) and player.getRank.hasRight(Right.MAKE_CONTRACTS);
+										<form action="diplomacy-draft|%= type;" method="post">
+											<input type="hidden" name="do" value="ContractDraft.setInitiator" />
+											%if initiator.isPlayer;
+											<input type="hidden" name="initiator" value="a" />
+											<button type="submit">%("change to alliance");</button>
+											%else;
+											<input type="hidden" name="initiator" value="p" />
+											<button type="submit">%("change to player");</button>
+											%endif;
+										</form>
+										%endif;
+									</td>
+								</tr>
+							%loop x from 0 to proposal.size-1;
+								<tr class="%= x%2=1 ? "even" : "odd";">
+									<td>%if proposal.get(x).isPlayer;%("player");%else;%("alliance");%endif;</td>
+									<td>%= proposal.get(x);</td>
+									<td class="r">
+										<form action="diplomacy-draft|%= type;" method="post">
+											<input type="hidden" name="do" value="ContractDraft.removeParty" />
+											<input type="hidden" name="index" value="%= x;" />
+											<button type="submit">%("remove");</button>
+										</form>
+									</td>
+								</tr>
+							%endloop;
+							</table>
+							%endif;
+							<br />
+							<form action="diplomacy-draft?action=finalize" method="post">
+								<input type="hidden" name="do" value="ContractDraft.setType" />
+								<input type="hidden" name="type" value="%= type;" />
+								<button type="submit">%("finalize contract proposal");</button>
+							</form>
+						%endif;
+						</td>
+						<td></td>
+						<td>
+							%if isWar;
+							<h4>%("pick victim");</h4>
+							%else;
+							<h4>%("add contract partners");</h4>
+							%endif;
+
+							<!-- memorized players -->
+							%set logindata Session.getPlayerDataCopy;
+							%if logindata.playerAmount > 0;
+							<h5>%("memorized players");</h5>
+							<table class="stats statsform">
+								<colgroup><col width="15%%" /><col width="60%%" /><col width="25%%" /></colgroup>
+								%loop x from 0 to logindata.playerAmount-1;
+								%set p Galaxy.findPlayerByPid(logindata.getPlayer(x));
+								<tr class="%= x % 2 = 0 ? "even" : "odd";">
+									<td>%("player");</td>
+									<td><a href="player|%= p.getPid;">%= p.getName;</a> %set a p.getAlliance;%if a != null; &ndash; <a href="view-alliance|%= a.getId;">[%= a.getShortName;]</a>%endif;</td>
+									<td class="r">
+										%if isWar;
+										<form action="diplomacy-draft|%= type;" method="post">
+											<input type="hidden" name="do" value="ContractWarDraft.setVictimPlayer" />
+											<input type="hidden" name="index" value="%= p.getPid;" />
+											<button type="submit">%("pick");</button>
+										</form>
+										%else;
+										<form action="diplomacy-draft|%= type;" method="post">
+											<input type="hidden" name="do" value="ContractDraft.addPlayer" />
+											<input type="hidden" name="index" value="%= p.getPid;" />
+											<button type="submit">%("add");</button>
+										</form>
+										%endif;
+									</td>
+								</tr>
+								%endloop;
+							</table>
+							%endif;
+
+							<!-- search -->
+							%if isWar;
+							<h5>%("search for victim");</h5>
+							%else;
+							<h5>%("search for contract partners");</h5>
+							%endif;
+							<form action="diplomacy-draft|%= type;" method="post">
+								<input type="hidden" name="do" value="Search.player" />
+								<input type="text" name="name" id="pname" size="20" maxlength="40" />
+								<button type="submit">%("search for player");</button>
+							</form>
+							<form action="diplomacy-draft|%= type;" method="post">
+								<input type="hidden" name="do" value="Search.alliance" />
+								<input type="text" name="name" id="aname" size="20" maxlength="40" />
+								<button type="submit">%("search for alliance");</button>
+							</form>
+
+							<!-- search results -->
+							%set Search Session.getSearchResult;
+							%if Search != null;
+							<div class="searchresults">
+								%if Search.getTotal = 0;
+								<div class="warn">%("No matches found!");</div>
+								%else;
+								<table class="stats statsform">
+								<colgroup><col width="15%%" /><col width="60%%" /><col width="25%%" /></colgroup>
+									%set x 0;
+									%loop item foreach Search where (item.getType = SearchItemType.PLAYER) or (item.getType = SearchItemType.ALLIANCE);
+									%if item.getType = SearchItemType.PLAYER;
+										%set p Galaxy.findPlayerByPid(item.getId);
+										<tr class="%= x % 2 = 0 ? "even" : "odd";">
+											<td>%("player");</td>
+											<td><a href="player|%= p.getPid;">%= p.getName;</a> %set a p.getAlliance;
+												%if a != null; &ndash; <a href="view-alliance|%= a.getId;">[%= a.getShortName;]</a>%endif;</td>
+											<td class="r">
+												%if isWar;
+												<form action="diplomacy-draft|%= type;" method="post">
+													<input type="hidden" name="do" value="ContractWarDraft.setVictimPlayer" />
+													<input type="hidden" name="index" value="%= p.getPid;" />
+													<button type="submit">%("pick");</button>
+												</form>
+												%else;
+												<form action="diplomacy-draft|%= type;" method="post">
+													<input type="hidden" name="do" value="ContractDraft.addPlayer" />
+													<input type="hidden" name="index" value="%= p.getPid;" />
+													<button type="submit">%("add");</button>
+												</form>
+												%endif;
+											</td>
+										</tr>
+									%else;
+										%set a Galaxy.findAllianceById(item.getId);
+										<tr class="%= x % 2 = 0 ? "even" : "odd";">
+											<td>%("alliance");</td>
+											<td colspan="2"><a href="view-alliance|%= a.getId;">%= a.getName; [%= a.getShortName;]</a></td>
+											<td class="r">
+												%if isWar;
+												<form action="diplomacy-draft|%= type;" method="post">
+													<input type="hidden" name="do" value="ContractWarDraft.setVictimAlliance" />
+													<input type="hidden" name="index" value="%= a.getId;" />
+													<button type="submit">%("pick");</button>
+												</form>
+												%else;
+												<form action="diplomacy-draft|%= type;" method="post">
+													<input type="hidden" name="do" value="ContractDraft.addAlliance" />
+													<input type="hidden" name="index" value="%= a.getId;" />
+													<button type="submit">%("add");</button>
+												</form>
+												%endif;
+											</td>
+										</tr>
+									%endif;
+									%set x x+1;
+									%endloop;
+								</table>
+								%endif;
+							</div>
+							%endif;
+						</td>
+					</tr>
+				</table>
+				%endif;
+			</div>
+		</td>
+	</tr>
+</table>
+

@@ -1,0 +1,17 @@
+%embed "templates/design.tmpl";
+
+%set design Session.getUnitDesign;
+%if design != null;
+
+<div class="bg">
+<h3>%("accept unit design");</h3>
+%set unit design.getUnit;
+%include "include/unit-details.inc";
+
+<form action="design" method="post">
+	<input type="hidden" name="do" value="Design.accept" />
+	<button type="submit">%("accept design");</button>
+</form>
+</div>
+%endif;
+

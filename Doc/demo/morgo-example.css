@@ -1,0 +1,313 @@
+html
+{
+	background: url(/cqspack/demo/background.jpg) top left no-repeat black;
+	width: 930px;
+}
+
+body
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background: url(/cqspack/demo/background.jpg) top left no-repeat black;
+	width: 930px;
+}
+
+.status
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 930px;
+	height: 89px;
+	
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+	border-bottom: 0px;
+}
+
+.status a
+{
+	margin-top: 12px;
+	padding-top: 12px;
+	padding-left: 2px;
+	padding-right: 2px;
+	border: 1px solid transparent;
+}
+
+.status a[href="player-battles"]
+{
+	padding-right: 30px;
+}
+
+.status a:hover
+{
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+
+.status a.logout
+{
+	display:none;
+}
+
+.mmenu
+{
+	position: absolute;
+	display: block;
+	text-align: left;
+	left: 246px;
+	top: 55px;
+	width: 650px;
+}
+
+.mmenu ul
+{
+	border-bottom: 0px;
+}
+
+.mmenu li
+{
+	float: left;
+	width: 94px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.mmenu a
+{
+	border: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size: 18px;
+}
+
+.mmenu a:hover
+{
+	color: white;
+	background-color: transparent;
+	border: 0px;
+}
+
+.mmenu a#mactive
+{
+	border: 0px;
+}
+
+.smenu
+{
+	position: absolute;
+	top: 91px;
+	height: 382px;
+	width: 152px;
+	padding: 0px;
+	border: none;
+	background: url(/cqspack/demo/smenu.jpg) top left no-repeat black;
+}
+
+.smenu ul
+{
+	padding-left: 24px;
+	padding-top: 45px;
+	padding-right: 16px;
+}
+
+.title
+{
+	margin: 0px;
+	margin-left: 174px;
+	margin-top: 100px;
+	background-color: transparent;
+	width: 739px;
+	height: 70px;
+	border: 0px solid gray;
+	background: url(/cqspack/demo/screen-top.jpg) top left no-repeat black;
+}
+
+.content
+{
+	margin: 0px;
+	margin-left: 174px;
+	width: 729px;
+	min-height: 469px;
+	border: 0px solid gray;
+	background: url(/cqspack/demo/screen-middle.jpg) top left repeat-y black;
+}
+
+.footnote
+{
+	margin: 0px;
+	margin-left: 174px;
+	margin-bottom: 10px;
+	width: 739px;
+	height: 30px;
+	border: 0px solid gray;
+	background: url(/cqspack/demo/screen-bottom.jpg) top left no-repeat black;
+}
+
+.footer
+{
+	position: absolute;
+	left: 8px;
+	top: 470px;
+	height: 20px;
+	width: 144px;
+	border: none;
+	text-align: center;
+}
+
+
+/* special cases */
+.title.alliance
+{
+	background: black;
+}
+
+.content.alliance
+{
+	background: black;
+	border: 1px solid gray;
+	width: 727px;
+	min-height: 349px;
+	margin-top: 10px;
+}
+
+.content.forum
+{
+	background: black;
+	border: 1px solid gray;
+	width: 737px;
+	min-height: 349px;
+	margin-top: 10px;
+}
+
+.footnote.alliance
+{
+	background: black;
+}
+
+.smenu.colony ul
+{
+	padding: 0px;
+}
+
+.smenu.colony h1
+{ display: none; }
+
+.smenu.colony li
+{
+	font-size: 12px;
+	display: block;
+}
+
+.smenu.colony a
+{
+	font-size: 12px;
+	margin-left: 5px;
+	width: 98px;
+	display: block;
+}
+
+.smenu.colony a.ress
+{
+	width: 108px;
+}
+
+.smenu.colony a.ress img
+{}
+
+.smenu.colony a:hover
+{
+/*	background-color: transparent;
+	border-color: transparent;
+	color: white;*/
+}
+
+.smenu.colony li.i0
+{
+	position: absolute;
+	margin-left: 20px;
+	margin-top: 45px;
+}
+
+.smenu.colony li.i1
+{
+	position: absolute;
+	margin-left: 20px;
+	margin-top: 100px;
+}
+
+.smenu.colony li.i2
+{
+	position: absolute;
+	margin-left: 20px;
+	margin-top: 163px;
+}
+
+.smenu.colony li.i3
+{
+	position: absolute;
+	margin-left: 20px;
+	margin-top: 423px;
+}
+
+.smenu.colony li.i2 a
+{
+	height: 36px;
+}
+
+.smenu.colony li.i2 a:hover
+{
+	background-color: transparent;
+}
+
+
+h1.head
+{
+	position: absolute;
+	left: 0px;
+	top: 100px;
+}
+
+h2.head
+{
+	position: absolute;
+	left: 0px;
+	top: 120px;
+}
+
+div.footer.map
+{
+	display: none;
+}
+
+.content.map
+{
+	position: absolute;
+	left: 0px;
+	top: 140px;
+	background: none;
+}
+
+.content.map-galaxy
+{
+	position: absolute;
+	left: 0px;
+	top: 100px;
+}
+
+.content.map-colony
+{
+	position: static;
+	margin: 0px;
+	padding: 5px;
+	margin-left: 174px;
+	width: 729px;
+	min-height: 369px;
+	height: 0px;
+	border: 0px solid gray;
+	background: url(/cqspack/demo/screen-middle.jpg) top left repeat-y black;
+}

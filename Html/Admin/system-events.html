@@ -1,0 +1,56 @@
+%embed "include/design.tmpl";
+
+%set locale Session.getLocale;
+
+<h1>Events</h1>
+
+<h2>Past Events</h2>
+<table width="500">
+	<tr><th>Time</th><th>Event</th></tr>
+  %loop event foreach Galaxy.getPastEvents;
+  <tr>
+		<td>%= Tools.asDate(locale, event.getTime);</td><td>%= event.getType.getName(locale);</td>
+  </tr>
+  %endloop;
+</table>
+
+<h2>Future Events</h2>
+<table width="500">
+	<tr><th>Time</th><th>Event</th></tr>
+  %loop event foreach Galaxy.getFutureEvents;
+  <tr>
+		<td>%= Tools.asDate(locale, event.getTime);</td><td>%= event.getType.getName(locale);</td>
+  </tr>
+  %endloop;
+</table>
+
+<h2>Schedule New Event</h2>
+<form action="" method="post">
+<input type="hidden" name="do" value="Event.create" />
+<table width="500">
+	<tr>
+		<td>Date: <input type="text" name="date" /></td>
+	</tr>
+	<tr><td><input type="radio" id="start" name="type" value="RESUME" /> <label for="start">resume</label></td></tr>
+	<tr><td><input type="radio" id="stop" name="type" value="PAUSE" /> <label for="stop">pause</label></td></tr>
+	<tr><td class="a"><button type="submit">Add</button></td></tr>
+</table>
+</form>
+
+<h2>Execute Event Now</h2>
+<form action="" method="post">
+<input type="hidden" name="do" value="Event.execute" />
+<input type="hidden" name="type" value="RESUME" />
+<table width="500">
+  <tr><th><button type="submit">start</button></th></tr>
+</table>
+</form>
+
+<form action="" method="post">
+<input type="hidden" name="do" value="Event.execute" />
+<input type="hidden" name="type" value="PAUSE" />
+<table width="500">
+  <tr><th><button type="submit">stop</button></th></tr>
+</table>
+
+</form>

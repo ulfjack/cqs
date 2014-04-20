@@ -1,0 +1,15 @@
+%embed "top.tmpl";
+
+%set file Request.getBasename;
+<ul class="smenu">
+	<li %if file="design";class="active"%endif;><a href="design">%("finished units");</a></li>
+	<li %if file="design-new";class="active"%endif;><a href="design-new">%("design new unit");</a></li>
+	%if Session.getUnitDesign != null;
+	<li %if file="design-view";class="active"%endif;><a href="design-view">%("temporary unit");</a></li>
+	%else;
+	<li>%("no temporary unit");</li>
+	%endif;
+</ul>
+
+%embed;
+

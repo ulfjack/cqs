@@ -1,0 +1,6 @@
+%set locale Session.getLocale;
+%set player Session.getPlayer;
+
+<meta name="quotaUsed" value="%= player.getUsedBandwidth;" />
+%if player.getUsedBandwidth > player.getTotalBandwidth;<meta name="alert" value="%("No quota remaining!");" />%endif;
+%include "../include/researchlist.inc";

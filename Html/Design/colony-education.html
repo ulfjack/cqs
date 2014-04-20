@@ -1,0 +1,16 @@
+%embed "templates/colony.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set locale Session.getLocale;
+%set colony Session.getColony(Request.getUrlParameter(0));
+%set position colony.getPosition;
+
+%set title gettext "education";
+%include "include/coltitle.inc";
+<div class="bg">
+	<h4>%("assign universities");</h4>
+	%include "include/education.inc";
+	<h4>%("choose topics");</h4>
+	%include "include/education-details.inc";
+</div>

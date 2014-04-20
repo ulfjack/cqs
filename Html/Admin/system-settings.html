@@ -1,0 +1,47 @@
+%embed "include/design.tmpl";
+
+<h1>Settings</h1>
+
+<table width="700">
+  <tr><th>Name</th><th>Value</th></tr>
+  <tr><td>Version</td><td>%= Tools.getVersion();</td></tr>
+  <tr><td>URL</td><td>%= Tools.getUrl();</td></tr>
+  <tr><td>Debug</td><td>%= Tools.debug();</td></tr>
+  <tr><td>eMail</td><td>%= Tools.getSupportEmail();</td></tr>
+</table>
+
+<h2>Edit Settings</h2>
+<table width="700">
+  <tr>
+    <th>Url</th>
+    <th>
+      <form action="" method="post">
+      <input type="hidden" name="do" value="Settings.change" />
+      <input type="text" name="url" size="30" value="%= Tools.getUrl();" /> <button type="submit">Change</button>
+      </form>
+    </th>
+  </tr>
+  <tr>
+    <th>eMail</th>
+    <th>
+      <form action="" method="post">
+      <input type="hidden" name="do" value="Settings.change" />
+      <input type="text" name="email" size="30" value="%= Tools.getSupportEmail();" /> <button type="submit">Change</button>
+      </form>
+    </th>
+  </tr>
+  <tr>
+    <th>Debug</th>
+    <th>
+      <form action="" method="post">
+      <input type="hidden" name="do" value="Settings.change" />
+      <select name="debug">
+        <option %if Tools.debug();selected="selected"%endif;>true</option>
+        <option %if not Tools.debug();selected="selected"%endif;>false</option>
+      </select> <button type="submit">Change</button>
+      </form>
+    </th>
+  </tr>
+</table>
+
+

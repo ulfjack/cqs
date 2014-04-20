@@ -1,0 +1,57 @@
+body
+{	font-family: Arial, Helvetica;
+	background-color:#000000;
+	color:#EEEEEE;
+	font-size:10px;}
+
+h1
+{	font-size:18px;
+	text-align:center;}
+
+table
+{	border-width: 0px;
+	width: 600px;}
+
+table.stats
+{	width:100%;
+	background-color: transparent;
+	border-spacing: 0px;}
+
+th
+{	text-align: center;
+	font-weight: bold;}
+
+td
+{	text-align: left;
+	padding: 0px 10px 0px 10px;}
+
+td.table
+{	padding: 1px;
+	vertical-align: top;}
+
+td.r
+{	text-align: right;}
+
+tr.even
+{ background-color: #111111; }
+
+tr.odd
+{ background-color: black; }
+
+div.warn
+{
+	background-color: #600;
+	border: 1px solid #a00;
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 5px;
+	text-align: center;
+}
+
+img
+{	border:none;
+	margin:0px;
+	padding:0px;
+}

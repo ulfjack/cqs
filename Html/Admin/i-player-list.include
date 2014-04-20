@@ -1,0 +1,19 @@
+%if Session.getSearchResult.size > 0;
+<table width="500">
+  <tr><td class="a" colspan="8">Spieler gefunden</td></tr>
+  %set x 0;
+  %loop p foreach Session.getSearchResult;
+  %set x x+1;
+  %set a p.getAlliance;
+  <tr>
+    <td class="b"><a href="?remove=%= x;">-</a></td>
+    <td class="b"><a href="player|%= p.getPid;">%= p.getName;</a></td>
+    <td class="b">%%= p.email;</td>
+    <td class="b">%if a != null;%= a.getName;%endif;&#160;</td>
+    <td class="b">%if a != null; %endif;&#160;</td>
+    <td class="b">%if (a != null) and p.isAllianceAdmin;Admin%endif;&#160;</td>
+    <td class="b">%if p.isMulti;MULTI%endif;</td>
+  </tr>
+  %endloop;
+</table>
+%endif;

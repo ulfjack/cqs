@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Server configuration.
+-->
+<cqs config="3.0">
+	<!-- These settings are read only at the first start. -->
+	<galaxy>
+		<systems>50</systems>
+		<anonymousaiplayers>0</anonymousaiplayers>
+		<start>
+			<research>0</research>
+			<colonies>0</colonies>
+			<units>0</units>
+		</start>
+		<logins>
+			<login>
+				<player name="gast" language="de_DE" restricted="true" />
+			</login>
+			<login name="UlfJack" password="x">
+				<player name="UlfJack" language="en_US" />
+			</login>
+		</logins>
+	</galaxy>
+	
+	<!-- The order of plugins in this file is the order in which they are loaded. -->
+	<plugins>
+		<!-- choose one HttpProvider -->
+		<plugin name="net.cqs.plugins.CatfishHttpProvider" load="yes">
+			<param name="port" value="9292" />
+			<param name="threads" value="10" />
+		</plugin>
+		<plugin name="net.cqs.plugins.JettyHttpProvider" load="no">
+			<param name="port" value="8080" />
+		</plugin>
+		
+		<!-- choose one SmtpProvider -->
+		<plugin name="net.cqs.plugins.CatfishSmtpProvider" load="yes">
+			<param name="server" value="127.0.0.1" /> <!-- smtp server adress -->
+			<param name="sender" value="no-reply@conquer-space.net" /> <!-- sender adress -->
+		</plugin>
+		
+		<!-- choose exactly one AuthProvider -->
+		<plugin name="net.cqs.plugins.DatabaseAuthProvider" load="yes" />
+		<plugin name="net.cqs.plugins.DrupalAuthProvider" load="no">
+			<param name="url" value="mysql://host/database" />
+			<param name="user" value="user" />
+			<param name="password" value="password" />
+		</plugin>
+		<plugin name="net.cqs.plugins.LdapAuthProvider" load="no">
+			<param name="server" value="ldap://127.0.0.1:389/" />
+		</plugin>
+		
+		
+		<!-- other plugins -->
+		<plugin name="net.cqs.plugins.InvitationPlugin" load="no" />
+		<plugin name="net.cqs.plugins.ServiceTrayPlugin" load="yes" />
+		
+		<plugin name="net.cqs.web.WebFrontpage" load="yes" />
+		<plugin name="net.cqs.web.WebOpenId" load="no" />
+		<plugin name="net.cqs.web.WebIngame" load="yes">
+			<param name="url" value="/Ingame" />
+		</plugin>
+		<plugin name="net.cqs.web.WebReports" load="yes" />
+		<plugin name="net.cqs.web.WebGuest" load="yes" />
+		<plugin name="net.cqs.web.WebAdmin" load="yes">
+			<param name="admin" value="UlfJack@local" />
+		</plugin>
+		
+		<plugin name="net.cqs.web.WebDoc" load="no" />
+		
+		<plugin name="net.cqs.plugins.EventCounterPlugin" load="no" />
+		<plugin name="net.cqs.plugins.MultiPlugin" load="no" />
+		<plugin name="net.cqs.plugins.QuotaRegulator" load="no">
+			<param name="quota" value="1024" /> <!-- in KB per player per day -->
+			<param name="interval" value="60" /> <!-- in minutes -->
+		</plugin>
+		<plugin name="net.cqs.plugins.SmtpGate" load="no" />
+		
+		<plugin name="net.cqs.plugins.IrcGate" load="no">
+			<param name="server" value="irc.conquer-space.net" />
+			<param name="port" value="6667" />
+			<param name="channel" value="#beta-test" />
+		</plugin>
+		
+		<plugin name="net.cqs.plugins.RhinoPlugin" load="no">
+			<param name="port" value="9323" />
+		</plugin>
+	</plugins>
+</cqs>

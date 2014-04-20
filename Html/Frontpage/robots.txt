@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /Ingame/
+Disallow: /Guest/
+Disallow: /BattleReports/
+Disallow: /AgentObservers/
+Disallow: /AgentReports/
+Disallow: /Admin/

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title>Conquer-Space.net</title>
+<!--	<link rel="stylesheet" type="text/css" href="/data/login.css" />-->
+	<style type="text/css">
+	body
+	{
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+	}
+	object
+	{
+		margin: 5px;
+	}
+	</style>
+</head>
+<body>
+
+%set aggregator Game.getProfileAggregator();
+%set a aggregator.getDataSeries(0);
+%set min a.min();%set max a.max();
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=600x300&amp;chxt=x,y&amp;chxr=1,%= min;,%= max;&amp;chds=%= min;,%= max;&amp;chxl=0:|-7d|-6d|-5d|-4d|-3d|-2d|-1d|now&amp;chtt=Average+Object+Count+per+Task&amp;chd=t:%= a.toCSV();" alt="max access time" />
+
+&#160;
+
+%set a aggregator.getDataSeries(1);
+%set min a.min();%set max a.max();
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=600x300&amp;chxt=x,y&amp;chxr=1,%= min;,%= max;&amp;chds=%= min;,%= max;&amp;chxl=0:|-7d|-6d|-5d|-4d|-3d|-2d|-1d|now&amp;chtt=Maximum+Delay+per+Task&amp;chd=t:%= a.toCSV();" alt="max access time" />
+<br /><br />
+
+%set a aggregator.getDataSeries(2);
+%set min a.min();%set max a.max();
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=600x300&amp;chxt=x,y&amp;chxr=1,%= min;,%= max;&amp;chds=%= min;,%= max;&amp;chxl=0:|-7d|-6d|-5d|-4d|-3d|-2d|-1d|now&amp;chtt=Total+Task+Count&amp;chd=t:%= a.toCSV();" alt="max access time" />
+
+&#160;
+
+%set a Game.getAccessTimeHistory();
+%set min a.min();%set max a.max();
+<img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=600x300&amp;chxt=x,y&amp;chxr=1,%= min;,%= max;&amp;chds=%= min;,%= max;&amp;chxl=0:|-7d|-6d|-5d|-4d|-3d|-2d|-1d|now&amp;chtt=Maximum+Access+Time+per+Page&amp;chd=t:%= a.toCSV();" alt="max access time" />
+<br /><br />
+
+<object type="image/svg+xml" data="registrations.svg" width="900" height="400"></object>
+
+</body>
+</html>

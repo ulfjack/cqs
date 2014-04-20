@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="ISO-8859-15" ?>
+<?xml-stylesheet href="docbook-plain.css" type="text/css"?>
+<!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">-->
+
+<book lang="de">
+
+<bookinfo>
+<title>Conquer-Space.net Spielregeln</title>
+<author>Ulf Ochsenfahrt</author>
+</bookinfo>
+
+<chapter><title>Einführung</title>
+<para>
+Conquer-Space.net ist ein Echtzeit-Strategiespiel, dass in einem futuristischen Weltraumzeitalter spielt. Es ist rein Browser-basiert und voll mehrspielerfähig.
+</para>
+
+<para>
+Dieses Dokument beschreibt die Spielregeln von Conquer-Space.net. Unterschiede zwischen dem Spiel und diesen Regeln sind immer zugunsten der Regeln, d.h. jeder Unterschied zählt als Bug.
+</para>
+
+<section><title>Spielleitung</title>
+<para>
+Jede Runde hat eine Spielleitung, die in der Regel aus mehreren Personen besteht. Diese dürfen grundsätzlich nicht aktiv am Spiel teilnehmen, da sonst Interessenskonflikte entstehen können. Die Spielleiter haben aber oft eigene Accounts, damit Sie bei Problemen auch selbst ins Spiel schauen können.
+</para>
+</section>
+</chapter>
+
+
+<chapter><title>Technik</title>
+<para>
+</para>
+
+<section><title>Technische Vorraussetzungen: Server</title>
+<para>
+Um die Conquer-Space.net Server-Software laufen zu lassen, wird eine Java Virtual Machine (JVM) benötigt.
+</para>
+</section>
+
+<section><title>Technische Vorraussetzungen: Client</title>
+<para>
+Zum Spielen von Conquer-Space.net wird ein Browser benötigt. Die gängigsten Browser - Firefox, Internet Explorer und Opera - werden unterstützt. Manche Spielfeatures sind aber nur im Firefox verfügbar.
+</para>
+</section>
+</chapter>
+
+
+
+
+<chapter><title>Galaxie</title>
+<para>
+Es gibt Sonnensysteme, in denen gibt es Planeten, die sich auf verschiedenen Planetenbahnen bewegen. Auf den Planeten gibt es Kolonien, die verschiedenen Spielern gehören.
+</para>
+</chapter>
+
+
+
+
+<chapter><title>Zeit und Zeitalter</title>
+<para>
+In Conquer-Space.net wird unterschieden zwischen Echt- und Spielzeit. Die meisten Zeitangaben sind in Spielzeit.
+</para>
+
+<section><title>Runden</title>
+<para>
+Die Gesamtspielzeit einer Runde beträgt drei (3) Monate.
+</para>
+</section>
+
+<section><title>Zeitalter</title>
+<para>
+Eine Runde von Conquer-Space.net ist in fünf Zeitalter unterteilt. Dies sind die Zeitalter des Aufbaus, der Expansion, des Konfliktes, des Krieges und der Entscheidung. Je nach Zeitalter gelten unterschiedliche Regeln für Bau, Einheitenkosten, Ausbildung, Forschung, Flugzeiten und Rohstoffförderung.
+</para>
+<table>
+	<tr>
+		<th>Zeitalter...</th>
+		<th>Farbe</th>
+		<th>Zeitdauer</th>
+		<th>Regelmodifikatoren</th>
+	</tr>
+	<tr>
+		<td>...des Aufbaus</td>
+		<td>blau</td>
+		<td>2 Wochen</td>
+		<td>
+			<itemizedlist>
+				<listitem>Bauzeiten sind halbiert.</listitem>
+				<listitem>Baukosten sind halbiert.</listitem>
+				<listitem>Rohstoffeinnahmen sind vierfach.</listitem>
+				<listitem>Nach einiger Zeit wird Forschung möglich.</listitem>
+			</itemizedlist>
+		</td>
+	</tr>
+	<tr>
+		<td>...der Expansion</td>
+		<td>grün</td>
+		<td>2 Wochen</td>
+		<td>
+			<itemizedlist>
+				<listitem>Rohstoffeinnahmen sind verdoppelt.</listitem>
+				<listitem>Siedler und Truppentransporter sind guenstiger zu Bauen.</listitem>
+				<listitem>Truppentransporter fliegen schneller.</listitem>
+				<listitem>Zivipunkte sind geviertelt.</listitem>
+			</itemizedlist>
+		</td>
+	</tr>
+	<tr>
+		<td>...des Konfliktes</td>
+		<td>gelb</td>
+		<td>4 Wochen</td>
+		<td>
+			<itemizedlist>
+				<listitem>Rohstoffeinnahmen sind normal.</listitem>
+				<listitem>Transmitterbau geht doppelt so schnell.</listitem>
+				<listitem>Forschungszeit ist halbiert.</listitem>
+				<listitem>Invasion ist möglich.</listitem>
+				<listitem>Spionage ist möglich.</listitem>
+			</itemizedlist>
+		</td>
+	</tr>
+	<tr>
+		<td>...des Krieges</td>
+		<td>orange</td>
+		<td>4 Wochen</td>
+		<td>
+			<itemizedlist>
+				<listitem>Rohstoffeinnahmen sind halbiert.</listitem>
+				<listitem>Interplanetare Einheiten fliegen doppelt so schnell.</listitem>
+				<listitem>Kolonie-Zerstoerung ist möglich.</listitem>
+				<listitem>Flotten sind im Raum angreifbar.</listitem>
+			</itemizedlist>
+		</td>
+	</tr>
+	<tr>
+		<td>...der Entscheidung</td>
+		<td>rot</td>
+		<td>2 Wochen</td>
+		<td>
+			<itemizedlist>
+				<listitem>Die Rohstoffeinnahmen sind geviertelt.</listitem>
+				<listitem>Interplanetare Einheiten fliegen viermal so schnell.</listitem>
+				<listitem>Interstellare Einheiten fliegen doppelt so schnell.</listitem>
+				<listitem>Invasionskosten sind halbiert.</listitem>
+				<listitem>Es werden keine Zivilisationspunkte mehr für Kolonien benötigt.</listitem>
+			</itemizedlist>
+		</td>
+	</tr>
+</table>
+
+<para>
+Zeitalter werden in Echtzeit angegeben, können aber in Beta-Runden beschleunigt sein.
+</para>
+<para>
+Zeitalter des Aufbaus
+Die Spieler haben Zeit, um Ihre Kolonien aufzubauen und sich Allianzen zu suchen.
+</para>
+<para>
+Zeitalter der Expansion
+In diesem Zeitalter geht es vor allem um Expansion, also das Gründen weiterer Kolonien.
+</para>
+<para>
+Zeitalter des Konfliktes
+Durch die Entwicklung der Warp-Einheiten wird der Handlungsbereich deutlich ausgedehnt, es entstehen die ersten Konflikte.
+</para>
+<para>
+Zeitalter des Krieges
+Der Platz im Universum wird knapp, die Konflikte verschaerfen sich.
+</para>
+<para>
+Zeitalter der Entscheidung
+Die Kriege erreichen Ihren Höhepunkt.
+</para>
+</section>
+</chapter>
+
+
+
+
+<chapter><title>Diplomatie</title>
+<para>
+</para>
+
+<section><title>TODO: Einzelspieler</title>
+<para>
+</para>
+</section>
+
+<section><title>TODO: Allianzen</title>
+<para>
+Die Allianz in CqS 13 wird eine staerkere Bedeutung zukommen. Die Allianz-Diplomatie hat Vorrang vor der Spieler-Diplomatie. Ausserdem gibt es die verstaerkte Moeglichkeit, sich innerhalb einer Allianz zu koordinieren.
+</para>
+
+<para>
+Insbesondere sollen Angriff und Verteidigung koordiniert werden koennen. Dazu wird in der Allianz der Angriffs- o. Verteidigungspunkt festgelegt und die Spieler koennen diesen Flotten zuordnen. Beim Angriff ist dies vor allem zeitgesteuert moeglich.
+</para>
+
+<para>
+Ausserdem werden wieder "Allianzsysteme" eingefuehrt. Bei Spielstart koennen sofort Allianzen gegruendet / Allianzen beigetreten werden. Wenn eine Allianz gegruendet wird, so wird fuer die Allianz eine Anzahl Systeme "reserviert" oder teilweise reserviert. Jede Allianz beansprucht damit fuer sich ein gewisses Gebiet. Dieses Gebiet hat aber Randsysteme, die mehreren Allianzen zugewiesen sind.
+</para>
+</section>
+
+<section><title>TODO: Verträge</title>
+<para>
+Verträge ersetzen die bisherigen Unionen und beziehen sich vor allem auf Verträge zwischen zwei oder mehr Allianzen. Dazu gehören insbesondere Angriffs-, Verteidigungs- und Nicht-Angriffs-Pakte.
+</para>
+</section>
+
+<section><title>TODO: Anfängerallianz</title>
+<para>
+Eine Anfaengerallianz hat unbegrenzte Groesse und nimmt alle Aufnahmeantraege sofort an. Spieler in der Anfängerallianz koennen nicht angreifen und nicht angegriffen werden, sowie keine Flotten verschenken. Sie können maximal 3 Kolonien haben. Spieler können jederzeit aus der Anfängerallianz austreten.
+</para>
+
+<para>
+Die Anfängerallianz erscheint nicht in der Allianzhighscore, der Zugriff auf die Allianz-Steuerung ist für alle Spieler nur eingeschränkt möglich.
+</para>
+</section>
+</chapter>
+
+
+
+<chapter><title>Flotten</title>
+<para>
+
+</para>
+
+<section><title>TODO: Flotten erstellen</title>
+<para>
+</para>
+</section>
+
+<section><title>TODO: Flottenbefehle</title>
+<para>
+Festlegen, welche Flottenbefehle (im Zusammenhang mit dem Kampfsystem) es geben muss, und was sie tun.
+</para>
+</section>
+
+<section><title>TODO: Flotten splitten/zusammenlegen</title>
+<para>
+</para>
+</section>
+</chapter>
+
+
+
+
+<chapter><title>Kämpfe</title>
+<para>
+In jedem Kampf gibt es Angreifer und Verteidiger.
+</para>
+
+<section><title>Bodenkampf</title>
+<para>Der Bodenkampf findet bei einer Kolonie statt. Der Besitzer der Kolonie ist automatisch einer der Verteidiger. Wenn der Bodenkampf vom Angreifer gewonnen wird, so erhält der Angreifer Ressourcen (Raub) oder Gebäude (Invasion). Der Bodenkampf gilt als vom Angreifer gewonnen, wenn am Ende einer Runde kein Verteidiger mehr steht. Es gibt im Bodenkampf für den Angreifer drei Angriffsmodi:</para>
+
+<itemizedlist>
+	<listitem>
+		<para>normaler Angriff, sobald der Kampf gewonnen ist, zieht sich der Angreifer zurück</para>
+	</listitem>
+	<listitem>
+		<para>Raub, sobald der Kampf gewonnen ist, zieht sich der Angreifer zurück</para>
+	</listitem>
+	<listitem>
+		<para>Invasion, wenn der Kampf gewonnen ist, kämpf der Angreifer trotzdem weiter</para>
+	</listitem>
+</itemizedlist>
+
+<para>Im Bodenkampf können automatisch Verteidigungsflotten anwesend sein. Diese werden von der angegriffenen Kolonie erstellt und zwar wenn 3 Bedingungen erfüllt sind. Die Kolonie muss auf automatische Verteidigung gestellt sein und es tritt eine Angriffsflotte dem Kampf bei und es sind bisher keine Angriffsflotten im Kampf.</para>
+
+<para>Die automatische Verteidigung besteht aus den auf der Kolonie stationierten Boden-Kampfeinheiten sowie einer gewissen Zahl Miliz. Wenn der Kampf von der Verteidigung gewonnen wird (am Ende der Runde keine Angreifer mehr), so werden die automatischen Verteidiger wieder auf der Kolonie stationiert, die Miliz wird aufgelöst.</para>
+
+<para>Man kann eine Kolonie mit einer Flotte verteidigen. Diese Flotte verlässt in diesem Fall den Bodenkampf nicht, wenn der Bodenkampf vom Verteidiger gewonnen wird.</para>
+</section>
+
+<section><title>Raumkampf über der Kolonie (Landungskampf?)</title>
+<para>Über einer Kolonie kann es zu einem Raumkampf (Landungskampf?) kommen. Dieser findet im Raum über der Kolonie statt. Ähnlich dem Bodenkampf können hier automatisch Verteidiger von der Kolonie erstellt werden, wenn die Kolonie automatische Raumverteidigung macht und eine Angriffsflotte zum Kampf hinzukommt und vorher keine Angriffsflotte im Kampf war.</para>
+
+<para>Man kann eine Kolonie im Raum mit einer Flotte verteidigen. Diese Flotte verlässt in diesem Fall den Raumkampf (Landungskampf) nicht, wenn der Kampf vom Verteidiger gewonnen wird.</para>
+
+<para>Wenn ein Angreifer einen Raumkampf (Landungskampf) gewinnt, so landen seine Flotten auf dem Planeten.</para>
+</section>
+
+<section><title>Raumkampf über einem Planeten (Planetenblockade?)</title>
+<para>Es kann über dem Planeten eine Blockade erstellt werden. Eine solche Blockade muss immer einen Eigentümer haben. Der Eigentümer einer Blockade gilt als Verteidiger.</para>
+
+<para>Eine Blockade verweigert anderen Flotten den Durchflug mit Ausnahme von Flotten, die mit dem Eigentümer alliiert sind. Eine Flotte kann auch als Blockadebrecher arbeiten. In diesem Fall versucht die Flotte, durch die Blockade zu fliegen, was mit einer gewissen Wahrscheinlichkeit gelingt. Diese ist abhängig von der Anzahl Einheiten (je mehr, desto schwerer) sowie davon ob von innen nach aussen geflogen wird oder umgekehrt (es ist einfacher eine Blockade von innen zu brechen).</para>
+
+<para>Flotten, die die Blockade brechen wollen, gelten als Angreifer.</para>
+
+<para>Wenn der Versuch, die Blockade zu brechen, misslingt, so kommt es mit einer gewissen Wahrscheinlichkeit zum Kampf (50%).</para>
+
+<para>Es ist weiterhin möglich, eine Blockade von innen oder von aussen anzugreifen. Solche Flotten gelten als Angreifer und es kommt garantiert zum Kampf.</para>
+
+</section>
+
+<section><title>TODO: Kampfregeln</title>
+<para>
+</para>
+</section>
+
+<section><title>Einfluss von Kämpfen auf Flottenbewegungen</title>
+<para>Flottenbewegungen und Kämpfe hängen zusammen. Folgende Flottenbewegungen sind möglich:</para>
+
+<itemizedlist>
+	<listitem>
+		<para>vom System zum Planeten</para>
+	</listitem>
+	<listitem>
+		<para>vom Planeten zur Kolonie (nicht gelandet)</para>
+	</listitem>
+	<listitem>
+		<para>von der Kolonie (nicht gelandet) zur Kolonie (gelandet) -> bei Kolonie landen</para>
+	</listitem>
+</itemizedlist>
+
+<itemizedlist>
+	<listitem>
+		<para>von der Kolonie (gelandet) zur Kolonie (nicht gelandet) -> bei Kolonie abheben</para>
+	</listitem>
+	<listitem>
+		<para>von der Kolonie zum Planeten</para>
+	</listitem>
+	<listitem>
+		<para>vom Planeten zum System</para>
+	</listitem>
+</itemizedlist>
+
+<itemizedlist>
+	<listitem>
+		<para>von einem System zu einem anderen System</para>
+	</listitem>
+	<listitem>
+		<para>von einem Planet zu einem anderen Planeten</para>
+	</listitem>
+	<listitem>
+		<para>von einer Kolonie (gelandet) zu einer anderen Kolonie (gelandet)</para>
+	</listitem>
+</itemizedlist>
+
+<para>Für die Bewegungen gelten folgende Einschränkungen:
+Bei Kolonie landen ist nur möglich bei alliierten Spielern oder nach gewonnenem Raumkampf (Landungskampf).</para>
+
+<para>Vom Planeten zur Kolonie ist immer möglich, ausser der Planet ist blockiert. Wenn der Planet blockiert ist, so ist die Bewegung nur möglich, wenn man die Blockade bricht oder die Blockade angreift und gewinnt oder mit dem Eigentümer der Blockade alliiert ist.</para>
+
+<para>Von der Kolonie zum Planeten ist immer möglich, ausser der Planet ist blockiert. Wenn der Planet blockiert ist, so ist die Bewegung nur möglich, wenn man die Blockade bricht oder die Blockade angreift und gewinnt oder mit dem Eigentümer der Blockade alliiert ist.</para>
+
+<para>Alle anderen Bewegungen sind uneingeschränkt möglich.</para>
+</section>
+</chapter>
+
+
+
+
+<chapter><title>Highscore</title>
+<para>
+Jeder Spieler erhält einen Platz in der Highscore des Spiels. Die genaue Plazierung ergibt sich aus den Punkten, die sich der Spieler im Laufe des erarbeitet. Die Punkte setzen sich aus Zivilisationspunkten und Einheitenpunkten zusammen, wobei diese Punkte skaliert werden. </para>
+<para>Stand 25.01.2006: Zivilisationspunkte werden mit 1/1.000 skaliert, Einheitenpunkte mit 1/100.000, das heißt (Highscore-)Punkte = 1/1.000 * Zivilisationspunkte + 1/100.000 * Einheitenpunkte.
+</para>
+<para>
+Zivilisationspunkte erhält man für jedes Gebäude, das man verwaltet. Den genauen Wert, den ein Gebäude genau erbringt, kann man in der Detailansicht des jeweiligen Gebäudetypen einsehen. Es ist wichtig zu beachten, dass nur tatsächlich vorhandene Gebäude Zivilisationspunkte bringen. Wird ein Gebäude abgerissen oder von einem Gegner invasiert, so sinken auch die Zivilisationspunkte. Erbaut man ein Gebäude oder invasiert es, so steigen die Zivilisationspunkte an.
+</para>
+<para>
+Jeder Spieler startet mit 0 Einheitenpunkten. Beim Fertigstellen jeder Einheit addiert sich der Punktewert für die fertiggestellte Einheit zum bisherigen Einheitenpunkten. Den genauen Wert, den eine Einheit erbringt, kann man in der Detailansicht des jeweiligen Einheitentyps einsehen. Es ist wichtig zu beachten, dass nur tatsächlich fertig ausgebildeten Einheiten Punkte erbringen. Bekommt man eine Einheit geschenkt, so erhöht dies nicht die Einheitenpunkte. Wird eine Einheit zerstört, verschenkt oder aufgelöst, so senkt dies nicht die Einheitenpunkte. 
+</para>
+<para>
+Die Punkte und damit die Highscore-Plazierung wird stets direkt nach Änderung der Zivilisations- oder Einheitenpunkte angepasst.
+</para>
+</chapter>
+
+
+
+
+<appendix><title>Varianten</title>
+<section><title>Erlaubnis erteilen</title>
+<para>Eventuell könnte der Eigentümer einer Kolonie oder Blockade einer Flotte die Erlaubnis zur Landung/Durchflug erteilen.</para>
+</section>
+
+<section><title>Systemblockaden</title>
+<para>Eventuell könnte man ein ganzes System blockieren. Dies würde die Bewegung vom System zu einem Planeten bzw. von einem Planeten zum System blockieren. Analog zu Planetenblockaden.</para>
+</section>
+
+<section><title>Mindesteinheitenzahlen für Blockaden</title>
+<para>Eventuell könnte man Mindesteinheitenzahlen für Blockaden einführen.</para>
+</section>
+</appendix>
+
+
+
+
+<appendix><title>ungeklärte Fragen</title>
+<section><title>Kann man leere Planeten blockieren?</title>
+<para>Vorschlag: Ja.</para>
+</section>
+
+<section><title>Kann man eine Blockade über einem leeren Planeten brechen (von aussen)?</title>
+<para>Derzeit: Nein.</para>
+</section>
+
+<section><title>Was passiert, wenn ein Eigentümer eine Blockade verlässt?</title>
+<para>Vorschlag: Der Mitblockierer mit der größten Gesamt-Flotte wird Eigentümer.</para>
+</section>
+
+<section><title>Wenn es eine Blockade gibt und ich blockieren will, geht das? Oder kann man eventuell nur ebenfalls blockieren, wenn man mit dem Eigentümer alliiert ist?</title>
+<para>Vorschlag: Nach jedem Tick werden Mitblockierer, die nicht mit dem Eigentümer alliiert sind, rausgeworfen.</para>
+</section>
+
+<section><title>Was passiert, wenn in der Eigentümer einer Blockade die Allianz verlässt?</title>
+<para>Vorschlag: siehe 3.</para>
+</section>
+
+<section><title>Wer genau gilt als alliiert? Allianz/Union? Verträge?</title>
+<para>Vorschlag: vorerst Allianz, später Regelung über Verträge</para>
+</section>
+
+</appendix>
+
+
+</book>

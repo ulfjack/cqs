@@ -1,0 +1,29 @@
+%embed "include/design.tmpl";
+
+%("This action is currently not functioning!");
+<!--
+<h1>%("passwort reminder");</h1>
+
+%if Session.tryReminding;
+%if Session.hasReminded;
+<div class="note c">%("An email containing the password for this log-in name has been sent.");</div>
+%else;
+<div class="warn c">%("We were not able to send the password per email.");</div>
+%endif;
+%endif;
+
+<div class="note c">%("The accout-data will be sent to the email address that is stored in the database.");</div>
+
+<form action="reminder" method="post">
+<fieldset><legend>%("retrieve password");</legend>
+<div><input type="hidden" name="do" value="remind" /></div>
+<table style="width:300px">
+	<tr>
+		<td  class="c">%("nickname or id");</td>
+		<td  class="c"><input type="text" name="user" value="" size="20" maxlength="15" /></td>
+	</tr>
+	<tr><td colspan="2" class="c"><button type="submit">%("Send me my password!");</button></td></tr>
+</table>
+</fieldset>
+</form>
+-->

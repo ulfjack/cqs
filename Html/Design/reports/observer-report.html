@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>Conquer-Space.net %("temporary spy report");</title>
+	<link rel="stylesheet" type="text/css" href="/data/report.css" />
+</head>
+
+%set locale Session.getLocale;
+
+<body>
+
+<div id="content">
+
+<h1>%("temporary spy report");</h1>
+
+%set ad Tools.getObserverReport(Request.getFilename);
+%if ad != null;
+%set owner Galaxy.findPlayerByPid(ad.getOwnerId);
+<table>
+<colgroup><col width="40%%" /><col width="30%%" /><col width="30%%" /></colgroup>
+	<tr><th rowspan="7"><img src="/data/logo.png" alt="" /></th></tr>
+	<tr><td colspan="2"><br /></td></tr>
+	<tr><th>%("position");</th><td>%= ad.getPosition;</td></tr>
+	<tr><th>%("owner");</th><td>%= owner.getName; %if owner.getAlliance != null;[%= owner.getAlliance.getShortName;]%endif;<br /></td></tr>
+	<tr><th>%("started observing:");</th><td>%= Tools.asDate(locale, ad.getStartRealTime);</td></tr>
+%if ad.isStopped;
+	<tr><th>%("stopped observing:");</th><td>%= Tools.asDate(locale, ad.getStopRealTime);</td></tr>
+%else;
+	<tr><td colspan="2"><br /></td></tr>
+%endif;
+<tr><th>%("precision:");</th><td>%= ad.getProbabilityPercent(Galaxy.getTime);%%</td></tr>
+<tr><td colspan="2"><br /></td></tr>
+</table>
+
+<table>
+<colgroup><col width="40%%" /><col width="30%%" /><col width="30%%" /></colgroup>
+<tr><th colspan="3">%("spy report");</th></tr>
+<tr>
+	<td class="table">
+		<table class="stats">
+			<colgroup><col width="45%%" /><col width="28%%" /><col width="27%%" /></colgroup>
+			<tr>
+				<th>&#160;%("units");</th>
+				<th>%("total");</th>
+				<th>%("production");</th>
+			</tr>
+			%loop y,entry foreach ad.getUnitsIncrease;
+				<tr class="%= y % 2 = 0 ? "even" : "odd";">
+					<td>&#160;%= entry.type.getName(locale);</td>
+					<td class="r">%= entry.amount;&#160;</td>
+					<td class="r">%= ad.getUnitsBuilt.get(entry.type);&#160;</td>
+				</tr>
+			%endloop;
+		</table>
+	</td>
+	<td class="table">
+		<table class="stats">
+			<colgroup><col width="75%%" /><col width="25%%" /></colgroup>
+			<tr><th colspan="2">&#160;%("buildings");</th></tr>
+			%loop x,building foreach Building.values;
+			<tr class="%= x % 2 = 0 ? "even" : "odd";"><td>&#160;%= building.getName(locale);</td><td class="r">%= ad.getBuildingBuilt(building)-ad.getBuildingRemoved(building);&#160;</td></tr>
+			%endloop;
+		</table>
+	</td>
+	<td class="table">
+		<table class="stats">
+			<colgroup><col width="85%%" /><col width="15%%" /></colgroup>
+			<tr><th colspan="2">&#160;%("education");</th></tr>
+			%loop x,topic foreach Education.values;
+			<tr class="%= x % 2 = 0 ? "even" : "odd";"><td>&#160;%= topic.getName(locale);</td><td class="r">%= ad.getEducationAdded(topic)-ad.getEducationRemoved(topic);&#160;</td></tr>
+			%endloop;
+		</table>
+	</td>
+</tr>
+</table>
+<br />
+
+%else;
+<div class="warn">
+%("The spy report was not found.");
+</div>
+%endif;
+
+</div>
+
+</body>
+</html>

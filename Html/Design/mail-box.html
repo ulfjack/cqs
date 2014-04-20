@@ -1,0 +1,98 @@
+%embed "templates/messages.tmpl";
+
+%set player Session.getPlayer;
+%set mailbox Session.getPlayerMailboxCopy;
+%set box 0;
+%if Request.getUrlParameterCount > 0;
+	%set box Tools.safeParseInt(Request.getUrlParameter(0), 0);
+%endif;
+%set folder mailbox.getFolder(box);
+
+	<table class="stats">
+	<colgroup><col width="25%%" /><col width="75%%" /></colgroup>
+		<tr class="nohover"><td colspan="2">%if box = 0;<a href="mail-box|%= box;?Player.Message.readAll=%= box;">%("mark all messages as read");</a>%else;<a href="mail-box|%= box;?Player.Message.deleteAll=%= box;">%("delete all messages");</a>%endif;</td></tr>
+		<tr class="nohover"><td class="clear" colspan="2">&#160;</td></tr>	
+		%if folder.size = 0;
+		<tr class="nohover"><td colspan="2">%("There are no messages.");</td></tr>
+		%else;
+		%loop x,message foreach folder;
+		<tr class="%= x%2=0 ? "even" : "odd";">
+			<td>
+				%set p message.getSender(Galaxy);
+				%if p != null;
+					%("by"); %= p.getName; %if p.getAlliance != null;[%= p.getAlliance.getShortName;]%endif;<br />
+				%else;%("by an administrator");<br />%endif;
+				%set q message.getRecipient(Galaxy);
+				%if q != player;
+					%("to"); %= q.getName; %if q.getAlliance != null;[%= q.getAlliance.getShortName;]%endif;<br />
+				%endif;
+				%("on {0}", Tools.asDate(Session.getLocale, message.getRealtime));<br />
+			
+				%if message.getType = MessageType.INVITATION;
+					<a href="mail-box|%=box;?Player.Message.delete=%= box;,%= message.getId;">%("delete");</a>&#160;&#160;&#160;
+					%set fromAlliance Galaxy.findAllianceById(message.getTypeInfo);
+					%if fromAlliance != null;<a href="mail-box|%= box;?Player.Invitation.accept=%= box;,%= message.getId;">%("join alliance {0}", fromAlliance.getName);</a>
+					%else; %("This alliance invitation is not valid anymore.");%endif;
+				%else;
+					%if box = 0;
+						<a href="mail-box|%= box;?Player.Message.read=%= box;,%= message.getId;">%("mark as read");</a><br />
+					%else;
+						<a href="mail-box|%= box;?Player.Message.delete=%= box;,%= message.getId;">%("delete");</a>
+					%endif;
+					%if (box != 3) and (p != null);
+						<br /><a href="player|%= p.getPid;?Player.Message.read=%= box;,%= message.getId;&amp;subject=Re: %= message.getSubject;">%("reply");</a>
+					%endif;
+				%endif;
+			</td>
+			<td>
+			%if message.getType = MessageType.CONTRACT_PROPOSAL;
+				%set proposal Galaxy.getContractProposal(message.getTypeInfo);
+				%if proposal != null;
+				<b>%("contract proposal");</b><br />
+				%("The following contract is being proposed:");
+				<table class="diplomacy">
+					<tr><th colspan="2">%= proposal.getType.getName(Session.getLocale);</th></tr>
+					<tr>
+						<td><b>%("contract partners");</b></td>
+						<td><b>%("reply");</b></td>
+					</tr>
+				%loop x from 0 to proposal.size-1;
+					<tr>
+						<td>%set party proposal.getParty(x);%= party.getName;</td>
+						<td>%if proposal.hasAnswered(x);%("accepted");%else;%("n/a");%endif;</td>
+					</tr>
+				%endloop;
+					<tr>
+						<td>
+							<form action="" method="post">
+								<input type="hidden" name="
+do" value="ContractProposal.accept" />
+								<input type="hidden" name="index" value="%= message.getTypeInfo;" />
+								<button type="submit">%("accept");</button>
+							</form>
+						</td>
+						<td>
+							<form action="" method="post">
+								<input type="hidden" name="do" value="ContractProposal.decline" />
+								<input type="hidden" name="index" value="%= message.getTypeInfo;" />
+								<button type="submit">%("decline");</button>
+							</form>
+						</td>
+					</tr>
+				</table>
+				%else;
+					%("This contract proposal is not valid anymore. You can delete this message.");
+				%endif;
+			%else;%if message.getType = MessageType.CONTRACT_DECLINED;
+				<b>%("contract refused");</b><br />%("A contract proposal was refused.");
+			%else;%if message.getType = MessageType.CONTRACT_CREATION;
+				<b>%("contract concluded");</b><br />%("A contract was concluded.");
+			%else;
+				<b>%= message.getSubject;</b><br />
+				%= message.getText;
+			%endif;%endif;%endif;
+			</td>
+		</tr>
+		%endloop;
+		%endif;
+	</table>

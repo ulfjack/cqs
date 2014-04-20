@@ -1,0 +1,147 @@
+%embed "templates/research.tmpl";
+
+%set player Session.getPlayer;
+
+<h2>%("standard units");</h2>
+<table class="techtree">
+<colgroup>
+	<col width="33%%" />
+	<col width="34%%" />
+	<col width="33%%" />
+</colgroup>
+<tr style="border:none">
+%set max (Galaxy.getUnitSystem.getUniqueUnits.length+2)/3;
+%set count 0L;
+%loop x from 1 to 3;
+	<td class="table nor">
+		<table>
+		<colgroup>
+			<col width="29.5%%" />
+			<col width="70.5%%" />
+		</colgroup>
+		<tr>
+			<th>%("unit");</th>
+			<th>%("research");</th>
+		</tr>
+	%loop unit foreach Galaxy.getUnitSystem.getUniqueUnits;
+	%if ((count < x*max) and ((x-1)*max <= count));
+		<tr class="%=unit;" style="height:75px;">
+			<td><a href="help-unit|%=unit;">%= unit.getName(Session.getLocale);</a><br/>
+		%loop url foreach Session.getUrls(unit, false);
+				<div style="position:absolute"><img class="teaser" src="%= url;" alt=""/></div>
+		%endloop;
+			</td>
+			<td class="%if player.isKnown(unit.getResearchDependencies); ok%else; locked%endif;">
+				<ul>
+					%loop dep foreach unit.getResearchDependencies;
+					%set topic dep.type;		
+					%set amount dep.amount;
+					<li><a class="%= player.getResearchLevel(topic) >= amount;">%= player.getResearchLevel(topic);</a>/%= amount; %= topic.getName(Session.getLocale); </li>
+		%endloop;
+				</ul>
+			</td>
+		</tr>
+	%endif;
+	%set count (count+1);
+	%endloop;
+		</table>
+	</td>
+	%set count 0L;
+%endloop;
+</tr>
+</table>
+
+
+<h2>%("unit design: planetary units");</h2>
+<table class="techtree">
+<colgroup>
+	<col width="10%%" />
+	<col width="18%%" span="5" />
+</colgroup>
+<tr>
+	<th>%("class");</th>
+	<th>%("chassis");</th>
+	<th>%("speed");</th>
+	<th>%("weapons");</th>
+	<th>%("defense");</th>
+</tr>
+%loop class foreach Galaxy.getUnitSystem.getUnitClasses;
+%if class.isPlanetary;
+<tr class="%=class;">
+	<td><i><a href="help-unitclass|%=class;">%= class.getName(Session.getLocale);</a></i><br/><img class="teaser" src="%= Session.getUrl(class, false);" alt="%= class.getName(Session.getLocale);" /></td>
+	<td %if player.isKnown(class.getResearchDependencies); class="ok" %else; class="locked" %endif;>
+		<ul>
+		%loop dep foreach class.getResearchDependencies;
+		%set topic dep.type;		
+		%set amount dep.amount;
+			<li><a class="%= player.getResearchLevel(topic) >= amount;">%= player.getResearchLevel(topic);</a>/%= amount; %= topic.getName(Session.getLocale); </li>
+		%endloop;
+		</ul>
+	</td>
+	%loop module foreach class.getModules;
+	<td %if player.isKnown(module.getResearchDependencies); class="ok" %else; class="locked" %endif;>
+		<ul>
+		%loop dep foreach module.getResearchDependencies;
+		%set topic dep.type;		
+		%set amount dep.amount;
+			<li><a class="%= player.getResearchLevel(topic) >= amount;">%= player.getResearchLevel(topic);</a>/%= amount; %= topic.getName(Session.getLocale);</li>
+		%endloop;
+		</ul>
+	</td>
+	%endloop;
+	<td></td>
+</tr>
+%endif;
+%endloop;
+</table>
+
+
+<h2>%("unit design: space units");</h2>
+<table class="techtree">
+<colgroup>
+	<col width="10%%" />
+	<col width="18%%" span="5" />
+</colgroup>
+<tr>
+	<th>%("class");</th>
+	<th>%("chassis");</th>
+	<th>%("speed");</th>
+	<th>%("attack");</th>
+	<th>%("defense");</th>
+	<th>%("warp engine");</th>
+</tr>
+%loop class foreach Galaxy.getUnitSystem.getUnitClasses;
+%if not class.isPlanetary;
+<tr class="%= class;">
+	<td><i><a href="help-unitclass|%=class;">%= class.getName(Session.getLocale);</a></i><br/><img class="teaser" src="%= Session.getUrl(class, false);" alt="%= class.getName(Session.getLocale);" /></td>
+	<td %if player.isKnown(class.getResearchDependencies); class="ok" %else; class="locked" %endif;>
+		<ul>
+		%loop dep foreach class.getResearchDependencies;
+		%set topic dep.type;		
+		%set amount dep.amount;
+			<li><a class="%= player.getResearchLevel(topic) >= amount;">%= player.getResearchLevel(topic);</a>/%= amount; %= topic.getName(Session.getLocale); </li>
+		%endloop;
+		</ul>
+	</td>
+	%set count 0L;
+	%loop module foreach class.getModules;
+	%if (count < 4);
+	<td %if (module.getResearchDependencies.size > 0);%if player.isKnown(module.getResearchDependencies); class="ok" %else; class="locked" %endif;%endif;>
+		<ul>
+		%if (module.getResearchDependencies.size > 0);		
+		%loop dep foreach module.getResearchDependencies;
+		%set topic dep.type;		
+		%set amount dep.amount;
+			<li><a class="%= player.getResearchLevel(topic) >= amount;">%= player.getResearchLevel(topic);</a>/%= amount; %= topic.getName(Session.getLocale);</li>
+		%endloop;
+		%else; <li>%("n/a");</li>%endif;
+		</ul>
+	</td>
+	%endif;
+	%set count (count+1);
+	%endloop;
+</tr>
+%endif;
+%endloop;
+</table><br />
+

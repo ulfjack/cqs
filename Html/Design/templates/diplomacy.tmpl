@@ -1,0 +1,9 @@
+%embed "top.tmpl";
+
+%set file Request.getBasename;
+<ul class="smenu">
+	<li %if file="diplomacy";class="active"%endif;><a href="diplomacy">%("view contracts");</a></li>
+	<li %if file="diplomacy-draft";class="active"%endif;><a href="diplomacy-draft">%("add contract");</a></li>
+</ul>
+
+%embed;

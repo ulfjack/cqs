@@ -1,0 +1,32 @@
+%embed "top.tmpl";
+
+%set file Request.getBasename;
+%set count -1;
+%if file = "battles"; %set count 1;
+%elseif file = "battles-defenses"; %set count 2;
+%elseif file = "battles-blocks"; %set count 3;
+%elseif file = "battles-simulator"; %set count 4;
+%endif;
+
+<table>
+	<colgroup width="25%%" span="4" />
+	<tr>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="battles">%("conflicts");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="battles-defenses">%("defense");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="battles-blocks">%("blockades");</a></div></td>
+		<td class="nospacetb"><div class="bg"><a class="tab" href="battles-simulator|ground">%("simulator");</a></div></td>
+	</tr>
+	<tr>
+		%loop x from 1 to count-1;
+		<td class="nospacetb"></td>
+		%endloop;
+		<td class="nospacetb"><div class="bgconnector-quarter"><br /></div></td>
+	</tr>
+	<tr>
+		<td colspan="4" class="nospacetb">
+%embed;
+		</td>
+	</tr>
+</table>
+
+

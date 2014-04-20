@@ -1,0 +1,38 @@
+%embed "templates/alliance-admin.tmpl";
+
+%set alliance Session.getAlliance;
+
+<div class="nobg nospaceb"><a href="alliance-admin">%("back to main administration page");</a></div>
+
+%if Session.getPlayer.getRank.hasRight(Right.KICK_MEMBER);
+<div class="bg">
+	<h3>%("kick members");</h3>
+	<form action="alliance-admin-kick" method="post">
+		<input type="hidden" name="do" value="Alliance.kick" />
+		<table class="stats">
+			<tr class="nohover">
+				<th>%("mark");</th>
+				<th>%("player");</th>
+				<th>%("rank");</th>
+				<th>%("online");</th>
+				<th class="r">%("colonies");</th>
+				<th class="r">%("points");</th>
+			</tr>
+			%loop x,p foreach alliance;
+			<tr class="%= x % 2 = 0 ? "even" : "odd";">
+				<td><input type="checkbox" name="k%= p.getPid;" /></td>
+				<td>%= p.getName;</td>
+				<td>%= p.getRank.getName;</td>
+				<td>%if Tools.isOnline(p);%("yes");%else;%("no");%endif;</td>
+				<td class="r">%("{0,number,integer}", p.getColonies.size);</td>
+				<td class="r">%("{0,number,integer}", p.getScore.getPoints);</td>
+			</tr>
+			%endloop;
+		</table>
+		<button type="submit">%("kick marked members");</button>
+	</form>
+</div>
+%else;
+<div class="warn">%("You do not have sufficient rights to kick members.");</div>
+%endif;
+

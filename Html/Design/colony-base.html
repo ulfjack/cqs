@@ -1,0 +1,276 @@
+%embed "templates/colony.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set locale Session.getLocale;
+%set colony Session.getColony(Request.getUrlParameter(0));
+%set position colony.getPosition;
+
+<div class="nobglr">
+	<div class="right">
+		<table>
+			<tr>
+				%set a colony.getDisplayPopulation;
+				%set b colony.getPopulationLimit;
+				<td title="%("population"); [%("available: {0,number,integer}", a);] [%("growth: +{0,number,integer}/h", colony.getPopulationGrowth);] [%("depot: {0,number,integer}", b);] [%("bonus: {0}%", colony.getPopulationGrowthModifierPercent);]">
+					<table>
+						<colgroup><col width="40px" /><col width="*" /></colgroup>
+						<tr>
+							<td class="nowrap">
+								<img src="%= Session.getLivingSpaceUrl(a, b);" width="5" height="30" alt="" />
+								<img src="%= Session.getUrl(ImageEnum.SYMBOL_POPULATION);" width="30" height="30" alt="%("population");" />
+							</td>
+							<td>
+								<b>%= Tools.getAbbreviatedLong(Session.getLocale, a);</b><br />
+								<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, colony.getPopulationGrowth));</i>
+								%if Galaxy.getSpeed > 1;<br />(<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, colony.getPopulationGrowth*Galaxy.getSpeed));</i>)%endif;
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td style="width:15px"></td>
+				%set e colony.getEfficiencyPercent;
+				<td title="%("construction workers: {0,number,integer}", colony.getConstructionJobs);, %("employees: {0,number,integer}", colony.getRegularJobs);, %("administration: {0,number,integer}", colony.getAdministrativeJobs);">
+					<table>
+						<colgroup><col width="40px" /><col width="*" /></colgroup>
+						<tr>
+							<td class="nowrap">
+								<img src="%= Session.getEfficiencyLevelUrl(colony.getRegularJobs + colony.getAdministrativeJobs + colony.getConstructionJobs, a);" width="5" height="30" alt="" />
+								<img src="%= Session.getUrl(ImageEnum.SYMBOL_JOBS);" width="30" height="30" alt="%("jobs");" />
+							</td>
+							<td>
+								<b>%= Tools.getAbbreviatedLong(Session.getLocale, colony.getRegularJobs + colony.getAdministrativeJobs + colony.getConstructionJobs);</b><br />	
+								%if e < 100;<span class="red">%= e;%%</span>%else;%= e;%%%endif; %("filled");
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td style="width:15px"></td>
+				<td class="r">
+					<img src="%= Session.getUrl(Resource.MONEY);" width="30" height="30" alt="" /> <span style="vertical-align:top;line-height:30px">%("{0,number,integer}", player.getMoney);</span>
+				</td>
+			</tr>
+			%if player.getMoney < 0;<tr><td colspan="5" class="r"><span class="red">%("You don''t have enough money to create non-civil fleets!");</span></td></tr>%endif;
+		</table>
+	</div>
+	<h1>%("Colony {0} &ndash; fleet base", position);</h1>
+</div>
+<div class="clearr"></div>
+
+<form action="fleets" id="formular" method="post">
+	<input type="hidden" name="do" value="Fleet.send" />
+	<input type="hidden" name="secid" value="%= Session.getSecurityId;" />
+	<input type="hidden" name="requestCounter" value="%= Session.getRequestCounter;" />
+	<input type="hidden" name="c" value="%= colony.getPosition;" />
+
+	<div class="compactbg">
+		<h2>%("specify orders");</h2>
+		<table>
+			<colgroup><col width="45%%" /><col width="25%%" /><col width="30%%" /></colgroup>
+			<tr>
+				<td>
+					<table class="stats">
+						<tr class="nohover"><th colspan="2">%("destination");</th></tr>
+						<tr class="even">
+							%set target Request.getParameter("target", "");
+							<td><input type="checkbox" id="fnorm" name="activeA" value="on" checked="checked" /><label for="fnorm"> %("first fly to");</label></td>
+							<td>
+								<select size="1" id="changereset" onchange="newchanger()">
+									<option value="">[%("pick");]</option>
+									%loop tempc foreach player.getColonies;
+									<option value="%= tempc.getPosition;">%= tempc.getPosition;</option>
+									%endloop;
+								</select>
+								<input type="hidden" name="commandA" value="move" />
+								<input type="text" id="targetposition" name="targetpositionA" size="8" value="%= target;" title="%("system:planet:colony");" />
+								<input type="hidden" id="sourceposition" value="%= colony.getPosition;" />
+							</td>
+						</tr>
+						<tr class="odd">
+							<td><input type="checkbox" id="tmit" name="activeB" value="on" /><label for="tmit"> %("then transmit to");</label></td>
+							<td>
+								<select size="1" id="changereset2" onchange="newchanger2()">
+									<option value="">[%("pick");]</option>
+									%loop tempc foreach player.getColonies where tempc.hasTransmitter;
+									<option value="%= tempc.getPosition;">%= tempc.getPosition;</option>
+									%endloop;
+								</select>
+								<input type="hidden" name="commandB" value="gate" />
+								<input type="text" id="targetpositionB" name="targetpositionB" size="8" value="" title="%("system:planet:colony");" />
+							</td>
+						</tr>
+						<tr class="even">
+							<td colspan="2">
+								<input type="hidden" name="commandY" value="move" />
+								<input type="hidden" name="targetpositionY" size="8" value="%= colony.getPosition;" />
+								<input type="checkbox" id="js0" %if player.isAutoReturn;checked="checked"%endif; name="activeY" value="on" /> <label for="js0">%("then return fleet"); <i>%("Transmissions are not considered when returning!");</i></label>
+							</td>
+						</tr>
+						<tr class="odd">
+							<td colspan="2">
+								<input type="hidden" name="commandZ" value="stationHome" />
+								<input type="checkbox" id="js1" %if player.isAutoStation;checked="checked"%endif; name="activeZ" value="on" /> <label for="js1">%("then station fleet");</label>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<input type="hidden" name="activeC" value="on" />
+					<table class="stats">
+						<tr class="nohover"><th colspan="2">%("civil orders");</th></tr>
+						<tr class="even"><td><input type="radio" name="commandC" id="none" value="none" checked="checked" /><label for="none">%("give no order");</label></td></tr>
+						<tr class="odd"><td><input type="radio" name="commandC" id="colonize" value="colonize" /><label for="colonize">%("colonize planet");</label></td></tr>
+						<tr class="even"><td><input type="radio" name="commandC" id="explore" value="explore" /><label for="explore">%("explore planet");</label></td></tr>
+						<tr class="odd"><td><input type="radio" name="commandC" id="unloadAll" value="unloadAllMulti" /><label for="unloadAll">%("transport resources");</label></td></tr>
+						<tr class="even"><td><input type="radio" name="commandC" id="singleSettle" value="singleSettle" /><label for="singleSettle">%("add settler to colony");</label></td></tr>
+						<tr class="odd"><td><input type="radio" name="commandC" id="allyFleet" value="stationAlly" /><label for="allyFleet">%("donate to alliance member");</label></td></tr>
+						<tr class="even"><td><input type="radio" name="commandC" id="stationAny" value="stationAny" /><label for="stationAny">%("donate without constraints");</label></td></tr>
+					</table>
+				</td>
+				<td>
+					<table class="stats">
+						<tr class="nohover"><th colspan="2">%("military orders");</th></tr>
+						<tr class="odd"><td><input type="radio" name="commandC" id="defendColony" value="defendColony" /> <label for="defendColony">%("defend colony");</label></td></tr>
+						<tr class="even"><td><input type="radio" name="commandC" id="singleSpyColony" value="singleSpyColony" /><label for="singleSpyColony">%("spy on colony");</label></td></tr>
+						<tr class="odd"><td><input type="radio" name="commandC" id="attackColony" value="attackColony" /><label for="attackColony">%("attack colony");</label></td></tr>
+						<tr class="even"><td><input type="radio" name="commandC" id="invadeColony" value="invadeColony" /><label for="invadeColony">%("invade colony");</label></td></tr>
+						<tr class="odd"><td><input type="radio" name="commandC" id="blockPlanet" value="blockPlanet" /><label for="blockPlanet">%("block planet");</label></td></tr>
+						<tr class="even"><td><input type="radio" name="commandC" id="attackBlockade" value="attackBlockade" /><label for="attackBlockade">%("attack blockade");</label></td></tr>
+						<tr class="odd">
+							<td>
+								<input type="radio" name="commandC" id="robColony" value="robColonyMulti" /><label for="robColony">%("plunder resources");</label>
+								<div style="padding-left: 20px">
+								%loop x from 0 to 3;
+									<input type="checkbox" name="resource-%= x;-cmdC" id="rob%= x;" value="-1" checked="checked" /><label for="rob%= x;"><img src="%= Session.getUrl(Resource.get(x));" alt="%= Resource.getName(locale,x);" title="%= Resource.getName(locale,x);" width="20" height="20" /></label> &#160;
+								%endloop;
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+
+	</div>
+
+	<div class="compactbg">
+		<h2>%("load resources");</h2>
+		<input type="hidden" name="active0" value="on" />
+		<input type="hidden" name="command0" value="loadMulti" />
+		<table>
+			<colgroup><col width="25%%" span="4" /></colgroup>
+			<tr>
+				%loop x from 0 to 3;
+				<td title="%= Resource.getName(locale,x); [%("available: {0,number,integer}", colony.getDisplayResource(x));] [%("growth: +{0,number,integer}/h", colony.getRate(x));] [%("depot: {0,number,integer}", colony.getStorage(x));] [%("bonus: {0}%", colony.getModifier(x));]">
+					<table>
+						<colgroup><col width="40px" /><col width="*" /></colgroup>
+						<tr>
+							<td class="nowrap">
+								<img src="%= Session.getFillLevelUrl(colony.getDisplayResource(x), colony.getStorage(x));" width="5" height="30" alt="" />
+								<img src="%= Session.getUrl(Resource.get(x));" width="30" height="30" alt="%= Resource.getName(locale,x); [%("available: {0,number,integer}", colony.getDisplayResource(x));] [%("growth: +{0,number,integer}/h", colony.getRate(x));] [%("depot: {0,number,integer}", colony.getStorage(x));] [%("bonus: {0}%", colony.getModifier(x));]" />
+							</td>
+							<td>
+								<b id="res_%= x;">%= Tools.getAbbreviatedLong(Session.getLocale, colony.getDisplayResource(x));</b><br />
+								<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, colony.getRate(x)));</i>
+								%if Galaxy.getSpeed > 1;<br />(<i>%("+{0}/h", Tools.getAbbreviatedLong(Session.getLocale, colony.getRate(x)*Galaxy.getSpeed));</i>)%endif;
+							</td>
+							<td><input type="text" name="resource-%= x;-cmd0" id="load%= x;" size="8" title="%("load {0}", Resource.getName(locale,x));" /></td>
+						</tr>
+					</table>
+				</td>
+				%endloop;
+			</tr>
+		</table>
+	</div>
+
+
+	<div class="compactbg">
+		<h2>%("select units");</h2>
+		<table>
+			<colgroup><col width="33%%" /><col width="34%%" /><col width="33%%" /></colgroup>
+			<tr>
+				%loop q from 0 to 2;
+				<td class="table">
+					<table class="stats">
+						<colgroup width="50%%" span="2" />
+						<tr class="nohover">
+							<th colspan="2">%if q=0;%("planetary units");%elseif q=1;%("interplanetary units");%else;%("interstellar units");%endif;</th>
+						</tr>
+						%set counter 0;
+						%loop unit foreach colony.getUnits where (((q=0) and unit.type.isPlanetary) or ((q=1) and unit.type.isInterplanetary) or ((q=2) and unit.type.isInterstellar));
+							%set amount unit.amount;
+							%set type unit.type;
+						<tr class="%= counter%2=0 ? "even" : "odd";">
+							<td>
+								<a href="help-unit|%= type;">%= type.getName(locale);</a>
+								%if q=0;<input type="hidden" id="size%= type;" value="%= type.getSize;" />%elseif q=1;<input type="hidden" id="spacesize%= type;" value="%= type.getSize;" />%endif;
+								%if q!=2;<span title="%("size: {0,number,integer}", type.getSize);">[%("{0,number,integer}", type.getSize);]</span>%endif;
+								%if type.getResourceCapacity > 0;<span title="%("resource capacity: {0,number,integer}", type.getResourceCapacity);">[%("{0,number,integer}", type.getResourceCapacity);]</span><input type="hidden" id="res%= type;" value="%= type.getResourceCapacity;" />%endif;
+								%if type.getGroundUnitCapacity > 0;<span title="%("planetary unit capacity: {0,number,integer}", type.getGroundUnitCapacity);">[%("{0,number,integer}", type.getGroundUnitCapacity);]</span><input type="hidden" id="space%= type;" value="%= type.getGroundUnitCapacity;" />%endif;
+								%if type.getSpaceUnitCapacity > 0;<span title="%("interplanetary unit capacity: {0,number,integer}", type.getSpaceUnitCapacity);">[%("{0,number,integer}", type.getSpaceUnitCapacity);]</span><input type="hidden" id="carrier%= type;" value="%= type.getSpaceUnitCapacity;" />%endif;
+							</td>
+							<td class="r">%("{0,number,integer}", amount); <a href="javascript:selectUnits('unit%= type;',%= amount;)"><img src="%= Session.getUrl(ImageEnum.MOVE_RIGHT);" alt="->" /></a> <input type="text" name="unit%= type;" id="unit%= type;" size="4" value="" /></td>
+						</tr>
+							%set counter counter+1;
+						%endloop;
+						%if counter=0;<tr><td colspan="2"><em>%("no units available");</em></td></tr>%endif;
+					</table>
+				</td>
+				%endloop;
+			</tr>
+		</table>
+
+		<table class="stats">
+			<tr class="nohover">
+				<th></th>
+				<th class="r">%("capacity");</th>
+				<th class="r">%("loaded");</th>
+				<th class="r">%("still available");</th>
+				<th></th>
+			</tr>
+			<tr class="even">
+				<th>%("transport resources");</th>
+				<td class="r"><div id="reskapa">0</div></td>
+				<td class="r"><div id="resload">0</div></td>
+				<td class="r"><div id="ressum">0</div></td>
+				<td><div id="restrue">%("The fleet can transport all selected resources.");</div><div id="resfalse" style="display:none">%("The fleet <span class=""red"">cannot</span> transport all selected resources.");</div></td>
+			</tr>
+			<tr class="odd">
+				<th>%("transport planetary units");</th>
+				<td class="r"><div id="unitkapa">0</div></td>
+				<td class="r"><div id="unitload">0</div></td>
+				<td class="r"><div id="unitsum">0</div></td>
+				<td><div id="unittrue">%("This fleet can travel arbitrarily within a system.");</div><div id="unitfalse" style="display:none">%("This fleet <span class=""red"">cannot</span> travel arbitrarily within a system.");</div></td>
+			</tr>
+			<tr class="even">
+				<th>%("transport interplanetary units");</th>
+				<td class="r"><div id="spacekapa">0</div></td>
+				<td class="r"><div id="spaceload">0</div></td>
+				<td class="r"><div id="spacesum">0</div></td>
+				<td><div id="spacetrue">%("This fleet can travel to other systems.");</div><div id="spacefalse" style="display:none">%("This fleet <span class=""red"">cannot</span> travel to other systems.");</div></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="compactbg">
+		<h2>%("send fleet");</h2>
+		<table>
+			<tr>
+				<td>%("name fleet (optional)"); <input type="text" size="25" name="name" value="" /></td>
+				<td>
+					%("pick desktop");
+					<select name="desktop" size="1">
+						%loop desktop from 0 to Constants.MAX_DESKTOP;
+						<option value="%= desktop;">%= player.getDesktopName(locale, desktop);</option>
+						%endloop;
+					</select>
+				</td>
+				<td class="r"><button type="submit" id="submitbutton">%("send fleet");</button></td>
+			</tr>
+		</table>
+	</div>
+
+</form>
+
+<script src="js/fleet-send.js" type="text/javascript"></script>
+

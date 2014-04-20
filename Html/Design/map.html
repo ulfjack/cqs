@@ -1,0 +1,25 @@
+%embed "templates/top-nobg.tmpl";
+
+%if Request.getUrlParameterCount() = 1;
+%set position Position.safeDecode(Request.getUrlParameter(0));
+%if position != null;
+<ul class="smenu">
+	<li><a href="map">%("galaxy");</a></li>
+%if position.specificity >= 2;	<li %if position.specificity = 2; class="active"%endif;><a href="%= Session.getMapUrl(position.toSystemPosition);">%("system");</a></li>%endif;
+%if position.specificity >= 3;	<li %if position.specificity = 3; class="active"%endif;><a href="%= Session.getMapUrl(position.toPlanetPosition);">%("planet");</a></li>%endif;
+%if position.specificity >= 4;	<li %if position.specificity = 4; class="active"%endif;><a href="%= Session.getMapUrl(position.toColonyPosition);">%("colony");</a></li>%endif;
+</ul>
+%if position.specificity = 2;
+%include "include/map-system.inc";
+%elseif position.specificity = 3;
+%include "include/map-planet.inc";
+%elseif position.specificity = 4;
+%include "include/map-colony.inc";
+%endif;
+%endif;
+%else;
+<ul class="smenu">
+	<li class="active"><a href="map">%("galaxy");</a></li>
+</ul>
+%include "include/map-galaxy.inc";
+%endif;

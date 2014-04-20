@@ -1,0 +1,11 @@
+%embed "templates/alliance.tmpl";
+
+%set player Session.getPlayer;
+%set alliance Session.getAlliance;
+%set rank player.getRank;
+
+%set mailbox Session.getAllianceMailboxCopy;
+%set box 1;
+%set folder mailbox.getFolder(box);
+%include "include/messagelist.inc";
+

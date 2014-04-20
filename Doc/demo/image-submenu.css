@@ -1,0 +1,51 @@
+/* Submenu Hintergrundbilder */
+.demo.smenu
+{
+	background: url(/cqspack/design/navi.jpg) top left no-repeat;
+	height: 600px;
+	border: none;
+}
+
+.demo.smenu li
+{ font-size: 12px; }
+
+.demo.smenu a
+{
+	font-size: 12px;
+	margin-left: 0px;
+}
+
+.demo.smenu a:hover
+{
+/*	background-color: transparent;
+	border-color: transparent;
+	color: white;*/
+}
+
+.demo.smenu li.i0
+{
+	position: absolute;
+	margin-left: 30px;
+	margin-top: 137px;
+}
+
+.demo.smenu li.i1
+{
+	position: absolute;
+	margin-left: 30px;
+	margin-top: 300px;
+}
+
+.demo.smenu li.i2
+{
+	position: absolute;
+	margin-left: 30px;
+	margin-top: 443px;
+}
+
+.demo.smenu li.i3
+{
+	position: absolute;
+	margin-left: 42px;
+	margin-top: 30px;
+}

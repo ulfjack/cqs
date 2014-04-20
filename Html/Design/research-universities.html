@@ -1,0 +1,35 @@
+%embed "templates/research.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+%loop x,colony foreach player.getColonies;
+%set position colony.getPosition;
+<table class="stats">
+<colgroup><col width="20%%" /><col width="20%%" /><col width="30%%" /><col width="30%%" /></colgroup>
+	<tr class="%= x%2=0 ? "even" : "odd";">
+		<td><a href="colony|%= position;">%= position;</a></td>
+		<td>%("{0,number,integer} of {1,number,integer} professors free", colony.getFreeProfessors, colony.getProfessors);</td>
+		<td>%("{0,number,integer} trainers:", colony.getEducationSpaces);&#160;
+			<a href="?Education.add=%= colony.getPosition;,1" class="%= colony.getFreeProfessors > 0;">+1</a>
+			<a href="?Education.add=%= colony.getPosition;,2" class="%= colony.getFreeProfessors > 1;">+2</a>
+			<a href="?Education.add=%= colony.getPosition;,5" class="%= colony.getFreeProfessors > 4;">+5</a>
+			<a href="" onclick="addNedu('?Education.add=%= colony.getPosition;,')" class="%= colony.getFreeProfessors > 2;">+N</a> &#160; &#160;
+			<a href="" onclick="removeNedu('?Education.add=%= colony.getPosition;,')" class="%= colony.maxRemoveEducationProfs > 2;">-N</a>
+			<a href="?Education.add=%= colony.getPosition;,-5" class="%= colony.maxRemoveEducationProfs > 4;">-5</a>
+			<a href="?Education.add=%= colony.getPosition;,-2" class="%= colony.maxRemoveEducationProfs > 1;">-2</a>
+			<a href="?Education.add=%= colony.getPosition;,-1" class="%= colony.maxRemoveEducationProfs > 0;">-1</a>
+		</td>
+		<td>%("{0,number,integer} researchers:", colony.getResearchSpaces);&#160;
+			<a href="?Research.add=%= colony.getPosition;,1" class="%= colony.getFreeProfessors > 0;">+1</a>
+			<a href="?Research.add=%= colony.getPosition;,2" class="%= colony.getFreeProfessors > 1;">+2</a>
+			<a href="" onclick="addNres('?Research.add=%= colony.getPosition;,')" class="%= colony.getFreeProfessors > 2;">+N</a> &#160; &#160;
+			<a href="" onclick="removeNres('?Research.add=%= colony.getPosition;,')" class="%= colony.getResearchSpaces > 2;">-N</a>
+			<a href="?Research.add=%= colony.getPosition;,-2" class="%= colony.getResearchSpaces > 1;">-2</a>
+			<a href="?Research.add=%= colony.getPosition;,-1" class="%= colony.getResearchSpaces > 0;">-1</a></td>
+	</tr>
+</table>
+%endloop;
+
+<script type="text/javascript" src="js/player-universities.js"></script>
+

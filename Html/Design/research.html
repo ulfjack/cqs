@@ -1,0 +1,42 @@
+%embed "templates/research.tmpl";
+
+%set player Session.getPlayer;
+%set filter Request.getUrlParameter(0);
+
+<div class="jobqueue" id="researchqueue">
+	%include "include/researchlist.inc";
+</div>
+
+<table class="joblist" id="researchlist">
+<colgroup><col width="50px"/><col width="*" /><col width="20%%" /></colgroup>
+%loop topic foreach Research.values;
+%if ((filter="current") and (topic.validResearchTopic(player)) and (player.getResearchLevel(topic) < topic.getMax))
+or ((filter = "completed") and (player.getResearchLevel(topic) >= topic.getMax))
+or (filter = "all");
+<tbody>
+<tr>
+	<td rowspan="2" class="icon"><img src="%= Session.getUrl(topic, false);" alt="%= topic.getName(Session.getLocale);" /></td>
+	<td><a href="help-research|%= topic;">%= topic.getName(Session.getLocale);</a> (%= player.getResearchLevel(topic);/%= topic.getMax;)</td>
+	<td id="btns-%= topic;" class="r true">
+		<a href="?Research.start=%= topic;,1">+1</a>
+		<a href="?Research.start=%= topic;,2">+2</a>
+		<a href="?Research.start=%= topic;,5">+5</a>
+		<a href="" title="%= topic.getMax-player.getResearchLevel(topic);">+N</a>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+	%if not topic.validResearchTopic(player);
+		%set dep topic.getDep;
+		%set amount topic.getDepCount;
+	%("needs:"); <a class="%= player.getResearchLevel(dep) >= amount;">%= amount; %= dep.getName(Session.getLocale);</a>
+	%endif;
+	</td>
+</tr>
+</tbody>
+%endif;
+%endloop;
+</table>
+
+<script type="text/javascript" src="js/research.js"></script>
+

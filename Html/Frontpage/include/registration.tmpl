@@ -1,0 +1,23 @@
+%embed "design.tmpl";
+
+%if Game.isPluginLoaded("net.cqs.plugins.DatabaseAuthProvider");
+
+%if Session.isRegistrationAllowed;
+
+%embed;
+
+%else;
+
+<div class="note c">%("The registration for this round has unfortunately already closed.");</div>
+
+<!--
+%("But you can sign up for the next round at <a href=""http://voranmeldung.conquer-space.net"">http://voranmeldung.conquer-space.net</a>. Additionally you can get a picture of Conquer-Space.net in the <a href=""http://beta.conquer-space.net"">beta round</a>.");
+-->
+
+%endif;
+
+%else;
+
+%("There is no registration for this round.");
+
+%endif;

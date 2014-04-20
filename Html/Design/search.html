@@ -1,0 +1,215 @@
+%embed "templates/top.tmpl";
+
+%set type "";
+%if Request.getUrlParameterCount > 0;%set type Request.getUrlParameter(0);%endif;
+
+%set Search Session.getSearchResult;
+%if (Search != null) and (Search.getTotal > 0);
+	%if Search.get(0).getType = SearchItemType.PLAYER;%set type "player";
+	%elseif Search.get(0).getType = SearchItemType.ALLIANCE;%set type "alliance";%endif;
+%endif;
+
+%set logindata Session.getPlayerDataCopy;
+%if ((type="player") and (Search = null) and (logindata.playerAmount = 0)) or ((type="alliance") and (Search = null));%set type "";%endif;
+				
+
+%set counter -1;
+%if type="player";%set counter 0;
+%elseif type="alliance";%set counter 1;
+%endif;
+
+<table>
+	<colgroup width="50%%" span="2" />
+	<tr class="nospacetb">
+		<td class="nospacetb">
+			<div class="bg">
+				<h3>%("search for player");</h3>
+				<form action="search|player" method="post">
+					<input type="hidden" name="do" value="Search.player" />
+					%("nickname"); <input type="text" name="name" size="12" maxlength="40" />
+					<button type="submit">%("search for player");</button>
+				</form>
+				%("Use ""?"" for a single arbitrary char or ""*"" for an arbitrary string of chars.");
+			</div>
+		</td>
+		<td class="nospacetb">
+			<div class="bg">
+				<h3>%("search for alliance");</h3>
+				<form action="search|alliance" method="post">
+					<input type="hidden" name="do" value="Search.alliance" />
+					%("name or tag"); <input type="text" name="name" size="12" maxlength="40" />
+					<button type="submit">%("search for ally");</button>
+				</form>
+				%("Use ""?"" for a single arbitrary char or ""*"" for an arbitrary string of chars.");
+			</div>
+		</td>
+	</tr>
+	%if counter >= 0;
+	<tr>
+		%loop x from 1 to counter;
+			<td class="nospacetb"></td>
+		%endloop;
+			<td class="nospacetb"><div class="bgconnector-half"><br /></div></td>
+	</tr>
+	<tr class="nospacet">
+		<td class="nospacet" colspan="2">
+			<div class="extension">
+			%if type = "player";
+				%if logindata.playerAmount > 0;
+
+				<h2>%("memorized players");</h2>
+				<table>
+					<colgroup><col width="49%%" /><col width="2%%" /><col width="49%%" /></colgroup>
+					<tr>
+					%set max logindata.playerAmount;
+					%loop x from 0 to 1;
+  					%set start 0;%set stop -1;
+						%if x=0;
+							%if max%2=0;%set stop max/2-1;%else;%set stop max/2;%endif;
+						%elseif x=1;
+							%if max > 1;
+								%if max%2=0;%set start max/2;%else;%set start max/2+1;%endif;
+								%set stop max-1;
+							%endif;
+						%endif;
+						<td class="table">
+							<table class="stats statsform">
+								%loop y from start to stop;
+								%set p Galaxy.findPlayerByPid(logindata.getPlayer(y));
+								<tr class="%= y % 2 = 0 ? "even" : "odd";">
+									<td class="l"><a href="player|%= p.getPid;">%if p.getAlliance != null;[%= p.getAlliance.getShortName;]%endif; %= p.getName;</a></td>
+									<td class="r">
+										<form action="search|player" method="post">
+											<input type="hidden" name="do" value="Player.memorizedPlayers.remove" />
+											<input type="hidden" name="index" value="%= y;" />
+											<button type="submit">%("delete from memory");</button>
+										</form>
+									</td>
+								</tr>
+								%endloop;
+							</table>
+						</td>
+						%if x=0;<td></td>%endif;
+					%endloop;
+					</tr>
+				</table>
+				%endif;
+			%endif;
+
+			%if Search != null;
+				<h2>%("search results");</h2>
+				%if Search.getTotal = 0;
+				<span class="red">%("No matches found!");</span>
+				%else;
+				%if Request.getTodo != null;
+				<form action="search|%= type;" method="post">
+					<input type="hidden" name="do" value="%= Request.getTodo;" />
+					<input type="hidden" name="name" value="%= Search.getMask;" />
+					%set total Search.getTotal;
+					<select size="1" name="start">
+						%loop x from 0 to total/50;
+						%if (50*x+1) <= total;
+						<option %if 50*x = Search.getStart; selected="selected"%endif; value="%= 50*x;">%= 50*x+1; - %= 50*x+50 > total ? total : 50*x+50;</option>
+						%endif;
+						%endloop;
+					</select>
+					%("of {0,number,integer}", Search.getTotal);
+					<button type="submit">%("view");</button>
+				</form>
+				%endif;
+
+				<table>
+					<colgroup><col width="49%%" /><col width="2%%" /><col width="49%%" /></colgroup>
+					<tr>
+					%set max Search.getCount < Search.getTotal ? Search.getCount : Search.getTotal;
+					%loop x from 0 to 1;
+					  %set start 0;%set stop -1;
+						%if x=0;
+							%if max%2=0;%set stop max/2-1;%else;%set stop max/2;%endif;
+						%elseif x=1;
+							%if max > 1;
+								%if max%2=0;%set start max/2;%else;%set start max/2+1;%endif;
+								%set stop max-1;
+							%endif;
+						%endif;
+						<td class="table">
+							<table class="stats statsform">
+								<colgroup><col width="45%%" /><col width="20%%" /><col width="10%%" /><col width="15%%" /><col width="10%%" /></colgroup>
+								%if (stop >= start);
+								<tr class="nohover">
+									<th>%("name");</th>
+									<th>&#160;</th>
+									<th class="r">%("ranking");</th>
+									<th class="r">%("points");</th>
+									<th></th>
+								</tr>
+								%endif;
+							%loop y from start to stop;
+							%set item Search.get(y);
+							%if item.getType = SearchItemType.PLAYER;
+								%set p Galaxy.findPlayerByPid(item.getId);
+								%set pscore p.getScore;
+								<tr class="%= y % 2 = 0 ? "even" : "odd";">
+									<td class="l"><a href="player|%= p.getPid;">%= p.getName;</a></td>
+									<td class="l">
+										%set a p.getAlliance;
+										%if a != null;<a href="view-alliance|%= a.getId;">[%= a.getShortName;]</a>%endif;
+									</td>
+									<td class="r">%("{0,number,integer}", pscore.getPosition+1);</td>
+									<td class="r">%("{0,number,integer}", pscore.getPoints);</td>
+									<td class="r">
+										<form action="search|player" method="post">
+											<input type="hidden" name="do" value="Player.memorizedPlayers.add" />
+											<input type="hidden" name="who" value="%= p.getPid;" />
+
+											<button type="submit">%("memorize");</button>
+										</form>
+									</td>
+								</tr>
+							%elseif item.getType = SearchItemType.ALLIANCE;
+								%set a Galaxy.findAllianceById(item.getId);
+								%set ascore a.getScore;
+								<tr class="%= y % 2 = 0 ? "even" : "odd";">
+									<td class="l"><a href="view-alliance|%= a.getId;">%= a.getName; [%= a.getShortName;]</a></td>
+									<td class="l">%("{0,number,integer} members", a.size);</td>
+									<td class="r">%= ascore.getPosition+1;.</td>
+									<td class="r">%("{0,number,integer}", ascore.getPoints);</td>
+									<td class="r">&#160;</td>
+								</tr>
+							%elseif item.getType = SearchItemType.COLONY;
+								%set position item.getPosition;
+								%set colony position.findColony(Galaxy);
+								<tr class="%= y % 2 = 0 ? "even" : "odd";">
+									<td><a href="%= Session.getMapUrl(position);">%= position;</a></td>
+									<td class="l">
+										%set p colony.getOwner;
+										%("from"); <a href="player|%= p.getPid;">%= p.getName;</a>
+									</td>
+									<td class="r">&#160;</td>
+									<td class="r">&#160;</td>
+									<td class="r">&#160;</td>
+								</tr>
+							%else;
+								<tr class="%= y % 2 = 0 ? "even" : "odd";">
+									<td colspan="5">
+										Unrecognized search item type!
+									</td>
+								</tr>
+							%endif;
+							%endloop;
+							</table>
+						</td>
+						%if x=0;<td></td>%endif;
+					%endloop;
+					</tr>
+				</table>
+				%endif;
+				%endif;
+			</div>		
+		</td>
+	</tr>
+	%endif;
+</table>
+
+
+

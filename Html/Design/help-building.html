@@ -1,0 +1,62 @@
+%embed "templates/help.tmpl";
+
+%set locale Session.getLocale;
+%set building Building.STEEL_MILL;
+%if Request.getUrlParameter(0) != null;
+	%set building Building.valueOf(Request.getUrlParameter(0));
+%endif;
+
+<div class="nobg">
+<table id="help">
+	<tr class="nospacetb">
+		<td class="nospacetb">
+		%loop tmpbuilding foreach Building.values;
+		 <div class="icon"%if (building != null) and (building = tmpbuilding); id="active"%endif;><a href="help-building|%= tmpbuilding;" title="%= tmpbuilding.getName(locale); [%("civilization points: {0,number,integer}", tmpbuilding.getPoints);]"><img src="%= Session.getUrl(tmpbuilding, false);" alt="%= tmpbuilding.getName(locale);" width="30" height="30" /></a></div>
+		%endloop;
+		</td>
+	</tr>
+	%if building != null;
+	<tr class="nospacetb">
+		<td class="nospacetb">
+			<div class="extension">
+				<br />
+				<h2 class="nospacetb">%("details for building {0}", building.getName(locale));</h2>
+				<table>
+					<colgroup><col width="320px" /><col width="*" /></colgroup>
+					<tr>
+						<td class="image"><img src="%= Session.getUrl(building, true);" alt="" /></td>
+						<td class="table">
+							<table>
+								<colgroup width="25%%" span="4" />
+								<tr class="nohover"><th colspan="4">%("description");</th></tr>
+								<tr class="nohover"><td colspan="4">%= building.getDescription(locale);</td></tr>
+								<tr class="nohover"><th colspan="4">%("costs");</th></tr>
+
+								<tr>
+									%loop y from 0 to 3;
+									<td class="l">
+										<img src="%= Session.getUrl(Resource.get(y));" height="14" width="14" alt="" />
+										%("{0,number,integer}", building.resNeeded(y));
+									</td>
+									%endloop;
+								</tr>
+								<tr>
+									<td class="l">
+										<img src="%= Session.getUrl(ImageEnum.COST_WORKERS);" height="16" width="16" title="%("construction workers");" alt="%("construction workers");" /> %("{0,number,integer}", building.constructionJobs);
+									</td>
+									<td class="l"><img src="%= Session.getUrl(ImageEnum.COST_EMPLOYEES);" height="16" width="16" title="%("employees");" alt="%("employees");" /> %("{0,number,integer}", building.regularJobs);</td>
+									<td class="l"><img src="%= Session.getUrl(ImageEnum.COST_UPKEEP);" height="16" width="16" title="%("costs (upkeep)");" alt="%("costs (upkeep)");" /> %("{0,number,integer}/h", building.upkeepNeeded);</td>
+									<td class="l">%if building.getPoints > 0;%("civilization points: {0,number,integer}", building.getPoints);%else;<br />%endif;</td>
+									<td colspan="2"></td>
+								</tr>
+
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	%endif;
+</table>
+</div>

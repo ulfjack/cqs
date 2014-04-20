@@ -1,0 +1,76 @@
+%embed "templates/settings.tmpl";
+
+%set player Session.getPlayer;
+
+<div class="bg">
+	<img class="cornericon" src="pack/design/x.png" alt="x" />
+	<h3>%("request deletion of account");</h3>
+	%if Request.getParameter("delete") = "m4g1c";
+	<div class="note">%("Your request was submitted.");</div>
+	%endif;
+
+	%if player.isRestricted;
+	<div class="warn">%("This account is restricted, and cannot use this functionality.");</div>
+	%endif;
+
+	<form action="settings-delete?delete=m4g1c" method="post">
+
+		<label for="name">%("nickname (entered automatically):");</label> <input type="text" size="20" readonly="readonly" id="name" value="%= player.getName;" /><br />
+
+	<div class="note">%("For safety reasons deleting only causes the blocking of an account. The deletion is only done after a while or not at all.");</div>
+
+		<table>
+			<tr><td colspan="3">%("Please tell us why you want to delete your account. Like this you can help us recognize problems so we can fix them, making CqS a more attractive game for users like yourself.");</td></tr>
+			<tr>
+				<td>
+					<input type="hidden" name="do" value="Support.send" />
+					<input type="hidden" name="subject" value="request deletion of account" />
+					<input type="hidden" name="body0" value="Nick: " />
+					<input type="hidden" name="body1" value="%= player.getName;" />
+					<input type="hidden" name="body4" value="<br>" />
+
+					<input type="checkbox" id="body5" name="body5" />
+					<label for="body5">%("problems understanding how everything works: tutorial or help needed");</label><br />
+					<input type="hidden" name="body6" value=" problems understanding how everything works: tutorial or help needed<br>" />
+
+					<input type="checkbox" id="body7" name="body7" />
+					<label for="body7">%("too high complexity: not interested in tactics/planning games");</label><br />
+					<input type="hidden" name="body8" value=" too high complexity: not interested in tactics/planning games<br>" />
+
+					<input type="checkbox" id="body9" name="body9" />
+					<label for="body9">%("enemy''s superiority: attacks and invasions");</label><br />
+					<input type="hidden" name="bodyA" value=" enemy's superiority: attacks and invasions<br>" />
+
+					<input type="checkbox" id="bodyB" name="bodyB" />
+					<label for="bodyB">%("enemy''s superiority: blockades, expansion impossible");</label><br />
+					<input type="hidden" name="bodyC" value=" enemy's superiority: blockades, expansion impossible<br>" />
+
+					<input type="checkbox" id="bodyD" name="bodyD" />
+					<label for="bodyD">%("user interface: lucidity");</label><br />
+					<input type="hidden" name="bodyE" value=" user interface: lucidity<br>" />
+
+					<input type="checkbox" id="bodyF" name="bodyF" />
+					<label for="bodyF">%("user interface: aesthetics");</label><br />
+					<input type="hidden" name="bodyG" value=" user interface: aesthetics<br>" />
+
+					<input type="checkbox" id="bodyH" name="bodyH" />
+					<label for="bodyH">%("not enough time");</label><br />
+					<input type="hidden" name="bodyI" value=" not enough time<br>" />
+
+					<input type="checkbox" id="bodyJ" name="bodyJ" />
+					<label for="bodyJ">%("other reasons");</label><br />
+					<input type="hidden" name="bodyK" value=" other reasons<br>" />
+				</td>
+				<td>&#160;</td>
+				<td>
+					%("We are grateful for more specific information on your reasons:");<br />
+					<input type="hidden" name="bodyL" value="<br>Details:<br>" />
+					<textarea cols="45" rows="10" name="bodyM"></textarea>
+					<input type="hidden" name="bodyN" value="<br><br>" />
+				</td>
+			</tr>
+			<tr><td colspan="3"><button type="submit">%("send");</button></td></tr>
+		</table>
+	</form>
+
+</div>

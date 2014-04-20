@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Server configuration.
+-->
+<cqs config="3.0">
+	<!-- These settings are read only before the first start. -->
+	<galaxy>
+		<systems>50</systems>
+		<anonymousaiplayers>1</anonymousaiplayers>
+		<start>
+			<research>1</research>
+			<colonies>2</colonies>
+			<units>3</units>
+		</start>
+		<players>
+			<player name="UlfJack" id="UlfJack@local" language="en_US" />
+		</players>
+		<logins>
+			<login name="UlfJack" password="x">
+				<player name="UlfJack" language="en_US" />
+			</login>
+		</logins>
+	</galaxy>
+	
+	<!-- The order of plugins in this file is the order in which they are loaded. -->
+	<plugins>
+		<plugin name="net.cqs.plugins.ABC" load="no">
+			<param name="port" value="9323" />
+		</plugin>
+		<plugin name="net.cqs.plugins.DEF" load="yes" />
+	</plugins>
+</cqs>

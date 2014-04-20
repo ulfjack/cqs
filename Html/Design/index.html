@@ -1,0 +1,170 @@
+%embed "templates/top.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+<div class="nobglr">
+	<h1>%("Hello {0}, welcome to Conquer-Space.net {1}!", player.getName, Tools.getVersion);</h1>
+
+	%if Galaxy.getSpeed > 1;
+	<div class="warn">%("This round runs {0} times faster than normal.", Galaxy.getSpeed);</div>
+	%endif;
+
+	<div class="note"><h1>%("Your vote for Conquer-Space.net");</h1>
+	%("You like Conquer-Space.net and want to help us promote it? Then vote for Conquer-Space.net:");
+		<table class="center">
+			<tr>
+				<td>Galaxy-News:<br />
+					<a href="http://www.galaxy-news.de/?page=charts&amp;op=vote&amp;game_id=323"><img src="http://www.conquer-space.net/files/galaxy-news.gif" alt="Galaxy-News" /></a>
+				</td>
+				<td>Browserwelten:<br />
+					<a href="http://www.browserwelten.net/?ac=vote&amp;gameid=421"><img src="http://www.conquer-space.net/files/browserwelten.gif" alt="www.browserwelten.net" /></a>
+				</td>
+				<td>Gamesdynamite:<br />
+					<a href="http://voting.gdynamite.de/redirect/215/"><img src="http://www.conquer-space.net/files/gamesdynamite.gif" alt="www.browserwelten.net" /></a>
+				</td>
+				<td>GamingFacts.de:<br />
+					<a href="http://www.gamingfacts.de/charts_vote_215.html"><img src="http://www.conquer-space.net/files/gamingfacts.gif" alt="GamingFacts.de" /></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+%set survey Galaxy.getSurvey;
+%if survey != null;
+<div class="bg">
+	<img class="cornericon" src="pack/design/survey.png" alt="" />
+	<h3>%("system survey");</h3>
+	%if not Tools.hasSurveyVoted(player);
+	<form action="index" method="post">
+		<input type="hidden" name="do" value="System.Survey.vote" />
+		<input type="hidden" name="id" value="%= survey.getId;" />
+		<table class="stats">
+			<tr class="nohover"><th colspan="2">%= survey.getTitle;</th></tr>
+			%loop x from 0 to survey.length-1;
+			<tr class="%= x%2=0 ? "even" : "odd";">
+				<td><input type="radio" name="vote" value="%= x;" /></td>
+				<td>%= survey.getText(x);</td>
+			</tr>
+			%endloop;
+		</table><br />
+		<button type="submit">%("vote");</button>
+	</form>
+	%else;
+	<table class="stats">
+		<tr class="nohover"><th colspan="2">%= survey.getTitle;</th></tr>
+		%loop x from 0 to survey.length-1;
+		<tr class="%= x%2=0 ? "even" : "odd";">
+			<td class="r">%= survey.getVote(x);</td>
+			<td>%= survey.getText(x);</td>
+		</tr>
+		%endloop;
+	</table>
+	%endif;
+</div>
+%endif; <!-- end system survey -->
+
+%set ksurvey Galaxy.getKomissionSurvey;
+%if ksurvey != null;
+<div class="bg">
+	<img class="cornericon" src="pack/design/survey.png" alt="" />
+	<h3>%("commission survey");</h3>
+	%if not Tools.hasKomissionVoted(player);
+	<form action="index" method="post">
+		<input type="hidden" name="do" value="Kommission.Survey.vote" />
+		<input type="hidden" name="id" value="%= ksurvey.getId;" />
+		<table class="stats">
+			<tr class="nohover"><th colspan="2">%= ksurvey.getTitle;</th></tr>
+			%loop x from 0 to ksurvey.length-1;
+			<tr class="%= x%2=0 ? "even" : "odd";">
+				<td><input type="checkbox" name="vote%= x;" /></td>
+				<td>%= ksurvey.getText(x);</td>
+			</tr>
+			%endloop;
+		</table>
+		<button type="submit">%("vote");</button>
+	</form>
+	%else;
+	<table class="stats">
+		<tr class="nohover"><th colspan="2">%= ksurvey.getTitle;</th></tr>
+		%loop x from 0 to ksurvey.length-1;
+		<tr class="%= x%2=0 ? "even" : "odd";">
+			<td class="r">%= ksurvey.getVote(x);</td>
+			<td>%= ksurvey.getText(x);</td>
+		</tr>
+		%endloop;
+	</table>
+	%endif;
+</div>
+%endif; <!-- end commission survey -->
+
+
+<table>
+	<colgroup><col width="25%%" /><col width="75%%" /></colgroup>
+	<tr>
+		<td>
+			<div class="bg">
+				<img class="cornericon-big" src="pack/design/navi-inbox-active.png" alt="" />
+				<h3>%("messages");</h3>
+				<table class="stats">
+					<tr><td><a %if Tools.hasNewAllianceMessage(player);class="blink"%endif; href="alliance-internal">%("alliance forum");</a></td></tr>
+					<tr><td>%set folder Session.getPlayerMailboxCopy.getFolder(0);<a %if folder.size > 0;class="blink"%endif; href="mail-box|0">%("player messages ({0,number,integer})", folder.size);</a></td></tr>
+					%set infoinbox Session.getInfoBoxCopy;
+					<tr><td><a href="mail-info|0">%("events ({0,number,integer})", infoinbox.getSize(0));</a></td></tr>
+					<tr><td><a href="mail-info|1">%("exploration ({0,number,integer})", infoinbox.getSize(1));</a></td></tr>
+					<tr><td><a href="mail-info|2">%("espionage ({0,number,integer})", infoinbox.getSize(2));</a></td></tr>
+					<tr><td><a href="mail-info|3">%("battles ({0,number,integer})", infoinbox.getSize(3));</a></td></tr>
+				</table>
+			</div>
+		</td>
+		<td>
+			<div class="bg">
+				<img class="cornericon-big" src="pack/design/navi-help-active.png" alt="" />
+				<h3>%("tips &amp; tricks");</h3>
+				%= Tools.randomTipp(Session.getLocale);
+			</div>
+		</td>
+	</tr>
+</table>
+
+
+%if player.getColonies.size > 0;
+<div class="bg">
+	<h3>%("colonies");</h3>
+	<table class="stats">
+	<colgroup width="20%%" span="5" />
+		<tr class="nohover">
+			<th>%("colony");</th>
+			<th>%("buildings");</th>
+			<th>%("planetary units");</th>
+			<th>%("interplanetary units");</th>
+			<th>%("interstellar units");</th>
+		</tr>
+		%loop x,colony foreach player.getColonies;
+		<tr class="%= x%2=0 ? "even" : "odd";">
+			<td class="l"><a href="colony|%= colony.getPosition;">%= colony.getName; (%= colony.getPosition;)</a></td>
+			<td id="id-%= colony.getPosition;-0">
+				%include "include/production-building.inc";
+			</td>
+			%loop q from 0 to 2;
+			<td id="id-%= colony.getPosition;-%= q+1;">
+				%include "include/production-unit.inc";
+			</td>
+			%endloop;
+		</tr>
+		%endloop;
+	</table>
+</div>
+%else;
+<div class="bg">
+	<h3>%("Startup help");</h3>
+	<form action="?" method="post">
+		%("You currently do not own a colony!");
+		<input type="hidden" name="do" value="Player.singleplayer" />	
+		<button type="submit">%("found first colony");</button>	
+	</form>
+	<div>%("You are a young and ambitious aimer and have managed to unite a few villages. Due to your your accomplishments hitherto, the population is thankful and nominate you as their ruler. Meaning your duties from now on include planning the city, forming a military and preparing research and education institutions.<br />You are ruler of a still very limited area. The strength of your position is always dependant on the strength of your people. Additionally you should not forget, that some hostile to you exist.<br />As it seems, others like you have built cities. Some of them have already founded alliances in order to help each other.<br />One of your most important decisions in the moment is to determine if you want to join an alliance or if you want to try your luck by yourself. Of course you can found an alliance, too, hoping others will join you.<br />This is your current situation. All your further decisions can and will have consequences. Hence may your orders be wise and your regnancy be glorious!");</div>
+</div>
+%endif;
+

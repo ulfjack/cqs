@@ -1,0 +1,84 @@
+The JAR-Files in this directory are compiled from Open Source projects:
+
+catfish-8.3.jar
+Catfish HTTP-Server by "Ulf Ochsenfahrt" <ulfjack@conquer-space.net>
+
+irc-2.0.jar
+IRC client library by "Ulf Ochsenfahrt" <ulfjack@conquer-space.net>
+
+ulfscript-2.3.jar
+UlfScript Template Library by "Ulf Ochsenfahrt" <ulfjack@conquer-space.net>
+
+utils-1.3.jar
+Utility Library by "Ulf Ochsenfahrt" <ulfjack@conquer-space.net>
+
+
+berkeleydb-3.2.44.jar
+The Berkeley DB Java Edition from Oracle.
+Find at: 
+
+
+rhino-js-1.6.5.jar
+Rhino JavaScript engine from the Mozilla Rhino project
+Find at: http://www.mozilla.org/rhino/
+Note: used by net.cqs.plugins.RhinoPlugin
+
+
+servlet-api-2.5.jar
+Servlet API interface files
+Find at: http://jcp.org/aboutJava/communityprocess/mrel/jsr154/index.html
+Also available at: http://tomcat.apache.org/
+Note: also used by catfish-?.jar
+Note: also used by jetty-core-?.jar
+
+
+markdownj-0.3.jar
+Markdown Text to HTML Converter
+Find at: http://markdownj.petebevin.com/
+
+
+mysql-connector-java-5.0.5-bin.jar
+MySQL Connector for the Java SQL API
+Find at: http://www.mysql.com/products/connector/j/
+Note: used by net.cqs.plugins.DrupalAuthProvider
+
+
+jetty-core-6.1.4.jar
+Jetty Webserver
+Find at: http://www.mortbay.org/
+Note: used by net.cqs.plugins.JettyHttpProvider
+Note: This jar file is the combination of the jetty-?.jar and jetty-util-?.jar files.
+
+
+junit-4.4.jar
+JUnit test environment from the JUnit project
+Find at: http://www.junit.org/
+Note: used for testing only
+
+
+cssparser-0.9.4.jar
+CSS Parser
+Find at: http://cssparser.sourceforge.net/
+Note: used for testing only
+
+
+emma-2.0.jar
+Emma Code Coverage Utility
+Find at: http://emma.sourceforge.net/
+Note: used for testing only
+
+
+joid-1.0.jar
+A modified version of the org.verisign.joid library
+Find at: http://code.google.com/p/joid/
+Note: used by net.cqs.web.WebOpenId
+
+
+xstream-1.3.1.jar
+The XStream XML Library for Java object serialization
+Find at: http://xstream.codehaus.org/
+Note: used for various persistent XML configuration files
+
+
+Except where noted, no modifications have been made to these libraries and the source code can be obtained from the respective projects / authors.
+

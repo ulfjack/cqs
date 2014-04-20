@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>Conquer-Space.net %("spy report");</title>
+	<link rel="stylesheet" type="text/css" href="/data/report.css" />
+</head>
+
+%set locale Session.getLocale;
+
+<body>
+
+<div id="content">
+
+<h1>%("spy report");</h1>
+
+%set ad Tools.getAgentReport(Request.getFilename);
+%if ad != null;
+%set owner Galaxy.findPlayerByPid(ad.getId());
+<table>
+<colgroup><col width="40%%" /><col width="30%%" /><col width="30%%" /></colgroup>
+<tr><th rowspan="6"><img src="/data/logo.png" alt="" /></th></tr>
+<tr><th colspan="2"><br /></th></tr>
+<tr><th>%("position");</th><td>%= ad.getPosition;</td></tr>
+<tr><th>%("owner");</th><td>%= owner.getName; %if owner.getAlliance != null;[%= owner.getAlliance.getShortName;]%endif;</td></tr>
+<tr><th>%("created on:");</th><td>%= Tools.asDate(locale, ad.getRealtime);</td></tr>
+<tr><td colspan="2"><br /></td></tr>
+</table>
+
+<table>
+<colgroup><col width="40%%" /><col width="30%%" /><col width="30%%" /></colgroup>
+<tr>
+	<td class="table">
+		<table class="stats">
+			<colgroup><col width="60%%" /><col width="40%%" /></colgroup>
+			<tr><th colspan="2">%("planetary units");</th></tr>
+			%set x 0L;
+			%loop entry foreach ad.getUnits where entry.type.isPlanetary;
+				<tr class="%= x % 2 = 0 ? "even" : "odd";">
+					<td>&#160;%= entry.type.getName(locale);</td><td class="r">%= ad.lowerBound(entry.amount);-%= ad.upperBound(entry.amount);</td>
+				</tr>
+			%set x x+1;
+			%endloop;
+		</table>
+	</td>
+	<td class="table">
+		<table class="stats">
+			<colgroup><col width="60%%" /><col width="40%%" /></colgroup>
+			<tr><th colspan="2">%("interplanetary units");</th></tr>
+			%set x 0L;
+			%loop entry foreach ad.getUnits where entry.type.isInterplanetary;
+				<tr class="%= x % 2 = 0 ? "even" : "odd";">
+					<td>&#160;%= entry.type.getName(locale);</td><td class="r">%= ad.lowerBound(entry.amount);-%= ad.upperBound(entry.amount);</td>
+				</tr>
+			%set x x+1;
+			%endloop;
+		</table>
+	</td>
+	<td class="table">
+		<table class="stats">
+			<colgroup><col width="65%%" /><col width="35%%" /></colgroup>
+			<tr><th colspan="2">%("interstellar units");</th></tr>
+			%set x 0L;
+			%loop entry foreach ad.getUnits where entry.type.isInterstellar;
+				<tr class="%= x % 2 = 0 ? "even" : "odd";">
+					<td>&#160;%= entry.type.getName(locale);</td><td class="r">%= ad.lowerBound(entry.amount);-%= ad.upperBound(entry.amount);</td>
+				</tr>
+			%set x x+1;
+			%endloop;
+		</table>
+	</td>
+</tr>
+</table>
+
+%else;
+<div class="warn">%("The spy report was not found.");</div>
+%endif;
+
+</div>
+
+</body>
+</html>

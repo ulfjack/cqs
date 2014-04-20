@@ -1,0 +1,99 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="900" height="400" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<defs>
+	<style type="text/css">
+		line {
+			stroke-width: 1px;
+			stroke: gray;
+			fill: none;
+		}
+		rect {
+			fill:#eee;
+			stroke: black;
+			stroke-width: 1px;
+		}
+		path {
+			stroke: red;
+			stroke-width: 1px;
+			fill: none;
+		}
+		text {
+			font-family: Arial;
+			font-size: 16px;
+			fill: black;
+		}
+	</style>
+</defs>
+
+%set md Game.getRegistrationHistoryCopy();
+%set count md.size-1;
+
+<!-- frame -->
+<rect x="0.5" y="0.5" width="899" height="399" />
+
+<g transform="translate(0.5,0.5)">
+
+%set min -1L;%set max 1L;
+%loop x from 0 to count;%set v md.get(x);%if v < min;%set min v;%endif;%if v > max;%set max v;%endif;%endloop;
+%set ydiff 1L;%set ly 1L;
+%loop lx from 0L to 10L;%set ly 10L*ly;
+%if (max-min) > ly;%set ydiff ly;%endif;
+%endloop;
+%set w 800;
+%set h 355;
+%set xoff 80;
+%set yoff 15;
+
+<!-- y-axis -->
+<line x1="%= xoff;" y1="%= h+yoff+5;" x2="%= xoff;" y2="%= yoff;" />
+
+<!-- y-axis legend -->
+%set ypos h+yoff-(h*(min-min))/(max-min);
+<line x1="%= w+xoff;" y1="%= ypos;" x2="%= xoff-5;" y2="%= ypos;" />
+%if min < -10L;
+<text x="%= xoff-8;" y="%= ypos;" style="text-anchor:end;dominant-baseline:middle">%("{0,number,integer}", min);</text>
+%endif;
+
+%set ypos h+yoff-(h*(max-min))/(max-min);
+<line x1="%= w+xoff;" y1="%= ypos;" x2="%= xoff-5;" y2="%= ypos;" />
+%if max > 10L;
+<text x="%= xoff-8;" y="%= ypos;" style="text-anchor:end;dominant-baseline:middle">%("{0,number,integer}", max);</text>
+%endif;
+
+%set ymin (min/ydiff);
+%set ymax (max/ydiff);
+%loop lx from ymin to ymax;
+%set ypos h+yoff-(h*(lx*ydiff-min))/(max-min);
+<line x1="%= w+xoff;" y1="%= ypos;" x2="%= xoff-5;" y2="%= ypos;" />
+%endloop;
+%if ymin < 0;%set ymin ymin+1;%endif;
+%if ymax > 0;%set ymax ymax-1;%endif;
+%loop lx from ymin to ymax;
+%set ypos h+yoff-(h*(lx*ydiff-min))/(max-min);
+<text x="%= xoff-8;" y="%= ypos;" style="text-anchor:end;dominant-baseline:middle">%("{0,number,integer}", lx*ydiff);</text>
+%endloop;
+
+<!-- x-axis -->
+<!--<line x1="%= xoff-5;" y1="%= h+yoff+5;" x2="%= w+xoff;" y2="%= h+yoff+5;" />-->
+
+%loop z from 1 to 100;%set x z*4-1;%set xpos (w*x)/count+xoff;
+<line x1="%= xpos;" y1="%= h+yoff+5;" x2="%= xpos;" y2="%= yoff;" />
+%endloop;
+
+<!-- x-axis legend -->
+<!--%loop z from 0 to 6;%set x 24*z-1;
+<text x="%= (w*x)/count+xoff;" y="%= h+yoff+6;" style="text-anchor:middle;dominant-baseline:text-before-edge">%= z-7;d</text>
+%endloop;-->
+<text x="%= w+xoff;" y="%= h+yoff+6;" style="text-anchor:middle;dominant-baseline:text-before-edge;">%("now");</text>
+
+
+<path d="M%= xoff; %= h+yoff-(h*(md.get(0)-min))/(max-min);
+%loop x from 1 to count;
+L%= xoff+(w*x)/count; %= h+yoff-(h*(md.get(x)-min))/(max-min);
+%endloop;
+" />
+
+</g>
+
+</svg>

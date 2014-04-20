@@ -1,0 +1,65 @@
+%embed "templates/diplomacy.tmpl";
+
+%set player Session.getPlayer;
+%set alliance player.getAlliance;
+
+<table>
+	<colgroup width="50%%" span="2" />
+	<tr>
+		<td colspan="2">
+			<div class="bg">
+				<h3>%("priority of contracts");</h3>
+				<table class="diplomacyterms">
+					<tr>
+						<td class="SELF">%("ownership");</td>
+						<td>&gt;</td>
+						<td class="ALLIED">%("alliance");</td>
+						<td>&gt;</td>
+						<td class="UNITED">%("union");</td>
+						<td>&gt;</td>
+						<td class="TRADE">%("trade agreement");</td>
+						<td>&gt;</td>
+						<td class="NAP">%("non-aggression pact");</td>
+						<td>&gt;</td>
+						<td class="NEUTRAL">%("neutrality");</td>
+						<td>&gt;</td>
+						<td class="HOSTILE">%("war declaration");</td>
+					</tr>
+				</table>
+				%("Remember that better contracts (i.e. those that allow more collaboration) always overrule any other existing contracts. For example, suppose you have declared war on a party and you have a trade agreement with them. Then the trade agreement overrules the war declaration and you cannot attack the party.");<br />
+				%("If a party is marked with a {0}, then the contract is being overruled by a different one for this party.", "<span class=""mark"">&lowast;</span>");<br />
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div class="bg">
+				<h3>%("your contracts");</h3>
+				%set contracts player.getContracts;
+				%set isPlayer true;
+				%if contracts.size > 0;
+					%include "include/contracts.inc";
+				%else;
+					%("You currently do not have any contracts.");
+				%endif;
+			</div>
+		</td>
+		<td>
+			<div class="bg">
+				<h3>%("your alliance''s contracts");</h3>
+				%if alliance != null;
+					%set contracts alliance.getContracts;
+					%set isPlayer false;
+					%if contracts.size > 0;
+						%include "include/contracts.inc";
+					%else;
+						%("Your alliance currently does not have any contracts.");
+					%endif;
+				%else;
+					%("You are currently not member of an alliance.");
+				%endif;
+			</div>
+		</td>
+	</tr>
+</table>
+

@@ -1,0 +1,155 @@
+.
+{
+	font-family:Arial,Courier,Times New Roman;
+	font-size:11pt
+}
+
+body
+{
+	font-family:Arial,Courier,Times New Roman;
+	color:#DDDDDD;
+	background-color:#000000;
+	scrollbar-base-color:#161721;
+	scrollbar-3dlight-color:#111144;
+	scrollbar-arrow-color:#DDDDDD;
+	scrollbar-darkshadow-color:#0A0A10;
+	scrollbar-face-color:#111144;
+	scrollbar-track-color:161721;
+}
+
+div#menu
+{
+	float: left;
+	width: 180px;
+}
+
+#menu table
+{
+	width: 100%;
+}
+
+div#content
+{
+	margin-left: 185px;
+	width: 600px;
+}
+
+div.message
+{
+	background-color: #600;
+	border: 1px solid #a00;
+}
+
+h1, h2
+{
+	margin: 0px;
+	padding-top: 10px;
+}
+
+table
+{
+	margin-top:4px;
+	margin-bottom:4px;
+	color:#DDDDDD
+}
+
+select
+{
+	background-color:#0A0A10;
+	color:#DDDDDD;
+	font-size:10pt;
+}
+input
+{
+	background-color:#222233;
+	color:#DDDDDD;
+	font-weight:bold;
+	font-size:10pt;
+}
+
+th
+{
+	font-size:14pt;
+	text-align:center;
+	color:#DDDDDD;
+	background-color:#222266; 
+}
+
+td
+{
+	font-size:12pt;
+	text-align:center;
+	color:#DDDDDD;
+	background-color:#333344; 
+}
+
+td.a    	{font-size:14pt; text-align:center; color:#DDDDDD; background-color:#222266; 
+		padding-top:3px;padding-bottom:1px; padding-left:5px; padding-right:4px}
+
+td.a1    	{font-weight:bold; font-size:13pt; text-align:center; color:#DDDDDD; background-color:#111144; 
+		padding-top:3px;padding-bottom:1px; padding-left:5px; padding-right:4px}
+
+td.b    	{font-weight:bold; font-size:10pt; text-align:center; color:#DDDDDD; background-color:#333344;
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px; margin:0px}
+
+td.b1    	{font-weight:bold; font-size:10pt; text-align:center; color:#DDDDDD; background-color:#222233;
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px; margin:0px}
+
+td.b2    	{font-weight:bold; font-size:10pt; text-align:left; color:#DDDDDD; background-color:#222233;
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px; margin:0px}
+
+td.c    	{font-size:14pt; text-align:center; color:#DDDDDD; background-color:#111155; 
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px}
+
+td.c1    	{font-weight:bold; font-size:11pt; text-align:left; color:#DDDDDD; background-color:#333344; 
+		padding-top:3px;padding-bottom:1px; padding-left:5px; padding-right:4px}
+
+td.c2    	{font-weight:bold; font-size:11pt; text-align:center; color:#DDDDDD; background-color:#222233; 
+		padding-top:3px;padding-bottom:1px; padding-left:5px; padding-right:4px}
+
+td.d    	{font-weight:bold; font-size:12pt; text-align:center; color:#DDDDDD; background-color:#333344; 
+		padding-top:3px; padding-bottom:1px; padding-left:4px; padding-right:4px}
+
+td.e    	{font-weight:bold; font-size:10pt; text-align:right; color:#DDDDDD; background-color:#222233; 
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px}
+
+td.f    	{font-weight:bold; font-size:10pt; text-align:left; color:#DDDDDD; background-color:#333344;
+		padding-top:3px; padding-bottom:1px; padding-left:4px; padding-right:4px}
+
+td.g    	{font-weight:bold; text-align:left; color:#DDDDDD; background-color:#808080}
+
+td.h    	{font-weight:bold; font-size:12pt; text-align:center; color:#DDDDDD; background-color:#222233; 
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px}
+
+td.i    	{font-weight:bold; font-size:10pt; text-align:left; color:#EEEEEE; background-color:#222233; 
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px}
+
+td.j    	{font-size:13pt; text-align:center; color:#DDDDDD; background-color:#506050}
+
+td.x    	{font-weight:bold; text-align:center; color:#DDDDDD; background-color:#701010; 
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px}
+td.x1    	{font-size:10pt; font-weight:bold; text-align:center; color:#DDDDDD; background-color:#701010; 
+		padding-top:3px;padding-bottom:1px; padding-left:4px; padding-right:4px}
+
+b.a		{font-size:10pt; font-weight:bold; color:#EE6060}
+div.c0  	{color:#FFAAAA}
+div.c1  	{color:#00FF00}
+div.c1  	{margin:0px}
+a		{text-decoration:none; font-size:11pt; color:#5050EE}
+a:hover     	{text-decoration:underline; font-size:11pt; color:#5050EE}
+a.a		{text-decoration:none; font-size:11pt; color:#4C64F5}
+a.a:hover     	{text-decoration:underline; font-size:11pt; color:#5050EE}
+a.c     	{text-decoration:none; font-size:11pt; color:#6060EE}
+a.c:hover     	{text-decoration:underline; font-size:11pt; color:#6060EE}
+a.c0		{text-decoration:none; font-size:11pt; color:#EE6060}
+a.c0:hover    	{text-decoration:underline; font-size:11pt; color:#EE6060}    	
+a.c1    	{text-decoration:none; font-size:11pt; color:#60EE60}
+a.c1:hover    	{text-decoration:underline; font-size:11pt; color:#60EE60}
+a.c2    	{text-decoration:none; font-size:14pt; font-weight:bold; color:#80DD80}
+a.c2:hover    	{text-decoration:underline; font-size:14pt; font-weight:bold; color:#90CC90}
+a.c3    	{text-decoration:none; font-size:10pt; font-weight:bold; color:#505050}
+a.c3:hover    	{text-decoration:underline; font-size:10pt; font-weight:bold; color:#606060}
+a.c4    	{text-decoration:none; font-size:12pt; font-weight:bold; color:#D3D2EE}
+a.c4:hover    	{text-decoration:underline; font-size:12pt; font-weight:bold; color:#DDDDDD}
+a.c5    	{text-decoration:none; font-size:11pt; font-weight:bold; color:#D3D2EE}
+a.c5:hover    	{text-decoration:underline; font-size:11pt; font-weight:bold; color:#DDDDDD}

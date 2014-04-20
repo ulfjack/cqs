@@ -1,0 +1,11 @@
+%set locale Session.getLocale;
+%set player Session.getPlayer;
+%set colony Session.getColony(Request.getPostParameter("c"));
+
+<meta name="quotaUsed" value="%= player.getUsedBandwidth;" />
+%if player.getUsedBandwidth > player.getTotalBandwidth;<meta name="alert" value="%("No quota remaining!");" />%endif;
+%loop x from 0 to 3;<meta name="res_%= x;" value="%= Tools.getAbbreviatedLong(locale, colony.getDisplayResource(x));" />%endloop;
+
+%set q 2;
+%include "../include/colony-units.inc";
+

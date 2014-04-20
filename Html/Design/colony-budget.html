@@ -1,0 +1,17 @@
+%embed "templates/colony.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set locale Session.getLocale;
+%set colony Session.getColony(Request.getUrlParameter(0));
+%set position colony.getPosition;
+
+%set title gettext "finances";
+%include "include/coltitle.inc";
+
+<div class="bg">
+	<h4>%("overview");</h4>
+	<div>%("all data in CqSol per hour"); &ndash; %("Note: The money display is not calculated continuously!");</div>
+%include "include/finances.inc";
+%include "include/finances-details.inc";
+</div>

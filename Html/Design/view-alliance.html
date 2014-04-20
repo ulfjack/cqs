@@ -1,0 +1,127 @@
+%embed "templates/top.tmpl";
+
+%set index Tools.safeParseInt(Request.getUrlParameter(0), -1);
+%set alliance Galaxy.findAllianceById(index);
+
+%if alliance != null;
+<h1>%("alliance {0} [{1}]", alliance.getName, alliance.getShortName);</h1>
+
+%if alliance.hasLogo;<div class="nobg"><img src="%= alliance.getLogo;" width="800" height="130" alt="" /></div>%endif;
+
+<table id="alliance">
+	<colgroup width="50%%" span="2" />
+	%if alliance.getDescription != "";
+	<tr>
+		<td colspan="2">
+			<!-- description -->
+			<div class="bg">
+				<h3>%("description");</h3>
+				<div>%= alliance.getDescription;</div>
+			</div>
+		</td>
+	</tr>
+	%endif;
+	<tr>
+		<td>
+			<div class="bg">
+				<h3>%("members ({0,number,integer})", alliance.size);</h3>
+				<table id="sortable0" class="stats">
+					<tr id="head0" class="nohover">
+						<th id="key0-string">%("name");</th>
+						<th id="key1-number" class="r">%("colonies");</th>
+						<th id="key2-number" class="r">%("points");</th>
+					</tr>
+					%set z 0L;
+					%loop p foreach alliance;%set id p.getPid;
+					%set trclass (z%2 = 0) ? "even" : "odd";
+					<tr id="sort%= id;" class="%= trclass;">
+						<td id="a%= id;" class="l"><a href="player|%= id;">%= p.getName;</a></td>
+						<td id="b%= id;" class="r">%("{0,number,integer}", p.getColonies.size);</td>
+						<td id="c%= id;" class="r">%("{0,number,integer}", p.getScore.getPoints);</td>
+					</tr>
+					%set z z+1;
+					%endloop;
+				</table>
+			</div>
+
+			<!-- diplomatic contracts -->
+			%set contracts alliance.getContracts;
+			%if contracts.size > 0;
+			<div class="bg">
+				<h3>%("diplomatic contracts");</h3>
+				<table class="stats">
+				<colgroup width="50%%" span="2" />
+				%loop diplomaticStatus foreach DiplomaticStatus.values;
+				%loop i,contract foreach contracts where contract.getStatus = diplomaticStatus;
+					<tr class="%= diplomaticStatus.name;">
+						<th colspan="2">%= diplomaticStatus.getName(Session.getLocale);</th>
+					</tr>
+					<tr class="nohover">
+						%loop i,member foreach contract.getParties;
+							%if (i > 0) and (i % 3 = 0);</tr><tr>%endif;
+							<td class="%= i % 2 = 0 ? "even" : "odd";">%if member.isPlayer;<i>%("player");</i>%else;<i>%("alliance");</i>%endif; %= member.getName;</td>
+						%endloop;
+					</tr>	
+					<tr class="clear"><td colspan="2" class="clear">&#160;</td></tr>
+				%endloop;
+				%endloop;
+				</table>
+			</div>
+			%endif;
+		</td>
+		<td>
+			<!-- write message -->
+			<div class="bg">
+				<h3>%("send message");</h3>
+				%if Request.getTodo = "Alliance.External.send";
+				%if Session.getFlag > 0;
+				<div class="note">%("Message was sent!");</div>
+				%else;
+				<div class="warn">%("Message was <i>not</i> sent!");</div>
+				%endif;
+				%endif;
+
+				<form action="view-alliance|%= alliance.getId;" method="post">
+					<input type="hidden" name="do" value="Alliance.External.send" />
+					<input type="hidden" name="target" value="%= alliance.getId;" />
+	
+					<div class="pvcontrol" id="pvcontrol-0">%("message");</div>
+					<textarea id="wikitext-0" name="body" rows="4" cols="45"></textarea>
+					<div id="wikipreview-0"></div>
+	
+					<button type="submit">%("send");</button>
+				</form>
+			</div>
+
+			<!-- apply -->
+			<div class="bg">
+				<h3>%("send application");</h3>
+				%if Request.getTodo = "Alliance.Application.send";
+				%if Session.getFlag > 0;
+				<div class="note">%("Application was sent!");</div>
+				%else;
+				<div class="warn">%("Application was <i>not</i> sent!");</div>
+				%endif;
+				%endif;
+
+				<form action="view-alliance|%= alliance.getId;" method="post">
+					<input type="hidden" name="do" value="Alliance.Application.send" />
+					<input type="hidden" name="isApplication" value="1" />
+					<input type="hidden" name="target" value="%= alliance.getId;" />
+	
+					<div class="pvcontrol" id="pvcontrol-1">%("message");</div>
+					<textarea id="wikitext-1" name="body" rows="5" cols="35"></textarea>
+					<div id="wikipreview-1"></div>
+					<button type="submit">%("send");</button>
+				</form>
+			</div>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript" src="js/common-preview.js"></script>
+<script type="text/javascript" src="js/common-tablesort.js"></script>
+
+%else;
+<div class="warn">%("No alliance with ID {0} exists.", index);</div>
+%endif;
+

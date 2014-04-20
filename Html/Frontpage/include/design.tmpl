@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title>Conquer-Space.net</title>
+	<link rel="stylesheet" type="text/css" href="/data/login.css" />
+</head>
+<body>
+
+<div id="content">
+
+<img id="cqslogo" src="/data/logo.png" alt="Conquer-Space.net Logo" />
+
+<div id="main">
+<div class="top-left"><!--ok--></div>
+<div class="top-right"><!--ok--></div>
+
+<div class="fleft">
+<div class="fright">
+<div class="maincontent">
+
+%embed;
+
+</div><!-- maincontent -->
+</div></div><!-- fright and fleft -->
+
+<div class="bottom-left"><!--ok--></div>
+<div class="bottom-right"><!--ok--></div>
+</div><!--main-->
+
+<!-- links -->
+<ul id="links">
+	<li id="link1"><a href="http://www.conquer-space.net/">%("Homepage");</a></li>
+	<li id="link2"><a href="http://www.conquer-space.net/forum/">%("Forum");</a></li>
+	<li id="link3"><a href="http://www.conquer-space.net/help/">%("Help");</a></li>
+	<li id="link4"><a href="/terms">%("Terms of usage");</a></li>
+	<li id="link5"><a href="/">%("Login");</a></li>
+%if Game.isPluginLoaded("net.cqs.plugins.DatabaseAuthProvider");
+	<li id="link6"><a href="/register">%("Registration");</a></li>
+	<li id="link7"><a href="/reminder">%("Password reminder");</a></li>
+%elseif Game.isPluginLoaded("net.cqs.plugins.DrupalAuthProvider");
+	<li id="link6"><a href="http://www.conquer-space.net/user/register">%("Registration");</a></li>
+	<li id="link7"><a href="http://www.conquer-space.net/user/password">%("Password reminder");</a></li>
+%endif;
+%if Game.isPluginLoaded("net.cqs.web.WebGuest");
+	<li id="link8"><a href="/Guest/">%("Guest login");</a></li>
+%endif;
+</ul>
+
+<!-- Logos -->
+<ul>
+	<li id="logo1">	<a href="http://www.java.com/"><img class="logo" src="/data/logo-java.png" alt="java" /></a></li>
+	<li id="logo2"><a href="http://validator.w3.org/check?uri=referer"><img class="logo" src="/data/logo-xhtml10.png" alt="xhtml" /></a></li>
+	<li id="logo3"><a href="http://www.unicode.org/"><img class="logo" src="/data/logo-unicode.png" alt="unicode" /></a></li>
+	<li id="logo4"><a href="http://www.blender.org/"><img class="logo" src="/data/logo-blender.png" alt="unicode" /></a></li>
+</ul>
+
+<!-- Flags -->
+<ul>
+	<li id="flag1"><a href="?lang=de_DE"><img class="logo" src="/data/flag-DE.png" alt="de_DE" /></a></li>
+	<li id="flag2"><a href="?lang=en_US"><img class="logo" src="/data/flag-US.png" alt="en_US" /></a></li>
+</ul>
+
+</div>
+</body>
+</html>

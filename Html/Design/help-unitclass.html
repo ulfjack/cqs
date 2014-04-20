@@ -1,0 +1,106 @@
+%embed "templates/help.tmpl";
+
+%set locale Session.getLocale;
+%set class (Request.getUrlParameter(0) != null)
+    ? Galaxy.getUnitSystem.parseUnitClass(Request.getUrlParameter(0))
+    : UnitClass.INFANTRY;
+
+<div class="nobg">
+<table id="help">
+	<tr class="nospacetb">
+		<td class="nospacetb">
+	%loop tmpclass foreach UnitClass.values;
+		<div class="icon"%if (class != null) and (class = tmpclass); id="active"%endif;><a href="help-unitclass|%= tmpclass;" title="%= tmpclass.getName(locale);"><img src="%= Session.getUrl(tmpclass, false);" alt="%= tmpclass.getName(locale);" width="30" height="30" /></a></div>
+	%endloop;
+		</td>
+	</tr>
+	%if class != null;
+	<tr class="nospacetb">
+		<td class="nospacetb">
+			<div class="extension">
+				<br />
+				<h2 class="nospacetb">%("details for unit class {0}", class.getName(locale));</h2>
+				<table>
+					<tr>
+						<td class="image"><img src="%= Session.getUrl(class, true);" alt="" /></td>
+						<td class="table">
+							<table class="stats">
+								<colgroup width="25%%" span="4" />
+								<tr class="nohover"><th colspan="4">%("description");</th></tr>
+								<tr class="nohover"><td colspan="4">%= class.getDescription(locale);</td></tr>
+								<!-- research dependencies -->
+								<tr class="nohover"><th colspan="4">%("requirements");</th></tr>								
+								%loop dep foreach class.getResearchDependencies;
+								%set topic dep.type;
+								%set amount dep.amount;
+								<tr><td colspan="4">%= amount; <a href="help-research|%= topic;">%= topic.getName(locale);</a></td></tr>
+								%endloop;
+								<tr class="nohover"><th colspan="4">%("fight values");</th></tr>
+								%set attack class.getFightSpec;				
+								<tr>
+								%set count 0;
+								%loop uclass foreach Galaxy.getUnitSystem.getUnitClasses;
+									%if (count < 3) and (uclass.isPlanetary = class.isPlanetary);
+									<td>%= uclass.getName(locale);: %("{0,number,integer}", Tools.floatToLong(attack.getAttack(count)));</td>
+									%set count count+1;
+									%endif;
+								%endloop;
+									<td>%("defense: {0,number,integer}", Tools.floatToLong(attack.getDefense));</td>
+								</tr>
+								<!-- costs -->
+								<tr class="nohover"><th colspan="4">%("costs");</th></tr>
+								%set cost class.getCost;
+								<tr>
+									%loop y from 0 to 3;
+									<td class="l">
+										<img src="%= Session.getUrl(Resource.get(y));" height="14" width="14" alt="" />
+										%("{0,number,integer}", cost.getResource(y));
+									</td>
+									%endloop;
+								</tr>
+								<tr>
+									<td class="l">
+										<img src="%= Session.getUrl(ImageEnum.COST_WORKERS);" height="16" width="16" title="%("construction workers");" alt="%("construction workers");" /> %("{0,number,integer}", cost.getConstructionJobs);
+									</td>
+									<td class="l"><img src="%= Session.getUrl(ImageEnum.SYMBOL_CREW);" height="16" width="16" title="%("crew");" alt="%("crew");" /> %("{0,number,integer}", cost.getPopulation);</td>
+									<td class="l"><img src="%= Session.getUrl(ImageEnum.SYMBOL_CLOCK);" height="16" width="16" title="%("construction time");" alt="%("construction time");" /> %= Tools.asTime(cost.getTime);</td>
+								</tr>
+								<!-- modules -->
+								<tr><th colspan="4">%("modules ({0,number,integer} spaces available)", class.size);</th></tr>
+								<tr class="nohover">
+									<td colspan="4">
+										<table class="stats">
+											<tr class="nohover">
+												<td colspan="2"></td>
+												%set count 0;
+												%loop uclass foreach Galaxy.getUnitSystem.getUnitClasses where (count < 3) and (uclass.isPlanetary = class.isPlanetary);
+												<td>%= uclass.getName(locale);</td>
+												%set count count+1;
+												%endloop;
+												<td>%("defense");</td>
+											</tr>
+											%loop x,module foreach class.getModules;
+											<tr class="%= x%2=0 ? "even" : "odd";">
+												<td><a href="help-unitmodule|%= module;?class=%= class;">%= module.getName(locale);</a></td>
+												<td>%("{0,number,integer} spaces", module.size);</td>
+											%set attack module.getFightSpec;			
+												%loop y from 0 to 2;
+												<td>%("{0,number,integer}", Tools.floatToLong(attack.getAttack(y)));</td>
+												%endloop;
+												<td>%("{0,number,integer}", Tools.floatToLong(attack.getDefense));</td>
+											</tr>
+											%endloop;
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	%endif;
+</table>
+</div>
+

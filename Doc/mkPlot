@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#
+# Creates a money plot for person $1 from file $2.
+#
+# DOES NOT WORK FOR ID 0 (gast)!
+#
+
+# Handle with caution!
+# Uses 4- as field separator, otherwise negative amount are cut off!
+
+gawk --source 'BEGIN { FS=" |4-" } /.*\[P '$1'.*\].*MONEY HAVE.*/ { print $2 " " $8 } ' < $2 > temp.txt
+gnuplot -persist gnuplot-usage.txt
+
+#rm temp.txt

@@ -1,0 +1,27 @@
+body
+{
+	background-image: url(/cqspack/demo/water1.jpg);
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-position: 0px -100px;
+	width: 100%;
+	max-width: 1000px;
+}
+
+.footer, .smenu, .content
+{
+	background-image: url(/cqspack/demo/water2.jpg);
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-position: 0px -100px;
+}
+
+.status, .mmenu
+{
+	background-color: black;
+}
+
+a#mactive
+{
+/*	border-bottom: 1px solid gray;*/
+}

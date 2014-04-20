@@ -1,0 +1,133 @@
+%embed "templates/fleets.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+%set desktop player.getDefaultDesktop;
+%if Request.getUrlParameterCount() = 1;
+%set desktop Tools.safeParseInt(Request.getUrlParameter(0),player.getDefaultDesktop);
+%endif;
+
+%set file Request.getFilename;
+<h3>%("fleets"); &ndash; %if(desktop < -1) or (desktop > Constants.MAX_DESKTOP);%("rename desktops");%else;%if (desktop = -1);%("all desktops");%else;%= player.getDesktopName(Session.getLocale, desktop);%endif;%endif;</h3>
+%set t Tools.getRandomLong;
+%set fleetAmount 0;
+
+%if (desktop < -1) or (desktop > Constants.MAX_DESKTOP);
+<table class="stats">
+	<tr>
+		<td colspan="3">
+			<form action="fleets|-2" method="post">
+				<input type="hidden" name="do" value="Player.Desktop.setDefault" />
+				<select name="id">
+					<option value="-2" %if -2=player.getDefaultDesktop;selected="selected"%endif;>%("desktop overview");</option>
+					<option value="-1" %if -1=player.getDefaultDesktop;selected="selected"%endif;>%("all fleets");</option>
+				%loop x from 0 to Constants.MAX_DESKTOP;
+					<option value="%= x;" %if x=player.getDefaultDesktop;selected="selected"%endif;>%= x; - %= player.getDesktopName(Session.getLocale, x);</option>
+				%endloop;
+				</select>
+				<button type="submit">%("set default desktop");</button>
+			</form>
+		</td>
+	</tr>
+	<tr><th>%("desktop");</th><th>%("name");</th><th>%("rename");</th></tr>
+	%loop current from 0 to Constants.MAX_DESKTOP;
+	<tr class="%= current%2=0? "even" : "odd";">
+		<td>%= current;</td>
+		<td><a href="fleets|%= current;">%= player.getDesktopName(Session.getLocale, current);</a></td>
+		<td>
+		<form action="fleets|-2" method="post">		
+			<input type="hidden" name="do" value="Player.Desktop.rename" />
+			<input type="hidden" name="id" value="%= current;" />
+			<input type="text" name="name" size="20" maxlength="20" />
+			<button type="submit">%("rename");</button>
+		</form>
+		</td>
+	</tr>
+	%endloop;
+</table>
+%else;
+
+%set mindesktop desktop;
+%set maxdesktop desktop;
+%if (desktop = -1);
+	%set mindesktop 0;
+	%set maxdesktop Constants.MAX_DESKTOP;
+%endif;
+
+<div class="note">
+	%("Defense fleets that were generated automatically are set to <b>desktop 1</b> in the beginning.");
+</div>
+
+<form action="fleets|%= desktop;" method="post">
+<input type="hidden" name="do" value="Fleet.setDesktopsAndResume" />
+<table id="sortable0" class="stats">
+	<tr id="head0">
+		<th id="key0-string">%("name");</th>
+		<th id="key1-coords">%("position");</th>
+		<th>%("runtime");</th>
+		<th id="key3-number" class="r">%("units");</th>
+		<th id="key4-number" class="r">%("resources");</th>
+		<th id="key5-number" class="r">%("CqSol");</th>
+		<th>%("display");</th>
+		<th>%("resume");</th>
+	</tr>
+	%loop xdesk from mindesktop to maxdesktop;
+	%set z 0;
+	%loop fleet foreach player.getFleets where fleet.getDesktop = xdesk;
+		<tr id="sort%= z;" class="%= z%2=0 ? "even" : "odd";">
+			<td id="name%= z;" class="l"><a href="fleets-commands|%= fleet.getId;">&quot;%= fleet.getName;&quot; (%= fleet.getId;)</a></td>
+			<td id="position%= z;">%= fleet.getPosition; %if fleet.isLanded;%("ground");%else;%("space");%endif;</td>
+			<td id="runtime%= z;">
+				%if fleet.isLoopEnabled;<div style="float:right;color:#00AA00;">&infin;&#160;</div>%endif;
+				%if fleet.showTimer;
+					%set fleetAmount fleetAmount+1;
+					<div id="countto-%= fleet.getId;-%= fleet.getTimeEstimate;" %if fleet.isFighting;style="color:#AA0000;"%else;style="color:#00AA00;"%endif;>%= Tools.asTime(fleet.getTimeEstimate-Galaxy.getTime);</div>
+				%else;
+					%if fleet.isStopped;
+						%if fleet.isError;
+							<b style="color:#AA0000;">%("Error!");</b>
+						%else;
+							%if fleet.getCommandListSize > 0;
+								<b>%("stopped!");</b>
+							%else;
+								<b>%("no orders!");</b>
+							%endif;
+						%endif;
+					%else;
+						<div id="f%= fleet.getId;" style="color:#AA0000;"><b>%("blockade");</b></div>
+					%endif;
+				%endif;
+			</td>
+			<td id="units%= z;" class="r">
+				%("{0,number,integer}", fleet.getTotalUnits);&#160;
+			</td>
+			<td id="res%= z;" class="r">
+				%("{0,number,integer}", fleet.getTotalCargo);&#160;
+			</td>
+			<td id="upkeep%= z;" class="r">
+				%("{0,number,integer}", fleet.calculateUpkeep);&#160;
+			</td>
+			<td id="display%= z;">
+				<select size="1" name="fleetdesktop%= fleet.getId;">
+				%loop x from 0 to Constants.MAX_DESKTOP;<option %if fleet.getDesktop = x; selected="selected" %endif;>%= x;</option>%endloop;
+				</select>
+			</td>
+			<td class="r" id="resume%= z;">
+				<input type="checkbox" name="fleetresume%= fleet.getId;" />
+			</td>
+		</tr>
+	%set z z+1;
+	%endloop;
+	%endloop;
+	<tr><td colspan="5"></td><td colspan="3" class="r">%("resume all"); <input type="checkbox" id="toggleAll" onclick="setAllCheckboxes('toggleAll','sortable0','^fleetresume.+')" /></td></tr>
+</table>
+
+<div class="submit" style="text-align:right;">
+	<input type="reset" value="%("reset displays");" />
+	&#160;&#160;&#160;&#160;
+	<button type="submit">%("submit changes");</button>
+</div>
+</form>
+
+<script type="text/javascript" src="js/common-tablesort.js"></script>
+%endif;

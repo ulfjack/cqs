@@ -1,0 +1,148 @@
+%embed "templates/design.tmpl";
+
+%set class (Request.getUrlParameter(0) != null)
+    ? Galaxy.getUnitSystem.parseUnitClass(Request.getUrlParameter(0))
+    : UnitClass.INFANTRY;
+
+<table>
+	<colgroup><col width="14%%" span="7" /></colgroup>
+	<tr class="nospaceb">
+	%loop tmpclass foreach Galaxy.getUnitSystem.getUnitClasses;
+		<td class="nospaceb">
+			<div class="bg">
+				<h4><a %if class=tmpclass;class="active"%endif; href="design-new|%= tmpclass;">%= tmpclass.getName(Session.getLocale);</a></h4>
+				<a href="design-new|%= tmpclass;"><img src="%= Session.getUrl(tmpclass, false);" alt="%= tmpclass.getName(Session.getLocale);" /></a>
+			</div>
+		</td>
+	%endloop;
+	</tr>
+%if class != null;
+	%set x 0;%set found false;
+	%loop tmpclass foreach Galaxy.getUnitSystem.getUnitClasses;
+		%if not found;%set x x+1;%set found tmpclass = class;%endif;
+	%endloop;
+	<tr class="nospacetb">
+		%loop y from 1 to x-1;
+		<td class="nospacetb"></td>
+		%endloop;
+		<td class="nospacetb"><div class="bgconnector-seventh"><br /></div></td>
+	</tr>
+	<tr class="nospacetb"><td colspan="7" class="nospacetb"><div class="extension">
+		<form action="design-view" method="post">
+			<input type="hidden" name="do" value="Design.preview" />
+			<input type="hidden" name="class" value="%= class;" />
+			<input type="hidden" id="space" value="%= class.size;" />
+			
+			<h2>%("unit class: {0}", class.getName(Session.getLocale));</h2>
+			<div>%= class.getDescription(Session.getLocale); <a class="detailslink" href="help-unitclass|%= class;">%("more details");</a></div>
+
+			<h2>%= ("design unit");</h2>
+			%set cost class.getCost;
+			<table class="stats">
+			<colgroup>
+				<col width="30%%" /><col width="13%%" />
+				<col width="1%%" /><col width="7%%" />
+				<col width="1%%" /><col width="7%%" />
+				<col width="1%%" /><col width="7%%" />
+				<col width="1%%" /><col width="7%%" />
+				<col width="1%%" /><col width="7%%" />
+				<col width="1%%" /><col width="7%%" />
+				<col width="1%%" /><col width="10%%" />
+			</colgroup>
+				<tr>
+					<th colspan="2" class="seprborder">%("base costs");</th>
+					%loop y from 0 to 3;
+					<td><img src="%= Session.getUrl(Resource.get(y));" height="16" width="16" alt="" /></td><td class="r seprborder">%("{0,number,integer}", cost.getResource(y));</td>
+					%endloop;
+					<td><img src="%= Session.getUrl(ImageEnum.COST_WORKERS);" title="%("construction workers");" alt="%("construction workers");" width="16" height="16" /></td><td class="r seprborder">%("{0,number,integer}", cost.getConstructionJobs);</td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CREW);" title="%("crew");" alt="%("crew");" width="16" height="16" /></td><td class="r seprborder">%("{0,number,integer}", cost.getPopulation);</td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CLOCK);" title="%("construction time");" alt="%("construction time");" width="16" height="16" /></td><td class="r">%= Tools.asTime(cost.getTime);</td>
+				</tr>
+
+			<!-- Module -->
+				%if (class = UnitClass.CIVILIAN);
+				%set restransport CivilianModules.RES_TRANSPORT;
+				%set trooptransport CivilianModules.TROOP_TRANSPORT;
+				<tr>
+					<td>
+						<input type="hidden" id="module-TRANSPORT" value="1" />
+						<input type="hidden" id="size-TRANSPORT" value="%= restransport.size;" />
+						<select name="module-TRANSPORT">
+							<option value="%= restransport;" selected="selected">%= restransport.getName(Session.getLocale);</option>
+							<option value="%= trooptransport;">%= trooptransport.getName(Session.getLocale);</option>
+						</select>
+					</td>
+					<td class="seprborder">%("{0,number,integer} spaces", restransport.size);</td>
+					%set cost restransport.getCost;			
+					%loop y from 0 to 3;
+					<td><img src="%= Session.getUrl(Resource.get(y));" height="16" width="16" alt="" /></td><td class="r seprborder">%("{0,number,integer}", cost.getResource(y));</td>
+					%endloop;
+					<td><img src="%= Session.getUrl(ImageEnum.COST_WORKERS);" title="%("construction workers");" alt="%("construction workers");" width="16" height="16" /></td><td class="r seprborder">%("{0,number,integer}", cost.getConstructionJobs);</td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CREW);" title="%("crew");" alt="%("crew");" width="16" height="16" /></td><td class="r seprborder">%("{0,number,integer}", cost.getPopulation);</td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CLOCK);" title="%("construction time");" alt="%("construction time");" width="16" height="16" /></td><td class="r">%= Tools.asTime(cost.getTime);</td>
+				</tr>
+				%endif;
+			%loop module foreach class.getModules;
+				%if (module != CivilianModules.RES_TRANSPORT) and (module != CivilianModules.TROOP_TRANSPORT);
+				<tr>
+					<td>
+						&#160;<input id="module-%= module;" size="1" name="module-%= module;" type="text" value="" />
+						&#160;<a href="help-unitmodule|%= module;?class=%= class;">%= module.getName(Session.getLocale);</a>
+						<input type="hidden" id="size-%= module;" value="%= module.size;" />
+					</td>
+					<td class="seprborder">%("{0,number,integer} spaces", module.size);</td>
+					%set cost module.getCost;			
+					%loop y from 0 to 3;
+					<td><img src="%= Session.getUrl(Resource.get(y));" height="16" width="16" alt="" /></td><td class="r seprborder">%("{0,number,integer}", cost.getResource(y));</td>
+					%endloop;
+					<td><img src="%= Session.getUrl(ImageEnum.COST_WORKERS);" title="%("construction workers");" alt="%("construction workers");" width="16" height="16" /></td><td class="r seprborder">%("{0,number,integer}", cost.getConstructionJobs);</td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CREW);" title="%("crew");" alt="%("crew");" width="16" height="16" /></td><td class="r seprborder">%("{0,number,integer}", cost.getPopulation);</td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CLOCK);" title="%("construction time");" alt="%("construction time");" width="16" height="16" /></td><td class="r">%= Tools.asTime(cost.getTime);</td>
+				</tr>
+				%endif;
+				%endloop;
+				%set cost class.getCost;
+				<tr class="sepborder">
+					<th>%("total costs");</th>
+					<td class="seprborder">%("<span id='spaceleft'>{0,number,integer}</span> of {1,number,integer} free", class.size, class.size);</td>
+					%loop y from 0 to 3;
+					<td><img src="%= Session.getUrl(Resource.get(y));" height="16" width="16" alt="" /></td><td class="r seprborder"><span id="sum-%= y;">%("{0,number,integer}", cost.getResource(y));</span></td>
+					%endloop;
+					<td><img src="%= Session.getUrl(ImageEnum.COST_WORKERS);" title="%("construction workers");" alt="%("construction workers");" width="16" height="16" /></td><td class="r seprborder"><span id="sum-4">%("{0,number,integer}", cost.getConstructionJobs);</span></td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CREW);" title="%("crew");" alt="%("crew");" width="16" height="16" /></td><td class="r seprborder"><span id="sum-5">%("{0,number,integer}", cost.getPopulation);</span></td>
+					<td><img src="%= Session.getUrl(ImageEnum.SYMBOL_CLOCK);" title="%("construction time");" alt="%("construction time");" width="16" height="16" /></td><td class="r"><span id="sum-6">%= Tools.asTime(cost.getTime);</span></td>
+				</tr>
+	
+				<tr class="nohover">
+					<td colspan="12">%if Session.getUnitDesign != null;<div class="warn">%("Beware: The current temporary unit will be deleted if you press the ""view design""-button!");</div>%endif;</td><td colspan="4" class="r" style="vertical-align:middle"><button type="submit" id="previewbutton">%("view design");</button></td>
+				</tr>
+			</table>
+		</form>
+	</div></td></tr>
+%endif;
+</table>
+
+
+
+<script type="text/javascript">
+%set cost class.getCost;
+var basecost = new Array(%loop y from 0 to 3;%= cost.getResource(y);,%endloop;%= cost.getConstructionJobs;,%= cost.getPopulation;,%= cost.getTime;);
+
+var modulecost = new Array(
+%if class = UnitClass.CIVILIAN;
+%set cost CivilianModules.RES_TRANSPORT.getCost;
+  new Array(%loop y from 0 to 3;%= cost.getResource(y);,%endloop;%= cost.getConstructionJobs;,%= cost.getPopulation;,%= cost.getTime;),
+%endif;
+%loop module foreach class.getModules;
+%if (module != CivilianModules.RES_TRANSPORT) and (module != CivilianModules.TROOP_TRANSPORT);
+%set cost module.getCost;
+  new Array(%loop y from 0 to 3;%= cost.getResource(y);,%endloop;%= cost.getConstructionJobs;,%= cost.getPopulation;,%= cost.getTime;),
+%endif;
+%endloop;
+  new Array(0)
+);
+
+var modulespace = new Array(%loop module foreach class.getModules;%if (module != CivilianModules.RES_TRANSPORT) and (module != CivilianModules.TROOP_TRANSPORT);
+%= module.size;,%endif;%endloop;0);
+</script>
+<script src="js/design-preview.js" type="text/javascript"></script>

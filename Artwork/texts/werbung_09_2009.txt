@@ -1,0 +1,41 @@
+Conquer-Space.net 17: Der Aufstieg des Phönix
+
+Am 15. September 2009 startet um 18 Uhr erneut eine Runde von Conquer-Space.net - meldet euch auf http://www.conquer-space.net an, und startet dann auf http://gamma.conquer-space.net sofort durch.
+
+Besonders diese Runde sollte Neueinsteiger reizen - denn es hat sich viel getan. Vor allem soll ein komplett neues Benutzerinterface das Spielerlebnis verbessern: komplexe Vorgänge, wie sie in Conquer-Space.net möglich sind, können nun intuitiver als je zuvor ausgeführt werden.
+Doch worum genau geht es in Conquer-Space.net?
+
+Kurz gesagt, wie in den meisten Browserspielen, die sich um eine Galaxiesimulation drehen, muss man sein Reich aufbauen, um dann gezielt Spieler und deren Allianzen anzugreifen.
+Was unterscheidet Conquer-Space.net?
+
+Wahrscheinlich das herausstechendste Merkmal ist die Kombination von Komplexität und der Möglichkeit mit relativ wenig Zeitaufwand viel erreichen zu können. Denn bei Conquer-Space.net geht es nicht vorrangig darum Daueronline zu sein und zum richtigen Zeitpunkt Aktionen abzufeuern, sondern sich eine gute Strategie auszudenken und zu verfolgen. Nun aber Schluss mit dem vagen Geplappere und stattdessen eine Liste von Features:
+
+    * Kampfsystem:
+
+      Grundsätzlich ist der Bodenkampf (insbesondere die Invasion von Kolonien) und der Raumkampf zu unterscheiden. Im Raum können Blockaden erstellt werden, die es anderen erschweren die eigenen Planeten anzufliegen. Erst wenn eine Blockade besiegt und die Raumeinheiten, die auf einer Kolonie stationiert sind, besteht die Gefahr, dass die eigene Kolonie vom Gegner übernommen werden könnte. Dadurch muss sie erst belagert werden, und zwar durch Bodentruppen.
+
+      Während des Kampfes ist aber noch nicht aller Abend Ende. Denn andere Spieler können dem Kampf beitreten, und so entweder den Verteidiger oder Angreifer unterstützen.
+
+      Ausbilden kann man Einheiten, die man selbst zusammengestellt hat: das Einheitendesign sieht vor erst ein Chassis und dann verschiedene Module auszuwählen. Grundsätzlich gilt ein Stein-Schere-Papier-Prinzip zwischen verschiedenen Chassisklassen. Dadurch ist es ratsam herauszufinden welche Einheiten der Gegner so sammelt bevor man angreift, und dann seine Flotte entsprechend zusammenzustellen.
+
+      Ein solches Auskundschaften des Gegners ist durch das Spionagesystem möglich. Spione können entweder Vorgehen auf einer fremden Kolonie beobachten, oder einen einmaligen Bericht erstellen über den aktuellen Stand der Kolonie. Die Berichte geben natürlich nur Schätzwerte an, und Spione können entlarvt werden, was zu einem jähen Ende derer führt.
+    * Diplomatiesystem:
+
+      Die Galaxie ist nicht nur von Gegner besiedelt. Es ist sogar sehr ratsam sich ein paar Verbündete zu suchen. Wie sehr man denen vertraut ist eine andere Sache - und dementsprechend kann man ihnen auch verschiedene Rechte einräumen. Das größte Vertrauen besteht zwischen alliierten Spielern - im Prinzip ist der Feind der Allianz Dein Feind, und ein Freund der Allianz auch Dein Freund. Jeder Spieler in Deiner Allianz darf Deine Blockaden (siehe oben) durchfliegen, wann immer er will. Solltest Du Dich von der Allianz entfernen, oder ein anderes Mitglied, so können erst nach Ablauf von 36 Angriffe ausgeführt werden. Verschiedene andere Verträge können abgeschlossen werden, z.B. ein Handelsvertrag. Der erlaubt es dem Vertragspartner Blockaden zu durchfliegen - aber nur mit zivilen Einheiten. Denn zum Rohstofftransport braucht man ja nicht gleich seine Waffen mitschleppen.
+    * Kolonieaufbau:
+
+      Wie eine Kolonie aufgebaut wird, hängt stark davon ab welchen Planeten man besiedelt hat. Es gibt verschiedene Planetentypen, und diese eignen sich jeweils mehr oder weniger für den Abbau bestimmter Rohstoffe oder das Heranzüchten von Armeen. Grundsätzlich gibt es folgende wichtige Gebäudeklassen:
+          o Produktionsgebäude für Rohstoffe: Stahl, Öl, Silizium, Deuterium, Geld, Bevölkerungswachstum
+          o Lagerstätten: Rohstoffe, Wohnraum
+          o Ausbildungsstätten: planetare, interplanetare und interstellare Einheiten
+          o Radioteleskope: Erweiterte Sicht in der Galaxie
+          o Transmitterstationen: Beschleunigtes Reisen durch die Galaxie
+          o Universitäten: Erforschen von Einheitentypen, Vergünstigung vom Einheitenbau, Beschleunigung vom Gebäudebau
+          o Bibliotheken: Erhöhen des Wissens, ermöglicht die Gründung neuer Kolonien
+    * User Interface:
+
+      Für Gebäude, Einheiten und Forschungen können Listen erstellt werden, die dann abgearbeitet werden. So ist es nicht nötig immer wieder online zu gehen um bestimmte Aufträge einzustellen. Genauso können auch Flotten Befehlslisten erhalten, die sie dann abarbeiten. Vor allem bei Rohstofftransporten bietet es sich oft an diese Befehle in Schleife zu stellen, so dass die Flotte stets einen nächsten Befehlt hat.
+
+      Viele Seiten werden dynamisch aktualisiert statt die Seite neu zu laden (Ajax), und es wurde Wert darauf gelegt relevante Daten stets anzuzeigen und irrelevante Daten auszublenden.
+
+      Hilfeseiten geben eine schnelle Übersicht über die Details verschiedener Gebäude, Einheiten, Forschungsrichtungen oder Ausbildungsrichtungen (siehe oben: Universitäten/Vergünstigung vom Einheitenbau).

@@ -1,0 +1,174 @@
+%embed "templates/alliance-admin.tmpl";
+%set player Session.getPlayer;
+%set alliance Session.getAlliance;
+%set rank player.getRank;
+
+<table id="alliance-admin">
+	<colgroup width="50%%" span="2" />
+	<tr>
+		<!-- 1st col -->
+		<td>
+			%if rank.hasRight(Right.CHANGE_NAME) or rank.hasRight(Right.EDIT_DESCRIPTION);
+			<div class="bg">
+				<h3>%("change public appearenace of alliance");</h3>
+				%if rank.hasRight(Right.CHANGE_NAME);
+				<!-- change name -->			
+				<h4>%("change alliance name");</h4>
+				<form action="alliance-admin" method="post">
+					<button type="submit">%("ok");</button>
+					<input type="hidden" name="do" value="Alliance.Name.set" />
+					<label for="aname">%("name:");</label> <input type="text" size="20" maxlength="30" name="name" id="aname" value="%= alliance.getName;" />
+					<label for="atag">%("tag:");</label> <input type="text" size="4" maxlength="10" name="short" id="atag" value="%= alliance.getShortName;" />
+					<div class="clearr"></div>
+				</form>
+				%endif;
+
+				%if rank.hasRight(Right.EDIT_DESCRIPTION);
+				<!-- change logo -->
+				<h4>%("change alliance logo");</h4>
+				%("The size of an alliance logo has to be 800 x 120 pixel, and has to have one of the following endings: .png, .gif, .jpg.<br />The path has to lead to a picture that is stored in the internet (webspace). Please do not enter a local path.");
+				<form action="alliance-admin" method="post">
+					<input type="hidden" name="do" value="Alliance.Logo.set" />
+					<button type="submit">%("ok");</button>
+					<input type="text" size="35" name="server" value="%= alliance.getLogo;" />
+				</form>
+				<!-- change description -->
+				<h4>%("change alliance description");</h4>
+				<form action="alliance-admin" method="post">
+					<input type="hidden" name="do" value="Alliance.Description.set" />
+					<button type="submit">%("ok");</button>
+					<textarea cols="40" rows="5" name="text">%= HtmlToolkit.asTextAreaContent(alliance.getPlaintextDescription);</textarea>
+				</form>
+			%endif;
+			</div>
+			%endif;
+
+			<!-- survey -->
+			%if rank.hasRight(Right.START_SURVEY);
+			<div class="bg">
+				<h3>%("modify survey");</h3>
+				%if alliance.getSurvey != null;
+				%set survey alliance.getSurvey;
+				<div class="warn">%("Before you can start a new survery you have to close the current one!");</div>
+				<table class="stats">
+					<colgroup><col width="15%%" /><col width="85%%" /></colgroup>
+					<tr class="nohover">
+						<th colspan="2">
+							<form action="alliance-admin" method="post">
+								<input type="hidden" name="do" value="Alliance.Survey.stop" />
+								<button type="submit">%("close survey");</button>
+								%= survey.getTitle;
+							</form>
+						</th>
+					</tr>
+					%loop x from 0 to survey.length-1;
+					<tr class="%= x%2=0 ? "even" : "odd";"><td class="r">%("{0,number,integer} for", survey.getVote(x));</td><td>%= survey.getText(x);</td></tr>
+					%endloop;
+				</table>
+				%else;
+				<form action="alliance-admin" method="post">
+					<input type="hidden" name="do" value="Alliance.Survey.start" />
+					<label for="survey-q">%("question");</label><br /> <textarea cols="45" rows="2" name="title" id="survey-q"></textarea><br /><br />
+					%loop x from 0 to 2;
+					<label for="survey-o%= x;">%("option {0,number,integer}", x+1);</label><br /> <textarea cols="45" rows="2" name="c%= x;" id="survey-o%= x;"></textarea><br /><br />
+					%endloop;
+					<a href="" id="more-link" onclick="document.getElementById('survey-more').style.display='';replaceContent('more-link', '');return false;">%("more options");</a>
+					<div id="survey-more" style="display:none">					
+					%loop x from 3 to 7;
+					<label for="survey-o%= x;">%("option {0,number,integer}", x+1);</label><br /> <textarea cols="45" rows="2" name="c%= x;" id="survey-o%= x;"></textarea><br /><br />
+					%endloop;
+					</div>
+					<button type="submit">%("start survey");</button>
+				</form>
+				<div class="clearr"></div>
+				%endif;
+			</div>
+			%endif;
+
+		</td>
+		<!-- 2nd col -->
+		<td>
+
+			<!-- members -->
+			<div class="bg">
+				<h3>%("vote for admin amongst all members ({0,number,integer})", alliance.size);</h3>
+				<form action="alliance" method="post">
+					<input type="hidden" name="do" value="Alliance.vote" />
+					<table id="sortable0" class="stats">
+						<tr id="head0" class="nohover">
+							<th></th>
+							<th id="key0-number" class="r">%("votes");</th>
+							<th id="key1-string">%("name");</th>
+							<th id="key2-string">%("rank");</th>
+							<th id="key3-number" class="r">%("colonies");</th>
+							<th id="key4-number" class="r">%("points");</th>
+						</tr>
+						%loop z,p foreach alliance;%set id p.getPid;
+						<tr id="sort%= z;" class="%= z%2=0 ? "even" : "odd";">
+							<td id="a%= z;"><input type="radio" %if player.getAllianceVote = z+1;checked="checked"%endif; name="vote" id="v%= z+1;" value="%= p.getPid;" /></td>
+							<td id="b%= z;" class="r">%("{0,number,integer}", alliance.getVote(z+1));</td>
+							<td id="c%= z;"><a href="player|%= id;">%= p.getName;</a></td>
+							<td id="d%= z;">%set r p.getRank;%= r.getName;</td>
+							<td id="e%= z;" class="r">%("{0,number,integer}", p.getColonies.size);</td>
+							<td id="f%= z;" class="r">%("{0,number,integer}", p.getScore.getPoints);</td>
+						</tr>
+						%endloop;
+						<tr id="sort%= z+1;" class="%= z%2=1 ? "even" : "odd";">
+							<td id="a%= z+1;"><input type="radio" %if player.getAllianceVote <= 0;checked="checked"%endif; name="vote" id="v0" value="0" /></td>
+							<td id="b%= z+1;" class="r">%("{0,number,integer}", alliance.getVote(0));</td>
+							<td id="c%= z+1;">%("abstention");</td>
+							<td id="d%= z+1;"></td>
+							<td id="e%= z+1;"></td>
+							<td id="f%= z+1;"></td>
+						</tr>
+					</table>
+					<div>%("As soon as an alliance member gets more than 50% of all votes, they automatically get admin status. When a member leaves an alliance, all counters are set to 0 again. You cannot vote for more than one member, but you can change your vote.");</div>
+					<button type="submit">%("cast vote");</button>
+				</form>
+				<div class="clearr"></div>
+			</div>
+
+			<!-- kick members -->
+			%if rank.hasRight(Right.KICK_MEMBER);			
+			<div class="bg">
+				<h3>%("kick member");</h3>
+				%("To avoid accidents, kicking members is on a <a href=""{0}"">separate page</a>.", "alliance-admin-kick");
+			</div>
+			%endif;
+
+			<!-- modify ranks -->
+			%if rank.hasRight(Right.CHANGE_RANKS) or rank.hasRight(Right.EDIT_RANKS);			
+			<div class="bg">
+				<h3>%("modify ranks");</h3>
+				%("Adding new ranks, editing rights of new ranks, and assigning ranks to members is on a <a href=""{0}"">separate page</a>.", "alliance-admin-editranks");
+			</div>
+			%endif;
+
+			<!-- send massmail -->
+			%if rank.hasRight(Right.SEND_MAIL);
+			<div class="bg">
+				<h3>%("send a message to all members");</h3>
+
+				%if Request.getTodo = "Alliance.Mail.send";
+				%if Session.getFlag > 0;
+				<div class="note">%("Message was sent!");</div>
+				%else;
+				<div class="warn">%("Message was <i>not</i> sent!");</div>
+				%endif;
+				%endif;
+
+				<form action="alliance-admin" method="post">
+					<input type="hidden" name="do" value="Alliance.Mail.send" />
+					%("method:");
+					<input type="radio" value="igm" id="igm" name="method" checked="checked" /><label for="igm">%("in-game message");</label>
+					<input type="radio" value="email" id="email" name="method" /><label for="email">%("email");</label>
+					<div class="note">%("<i>Note (for emails):</i> The message is sent to the email addresses the members entered when registering. There is no guarantee that the message actually reaches the members.<br />The sender-address will be <code>no-reply@conquer-space.net</code>.");</div>
+					<button type="submit">%("send");</button>
+					<input type="text" size="35" name="subject" value="%("subject");" />
+					<textarea cols="40" rows="4" name="body"></textarea>
+				</form>
+			</div>
+			%endif;
+		</td>
+	</tr>
+</table>

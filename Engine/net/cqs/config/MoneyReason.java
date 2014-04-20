@@ -1,0 +1,21 @@
+package net.cqs.config;
+
+public enum MoneyReason
+{
+
+HAVE,
+
+UNKNOWN,
+
+PROFESSOR_START,
+
+PLAYER_UPKEEP,
+PLAYER_INCOME,
+
+COLONY_UPKEEP,
+COLONY_INCOME,
+
+DESTROY_BUILDING,
+FLEET_UPKEEP;
+
+}

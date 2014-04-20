@@ -1,0 +1,22 @@
+%embed "include/design.tmpl";
+
+<h1>Survey</h1>
+<h2>End Survey</h2>
+<form action="" method="post">
+<input type="hidden" name="do" value="System.endSurvey" />
+<button type="submit">End Survey</button>
+</form>
+
+<h2>Start Survey</h2>
+<form action="" method="post">
+<input type="hidden" name="do" value="System.startSurvey" />
+<table width="500">
+  <tr><td>Title</td><td><textarea cols="50" rows="8" name="title"></textarea></td></tr>
+  %loop x from 0 to 9;
+  <tr>
+    <td>Choice %= x+1;</td><td><textarea cols="50" rows="6" name="c%= x;"></textarea></td></tr>
+  %endloop;
+  <tr><td class="b" colspan="2"><button type="submit">Start</button></td></tr>
+</table>
+</form>
+

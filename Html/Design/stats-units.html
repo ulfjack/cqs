@@ -1,0 +1,110 @@
+%embed "templates/stats.tmpl";
+
+%set player Session.getPlayer;
+%set galaxyView Session.getGalaxyView;
+
+	<h3>%("overview");</h3>
+
+	%set unitstats player.calculateUnitStats;
+	<div><i>%("{0}% of all ground units can be handled by (warp-)transporters.", unitstats.getTransportable); %("{0}% of all space units can be handled by carriers.", unitstats.getCarriable);</i></div>
+	<table>
+	<colgroup width="33%%" span="3" />
+		<tr>
+			<td class="table">
+				<table class="stats">
+					<tr class="nohover"><th colspan="2">%("planetary units");</th></tr>
+					%set x 0;
+					%loop entry foreach unitstats.getUnits where entry.type.isPlanetary;
+					%set unit entry.type;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td class="l"><a href="help-unit|%= unit;">%= unit.getName(Session.getLocale);</a> %if unit.getResourceCapacity > 0;[%("capacity: {0,number,integer}", unit.getResourceCapacity);]%endif;</td>
+						<td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+			</td>
+			<td class="table">
+				<table class="stats">
+					<tr><th colspan="2">%("interplanetary units");</th></tr>
+					%set x 0;
+					%loop entry foreach unitstats.getUnits where entry.type.isInterplanetary;
+					%set unit entry.type;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td class="l"><a href="help-unit|%= unit;">%= unit.getName(Session.getLocale);</a> %if unit.getResourceCapacity > 0;[%("capacity: {0,number,integer}", unit.getResourceCapacity);]%endif; %if unit.getGroundUnitCapacity > 0;[%("transport: {0,number,integer}", unit.getGroundUnitCapacity);]%endif;</td>
+						<td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+			</td>
+			<td class="table">
+				<table class="stats">
+					<tr><th colspan="2">%("interstellar units");</th></tr>
+					%set x 0;
+					%loop entry foreach unitstats.getUnits where entry.type.isInterstellar;
+					%set unit entry.type;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td class="l"><a href="help-unit|%= unit;">%= unit.getName(Session.getLocale);</a> %if unit.getResourceCapacity > 0;[%("{0,number,integer}", unit.getResourceCapacity);]%endif; %if unit.getGroundUnitCapacity > 0;[%("{0,number,integer}", unit.getGroundUnitCapacity);]%endif; %if unit.getSpaceUnitCapacity >0;[%("{0,number,integer}", unit.getSpaceUnitCapacity);]%endif;</td>
+						<td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+			</td>
+		</tr>
+	</table><br />
+
+%loop colony foreach player.getColonies;
+	<h3><a href="colony|%= colony.getPosition;">%= colony.getName; (%= colony.getPosition;)</a></h3>
+%set unitstats colony.calculateUnitStats;
+	<div><i>%("{0}% of all ground units can be handled by (warp-)transporters.", unitstats.getTransportable); %("{0}% of all space units can be handled by carriers.", unitstats.getCarriable);</i></div>
+	<table>
+	<colgroup width="33%%" span="3" />
+		<tr>
+			<td class="table">
+				<table class="stats">
+					<tr class="nohover"><th colspan="2">%("planetary units");</th></tr>
+					%set x 0;
+					%loop entry foreach colony.getUnits where entry.type.isPlanetary;
+					%set unit entry.type;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td class="l">%= unit.getName(Session.getLocale);</td>
+						<td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+			</td>
+			<td class="table">
+				<table class="stats">
+					<tr class="nohover"><th colspan="2">%("interplanetary units");</th></tr>
+					%set x 0;
+					%loop entry foreach colony.getUnits where entry.type.isInterplanetary;
+					%set unit entry.type;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td class="l">%= unit.getName(Session.getLocale);</td>
+						<td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+			</td>
+			<td class="table">
+				<table class="stats">
+					<tr class="nohover"><th colspan="2">%("interstellar units");</th></tr>
+					%set x 0;
+					%loop entry foreach colony.getUnits where entry.type.isInterstellar;
+					%set unit entry.type;
+					<tr class="%= x % 2 = 0 ? "even" : "odd";">
+						<td class="l">%= unit.getName(Session.getLocale);</td>
+						<td class="r">%("{0,number,integer}", entry.amount);</td>
+					</tr>
+					%set x x+1;
+					%endloop;
+				</table>
+			</td>
+		</tr>
+	</table><br />
+%endloop;
+

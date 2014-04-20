@@ -1,0 +1,32 @@
+%include "include/map-head.inc";
+%include "include/colony-menu.inc";
+
+<div class="title colony map-colony">
+<h1>
+%string colony.name; - %string colony.position(galaxyView);
+<span>
+	<a href="map">Galaxie</a> - 
+	<a href="map-system">System</a> - 
+	<a href="map-planet">Planet</a>
+</span>
+</h1>
+</div>
+
+<div class="content map map-colony">
+
+<div class="description">
+	<div><span class="type">Klassifikation</span> %string colony.Planet.type(lang);</div>
+	<div><span class="type">%gettext "Basis-Lebensqualität";</span> %format  colony.Planet.populationModifier;</div>
+	<div><span class="type">%gettext "Größe";</span> %long colony.Planet.size;</div>
+	<div><span class="type">%gettext "Zivilisationspunkte";</span> %format colony.points;</div>
+	<div><span class="type">%gettext "Gebäude";</span> %long colony.size;</div>
+</div>
+
+<img src="%string Session.GP.planets;%string colony.Planet.rawtype;.jpg" alt="" />
+
+</div>
+
+<div class="footnote">
+</div>
+
+%include "include/foot.inc";

@@ -1,0 +1,33 @@
+%embed "templates/alliance.tmpl";
+
+%set player Session.getPlayer;
+%set alliance Session.getAlliance;
+%set rank player.getRank;
+
+%set mailbox Session.getAllianceMailboxCopy;
+%set box 0;
+%set folder mailbox.getFolder(box);
+
+%if rank.hasRight(Right.WRITE_MESSAGES);
+<div class="bg" id="forum">
+	<h3>%("post new message");</h3>
+	<form action="alliance-internal" method="post">
+		<input type="hidden" name="do" value="Alliance.Message.send" />
+	
+		<div class="pvcontrol" id="pvcontrol-0">%("message");</div>
+		<textarea id="wikitext-0" name="body" cols="65" rows="5"></textarea>
+		<div id="wikipreview-0"></div>
+	
+		<button type="submit">%("send");</button>
+	</form>
+</div>
+%else;
+<div class="warn">%("You do not have sufficient rights to post new messages.");</div>
+%endif;
+
+<script type="text/javascript" src="js/common-preview.js"></script>
+
+%if folder.size > 0;<div class="nobg nospaceb"><a href="alliance-internal?Alli.Readtime.set=%= Request.getTime+1;">%("mark all messages as read");</a></div>%endif;
+
+%include "include/messagelist.inc";
+
